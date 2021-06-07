@@ -77,6 +77,15 @@ def draw_window(enemies, towers):
     pygame.display.update()
 
 
+def to_start():
+    temp_count = 0
+    for i in MAP[0]:
+        if i != 1:
+            temp_count += 1
+        else:
+            return temp_count * 32 + 8
+
+
 def main():
     # TODO: enemy path finding
     enemies = []
@@ -85,6 +94,7 @@ def main():
         enemy = Enemy(f'enemy_{count}', 100, 1, enemy_rect, ENEMY_SPRITE)
         enemy.face(DOWN)
         enemy.y = count * -32
+        enemy.x = to_start()
         enemies.append(enemy)
 
     towers = []
