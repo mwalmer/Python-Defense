@@ -52,6 +52,7 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
 def update(enemies, towers):
     for enemy in enemies:
         enemy.y += .5 * enemy.speed
+        enemy_pathfinding(enemy)
 
 
 def draw_window(enemies, towers):
@@ -84,6 +85,12 @@ def to_start():
             temp_count += 1
         else:
             return temp_count * 32 + 8
+
+
+def enemy_pathfinding(enemy):
+    #TODO -- fix this up more, right now just turns the enemy right
+    if ((enemy.y + 32) // 32) < 20 and MAP[int((enemy.y + 32) // 32)][int(enemy.x // 32)] == 0 and enemy.x > 0 and enemy.y > 0:
+        enemy.face(RIGHT)
 
 
 def main():
