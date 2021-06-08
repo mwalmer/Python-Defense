@@ -50,9 +50,11 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
 
 
 def update(enemies, towers):
+    pixel_per_frame = 1
     for enemy in enemies:
-        enemy.y += .5 * enemy.speed
         enemy_pathfinding(enemy)
+        enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
+        enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
 
 
 def draw_window(enemies, towers):
@@ -88,9 +90,28 @@ def to_start():
 
 
 def enemy_pathfinding(enemy):
-    #TODO -- fix this up more, right now just turns the enemy right
-    if ((enemy.y + 32) // 32) < 20 and MAP[int((enemy.y + 32) // 32)][int(enemy.x // 32)] == 0 and enemy.x > 0 and enemy.y > 0:
+    # TODO -- fix this up more, right now just turns the enemy right
+    if enemy.x == 104 and enemy.y < 136:
+        enemy.x_weight = 0
+        enemy.y_weight = 1
+    elif enemy.x < 424 and enemy.y == 136:
         enemy.face(RIGHT)
+        enemy.x_weight = 1
+        enemy.y_weight = 0
+    elif enemy.x == 424 and enemy.y < 360:
+        enemy.face(DOWN)
+        enemy.x_weight = 0
+        enemy.y_weight = 1
+    elif enemy.x >= 232 and enemy.y == 360:
+        enemy.face(LEFT)
+        enemy.x_weight = -1
+        enemy.y_weight = 0
+    else:
+        enemy.face(DOWN)
+        enemy.x_weight = 0
+        enemy.y_weight = 1
+    # if ((enemy.y + 32) // 32) < 20 and MAP[int((enemy.y + 32) // 32)][int(enemy.x // 32)] == 0 and enemy.x > 0 and enemy.y > 0:
+    #     enemy.face(RIGHT)
 
 
 def main():
