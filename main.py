@@ -109,6 +109,14 @@ def enemy_pathfinding(enemy):
     # if ((enemy.y + 32) // 32) < 20 and MAP[int((enemy.y + 32) // 32)][int(enemy.x // 32)] == 0 and enemy.x > 0 and enemy.y > 0:
     #     enemy.face(RIGHT)
 
+def spawn(enemies, Count, Speed):
+    for count in range(0, Count):
+        enemy_rect = pygame.Rect(8, 8, ENEMY_WIDTH, ENEMY_HEIGHT)
+        enemy = Enemy(f'enemy_{count}', 100, Speed, enemy_rect, ENEMY_SPRITE)
+        enemy.face(DOWN)
+        enemy.y = count * -32
+        enemy.x = to_start()
+        enemies.append(enemy)
 
 def main():
     # TODO: enemy path finding
@@ -116,13 +124,7 @@ def main():
     player = Player(player_health)
 
     enemies = []
-    for count in range(0, 10):
-        enemy_rect = pygame.Rect(8, 8, ENEMY_WIDTH, ENEMY_HEIGHT)
-        enemy = Enemy(f'enemy_{count}', 100, 1, enemy_rect, ENEMY_SPRITE)
-        enemy.face(DOWN)
-        enemy.y = count * -32
-        enemy.x = to_start()
-        enemies.append(enemy)
+    spawn(enemies, 20,2)
 
     towers = []
     #
