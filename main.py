@@ -4,20 +4,34 @@ from player import Player
 import pygame
 import os
 
-WIDTH, HEIGHT = 800, 640
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Python Defense")
+pygame.display.init()
+infoObject = pygame.display.Info()
+WIDTH = infoObject.current_w
+HEIGHT = infoObject.current_h
+# Sets w/h to max of whatever screen we're using
+# WIDTH, HEIGHT = 800, 640
 
+# Scaling pixels to screen ratio
+if WIDTH > HEIGHT:
+    scale = HEIGHT - (HEIGHT % 25) - 50  # -50 is for top window bar
+else:
+    scale = WIDTH - (WIDTH % 25) - 50
+
+WIN = pygame.display.set_mode((scale, scale))
+pygame.display.set_caption("Python Defense")
 FPS = 60
+
+# changing scale to be for scaling tiles/towers/etc.
+scale = scale / 25
 
 # Directions
 UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 # Sizes
-TILE_WIDTH, TILE_HEIGHT = 32, 32
-TOWER_WIDTH, TOWER_HEIGHT = 28, 28
-ENEMY_WIDTH, ENEMY_HEIGHT = 16, 16
-FIRE_PROJECTILE_WIDTH, FIRE_PROJECTILE_HEIGHT = 16, 16
+TILE_WIDTH, TILE_HEIGHT = scale, scale
+TOWER_WIDTH, TOWER_HEIGHT = 28 / 32 * scale, 28 / 32 * scale
+ENEMY_WIDTH, ENEMY_HEIGHT = 16 / 32 * scale, 16 / 32 * scale
+FIRE_PROJECTILE_WIDTH, FIRE_PROJECTILE_HEIGHT = 16 / 32 * scale, 16 / 32 * scale
 
 # Load image
 GRASS_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'grass_tile.png'))
@@ -26,6 +40,14 @@ MENU_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'menu_tile.png'))
 TOWER_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower.png'))
 ENEMY_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy.png'))
 FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png'))
+
+# Scale images
+GRASS_TILE = pygame.transform.scale(GRASS_TILE, (int(TILE_WIDTH), int(TILE_HEIGHT)))
+DIRT_TILE = pygame.transform.scale(DIRT_TILE, (int(TILE_WIDTH), int(TILE_HEIGHT)))
+MENU_TILE = pygame.transform.scale(MENU_TILE, (int(TILE_WIDTH), int(TILE_HEIGHT)))
+TOWER_SPRITE = pygame.transform.scale(TOWER_SPRITE, (int(TOWER_WIDTH), int(TOWER_HEIGHT)))
+ENEMY_SPRITE = pygame.transform.scale(ENEMY_SPRITE, (int(ENEMY_WIDTH), int(ENEMY_HEIGHT)))
+FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (int(ENEMY_WIDTH), int(ENEMY_HEIGHT)))
 
 # 0 = grass
 # 1 = dirt
@@ -50,8 +72,15 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
 
+
+# MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 
 def update(enemies, towers):
     pixel_per_frame = 1
@@ -78,13 +107,12 @@ def draw_window(enemies, towers):
                 tile = MENU_TILE
             elif cord == 3:
                 tile = GRASS_TILE
-            WIN.blit(tile, (y * 32, x * 32))
-
+            WIN.blit(tile, (y * TILE_HEIGHT, x * TILE_WIDTH))
+    # Scale sprites
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
     for tower in towers:
         WIN.blit(tower.sprite, tower.cords())
-
     pygame.display.update()
 
 
@@ -152,10 +180,11 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                if MAP[mouse_y//32][mouse_x//32] == 0:
+                if MAP[mouse_y // 32][mouse_x // 32] == 0:
                     MAP[mouse_y // 32][mouse_x // 32] = 3
-                    tower_rect = pygame.Rect((mouse_x // 32)*32, (mouse_y // 32)*32, TOWER_WIDTH, TOWER_HEIGHT)
-                    fireball_rect = pygame.Rect((mouse_x // 32) * 32, (mouse_y // 32) * 32, FIRE_PROJECTILE_WIDTH, FIRE_PROJECTILE_HEIGHT)
+                    tower_rect = pygame.Rect((mouse_x // 32) * 32, (mouse_y // 32) * 32, TOWER_WIDTH, TOWER_HEIGHT)
+                    fireball_rect = pygame.Rect((mouse_x // 32) * 32, (mouse_y // 32) * 32, FIRE_PROJECTILE_WIDTH,
+                                                FIRE_PROJECTILE_HEIGHT)
                     towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, TOWER_SPRITE, "Fireball",
                                         fireball_rect, FIRE_PROJECTILE_SPRITE))
                     tower_count += 1
