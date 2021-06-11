@@ -82,6 +82,8 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
 
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 
+
+
 def update(enemies, towers):
     pixel_per_frame = 1
     for enemy in enemies:
@@ -154,6 +156,14 @@ def spawn(enemies, Count, Speed):
         enemy.x = to_start()
         enemies.append(enemy)
 
+def level(enemies, Lv):
+    if Lv == 1:
+        spawn(enemies, 5, 1)
+
+    if Lv == 2:
+        spawn(enemies, 5, 1)
+        spawn(enemies, 3, 2)
+
 
 def main():
     # TODO: enemy path finding
@@ -161,7 +171,8 @@ def main():
     player = Player(player_health)
 
     enemies = []
-    spawn(enemies, 20, 2)
+    count = 1
+    level(enemies, count)
 
     towers = []
     #
