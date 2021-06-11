@@ -17,6 +17,7 @@ UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 TILE_WIDTH, TILE_HEIGHT = 32, 32
 TOWER_WIDTH, TOWER_HEIGHT = 28, 28
 ENEMY_WIDTH, ENEMY_HEIGHT = 16, 16
+FIRE_PROJECTILE_WIDTH, FIRE_PROJECTILE_HEIGHT = 16, 16
 
 # Load image
 GRASS_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'grass_tile.png'))
@@ -24,10 +25,12 @@ DIRT_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'dirt_tile.png'))
 MENU_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'menu_tile.png'))
 TOWER_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower.png'))
 ENEMY_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy.png'))
+FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png'))
 
 # 0 = grass
 # 1 = dirt
 # 2 = menu area
+# 3 = grass_with_tower: just renders the grass again but reassigns the value to 3 so we know a towerHasAlreadyBeenPlaced
 MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
@@ -56,6 +59,8 @@ def update(enemies, towers):
         enemy_pathfinding(enemy)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
+    for tower in towers:
+        pass
 
 
 def draw_window(enemies, towers):
@@ -72,7 +77,7 @@ def draw_window(enemies, towers):
             elif cord == 2:
                 tile = MENU_TILE
             elif cord == 3:
-                tile = TOWER_SPRITE
+                tile = GRASS_TILE
             WIN.blit(tile, (y * 32, x * 32))
 
     for enemy in enemies:
@@ -128,7 +133,7 @@ def main():
     player = Player(player_health)
 
     enemies = []
-    spawn(enemies, 20,2)
+    spawn(enemies, 20, 2)
 
     towers = []
     #
@@ -139,6 +144,7 @@ def main():
 
     clock = pygame.time.Clock()
     run = True
+    tower_count = 0
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
@@ -148,6 +154,11 @@ def main():
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if MAP[mouse_y//32][mouse_x//32] == 0:
                     MAP[mouse_y // 32][mouse_x // 32] = 3
+                    tower_rect = pygame.Rect((mouse_x // 32)*32, (mouse_y // 32)*32, TOWER_WIDTH, TOWER_HEIGHT)
+                    fireball_rect = pygame.Rect((mouse_x // 32) * 32, (mouse_y // 32) * 32, FIRE_PROJECTILE_WIDTH, FIRE_PROJECTILE_HEIGHT)
+                    towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, TOWER_SPRITE, "Fireball",
+                                        fireball_rect, FIRE_PROJECTILE_SPRITE))
+                    tower_count += 1
 
         # update logic
         update(enemies, towers)
