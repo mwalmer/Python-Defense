@@ -71,6 +71,8 @@ def draw_window(enemies, towers):
                 tile = DIRT_TILE
             elif cord == 2:
                 tile = MENU_TILE
+            elif cord == 3:
+                tile = TOWER_SPRITE
             WIN.blit(tile, (y * 32, x * 32))
 
     for enemy in enemies:
@@ -109,6 +111,7 @@ def enemy_pathfinding(enemy):
     # if ((enemy.y + 32) // 32) < 20 and MAP[int((enemy.y + 32) // 32)][int(enemy.x // 32)] == 0 and enemy.x > 0 and enemy.y > 0:
     #     enemy.face(RIGHT)
 
+
 def spawn(enemies, Count, Speed):
     for count in range(0, Count):
         enemy_rect = pygame.Rect(8, 8, ENEMY_WIDTH, ENEMY_HEIGHT)
@@ -117,6 +120,7 @@ def spawn(enemies, Count, Speed):
         enemy.y = count * -32
         enemy.x = to_start()
         enemies.append(enemy)
+
 
 def main():
     # TODO: enemy path finding
@@ -140,6 +144,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if MAP[mouse_y//32][mouse_x//32] == 0:
+                    MAP[mouse_y // 32][mouse_x // 32] = 3
 
         # update logic
         update(enemies, towers)
