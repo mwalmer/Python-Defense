@@ -29,16 +29,16 @@ UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 # Sizes
 TILE_WIDTH, TILE_HEIGHT = scale, scale
-TOWER_WIDTH, TOWER_HEIGHT = 28 / 32 * scale, 28 / 32 * scale
-ENEMY_WIDTH, ENEMY_HEIGHT = 16 / 32 * scale, 16 / 32 * scale
+TOWER_WIDTH, TOWER_HEIGHT = 32 / 32 * scale, 32 / 32 * scale
+ENEMY_WIDTH, ENEMY_HEIGHT = 32 / 32 * scale, 32 / 32 * scale
 FIRE_PROJECTILE_WIDTH, FIRE_PROJECTILE_HEIGHT = 16 / 32 * scale, 16 / 32 * scale
 
 # Load image
 GRASS_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'grass_tile.png'))
 DIRT_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'dirt_tile.png'))
 MENU_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'menu_tile.png'))
-TOWER_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower.png'))
-ENEMY_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy.png'))
+TOWER_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower1.png'))
+ENEMY_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy1.png'))
 FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png'))
 
 # Scale images
@@ -48,6 +48,7 @@ MENU_TILE = pygame.transform.scale(MENU_TILE, (int(TILE_WIDTH), int(TILE_HEIGHT)
 TOWER_SPRITE = pygame.transform.scale(TOWER_SPRITE, (int(TOWER_WIDTH), int(TOWER_HEIGHT)))
 ENEMY_SPRITE = pygame.transform.scale(ENEMY_SPRITE, (int(ENEMY_WIDTH), int(ENEMY_HEIGHT)))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (int(ENEMY_WIDTH), int(ENEMY_HEIGHT)))
+
 
 # 0 = grass
 # 1 = dirt
@@ -109,6 +110,7 @@ def draw_window(enemies, towers):
                 tile = MENU_TILE
             elif cord == 3:
                 tile = GRASS_TILE
+
             WIN.blit(tile, (y * TILE_HEIGHT, x * TILE_WIDTH))
     # Scale sprites
     for enemy in enemies:
@@ -149,7 +151,7 @@ def enemy_pathfinding(enemy):
 
 def spawn(enemies, Count, Speed):
     for count in range(0, Count):
-        enemy_rect = pygame.Rect(8, 8, ENEMY_WIDTH, ENEMY_HEIGHT)
+        enemy_rect = pygame.Rect(0, 0, ENEMY_WIDTH, ENEMY_HEIGHT)
         enemy = Enemy(f'enemy_{count}', 100, Speed, enemy_rect, ENEMY_SPRITE)
         enemy.face(DOWN)
         enemy.y = count * -32
