@@ -1,6 +1,7 @@
 from enemy import Enemy
 from tower import Tower
 from player import Player
+from round import Rounds
 import pygame
 import os
 
@@ -172,7 +173,8 @@ def main():
 
     enemies = []
     count = 1
-    level(enemies, count)
+    R = Rounds(ENEMY_SPRITE, ENEMY_HEIGHT,ENEMY_WIDTH, MAP)
+    R.level(enemies, count)
 
     towers = []
     #
