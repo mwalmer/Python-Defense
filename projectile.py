@@ -11,3 +11,11 @@ class Projectile:
 
     def cords(self):
         return self.x, self.y
+
+    def motion(self, change_x, change_y):
+        self.x += change_x
+        self.y += change_y
+
+    def absolute_position(self, new_x, new_y):
+        self.x = new_x
+        self.y = new_y
