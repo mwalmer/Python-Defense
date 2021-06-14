@@ -15,3 +15,9 @@ class Tower:
 
     def cords(self):
         return self.x, self.y
+
+    #basic upgrade function for towers
+    def basic_upgrade(self, damage, attack_speed):
+        self.damage = damage
+        self.attack_speed = attack_speed
+        self.projectile = Projectile(self.projectile.name, damage, attack_speed, self.projectile.rect, self.projectile.sprite)
