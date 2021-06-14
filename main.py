@@ -194,7 +194,7 @@ def main():
 
     enemies = []
     count = 1
-    R = Rounds(ENEMY_SPRITE, ENEMY_HEIGHT,ENEMY_WIDTH, MAP)
+    R = Rounds(ENEMY1_SPRITE, ENEMY_SIZE,ENEMY_SIZE, MAP)
     R.level(enemies, count)
 
     towers = []
