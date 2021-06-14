@@ -2,15 +2,11 @@ from enemy import Enemy
 from tower import Tower
 from player import Player
 from round import Rounds
+from helper_functions import scale, set_ratio
 import pygame
 import os
 
 
-def scale(num):
-    return int(num / 32 * (32 * RATIO))
-
-
-RATIO = 1.5
 pygame.display.init()
 display_info = pygame.display.Info()
 width = display_info.current_w
@@ -19,9 +15,11 @@ height = display_info.current_h
 # Scaling pixels to fixed ratio
 # adjust this to change window size
 if height > width:
-    RATIO = 1.5 if height <= 1920 else 2
+    ratio = 1.5 if height <= 1920 else 2
+    set_ratio(ratio)
 else:
-    RATIO = 1.5 if width <= 1920 else 2
+    ratio = 1.5 if width <= 1920 else 2
+    set_ratio(ratio)
 
 # Default tile size
 TILE_SIZE = scale(32)
@@ -102,6 +100,18 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
 # MAP IS 25 ACROSS AND 20 DOWN, 5 last columns are for menu
 
 
+# Only finds starting x cord, fine for now
+# y is set to 0
+def to_start():
+    temp_count = 0
+    y = 0
+    for i in MAP[0]:
+        if i != 1:
+            temp_count += 1
+        else:
+            return scale(temp_count * 32), y
+
+
 def update(enemies, towers):
     pixel_per_frame = scale(1)
     for enemy in enemies:
@@ -135,15 +145,6 @@ def draw_window(enemies, towers):
     for tower in towers:
         WIN.blit(tower.sprite, tower.cords())
     pygame.display.update()
-
-
-def to_start():
-    temp_count = 0
-    for i in MAP[0]:
-        if i != 1:
-            temp_count += 1
-        else:
-            return scale(temp_count * 32)
 
 
 def enemy_pathfinding(enemy):
@@ -194,7 +195,8 @@ def main():
 
     enemies = []
     count = 1
-    R = Rounds(ENEMY1_SPRITE, ENEMY_SIZE,ENEMY_SIZE, MAP)
+    print(to_start())
+    R = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
     R.level(enemies, count)
 
     towers = []
