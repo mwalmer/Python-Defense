@@ -114,7 +114,7 @@ def to_start():
 
 def update(enemies, towers, R):
     pixel_per_frame = scale(1)
-
+    to_remove = []
     for tower in towers:
         pass
 
@@ -123,12 +123,15 @@ def update(enemies, towers, R):
         enemy_pathfinding(enemy)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
-        if enemy.y > HEIGHT:
-            enemies.remove(enemy)
-            Enemy.enemy_count -= 1
+
         if enemy.check_health():
-            enemies.remove(enemy)
-            Enemy.enemy_count -= 1
+            to_remove.append(enemy)
+        elif enemy.y > HEIGHT:
+            to_remove.append(enemy)
+
+    for enemy in to_remove:
+        enemies.remove(enemy)
+        Enemy.enemy_count -= 1
 
 
 def draw_window(enemies, towers):
