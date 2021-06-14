@@ -2,6 +2,8 @@ import pygame.transform
 
 
 class Enemy:
+    enemy_count = 0  # static variable, used to track number of enemies
+
     def __init__(self, name, health, speed, rect, sprite):
         self.name = name
         self.health = health
@@ -13,9 +15,14 @@ class Enemy:
         self.y_weight = 1
         self._sprite = sprite
         self.sprite = sprite
+        Enemy.enemy_count += 1
 
     def face(self, deg):
         self.sprite = pygame.transform.rotate(self._sprite, deg)
 
     def cords(self):
         return self.x, self.y
+
+    def check_health(self):
+        if self.health <= 0:
+            return True

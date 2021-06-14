@@ -112,14 +112,23 @@ def to_start():
             return scale(temp_count * 32), y
 
 
-def update(enemies, towers):
+def update(enemies, towers, R):
     pixel_per_frame = scale(1)
+
+    for tower in towers:
+        pass
+
     for enemy in enemies:
+        enemy.check_health()
         enemy_pathfinding(enemy)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
-    for tower in towers:
-        pass
+        if enemy.y > HEIGHT:
+            enemies.remove(enemy)
+            Enemy.enemy_count -= 1
+        if enemy.check_health():
+            enemies.remove(enemy)
+            Enemy.enemy_count -= 1
 
 
 def draw_window(enemies, towers):
@@ -193,11 +202,10 @@ def main():
     player_health = 100
     player = Player(player_health)
 
-    enemies = []
     count = 1
     print(to_start())
     R = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
-    R.level(enemies, count)
+    enemies = R.level()
 
     towers = []
     #
@@ -227,8 +235,14 @@ def main():
                                         fireball_rect, FIRE_PROJECTILE_SPRITE))
                     tower_count += 1
 
+        # TODO: might want to move to update
+        # handles level ending and spawning new wave
+        if Enemy.enemy_count == 0:
+            R.next_wave()
+            enemies = R.level()
+
         # update logic
-        update(enemies, towers)
+        update(enemies, towers, R)
 
         # refresh/redraw display
         draw_window(enemies, towers)
