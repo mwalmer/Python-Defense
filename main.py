@@ -181,32 +181,12 @@ def enemy_pathfinding(enemy):
         enemy.x = scale(224) if enemy.x < scale(224) else enemy.x
 
 
-def spawn(enemies, Count, Speed):
-    for count in range(0, Count):
-        enemy_rect = pygame.Rect(0, 0, ENEMY_SIZE, ENEMY_SIZE)
-        enemy = Enemy(f'enemy_{count}', 100, Speed, enemy_rect, ENEMY3_SPRITE)
-        enemy.face(DOWN)
-        enemy.y = count * scale(-32)
-        enemy.x = to_start()
-        enemies.append(enemy)
-
-
-def level(enemies, Lv):
-    if Lv == 1:
-        spawn(enemies, 10, 5)
-
-    if Lv == 2:
-        spawn(enemies, 5, 1)
-        spawn(enemies, 3, 2)
-
-
 def main():
     # TODO: enemy path finding
     player_health = 100
     player = Player(player_health)
 
     count = 1
-    print(to_start())
     R = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
     enemies = R.level()
 
