@@ -1,16 +1,18 @@
 import pygame
 from helper_functions import scale
 from enemy import Enemy
+
+# Directions
 UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 
 class Rounds:
     # TODO: remove enemy_size and enemy_sprite, class round shouldn't need to know about the enemies
-    def __init__(self, start_cords, enemy_size, enemy_sprite, wave=1):
+    def __init__(self, start_cords, enemy_size, enemy_sprite, round=1):
         self.enemy_size = enemy_size
         self.enemy_sprite = enemy_sprite
         self.x, self.y = start_cords
-        self.wave = wave
+        self.round = round
 
     def spawn(self, num_enemies, speed, enemy_size, enemy_sprite):
         enemies = []
@@ -25,18 +27,18 @@ class Rounds:
 
     def level(self):
         enemies = []
-        if self.wave == 1:
-            e1 = self.spawn(5, 5, self.enemy_size, self.enemy_sprite)
-            enemies = e1
-        elif self.wave == 2:
-            e1 = self.spawn(5, 5, self.enemy_size, self.enemy_sprite)
-            e2 = self.spawn(30, 5, self.enemy_size, self.enemy_sprite)
-            enemies = e1 + e2
-        elif self.wave == 3:
-            e1 = self.spawn(5, 5, self.enemy_size, self.enemy_sprite)
-            e2 = self.spawn(3, 5, self.enemy_size, self.enemy_sprite)
-            enemies = e1 + e2
+        if self.round == 1:
+            enemies1 = self.spawn(5, 5, self.enemy_size, self.enemy_sprite)
+            enemies = enemies1
+        elif self.round == 2:
+            enemies1 = self.spawn(5, 5, self.enemy_size, self.enemy_sprite)
+            enemies2 = self.spawn(30, 5, self.enemy_size, self.enemy_sprite)
+            enemies = enemies1 + enemies2
+        elif self.round == 3:
+            enemies1 = self.spawn(5, 5, self.enemy_size, self.enemy_sprite)
+            enemies2 = self.spawn(3, 5, self.enemy_size, self.enemy_sprite)
+            enemies = enemies1 + enemies2
         return enemies
 
-    def next_wave(self):
-        self.wave += 1
+    def next_round(self):
+        self.round += 1

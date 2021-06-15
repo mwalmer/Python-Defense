@@ -111,7 +111,7 @@ def to_start():
             return scale(temp_count * 32), y
 
 
-def update(enemies, towers, R, projectiles):
+def update(enemies, towers, rounds, projectiles):
     pixel_per_frame = scale(1)
     to_remove = []
     for tower in towers:
@@ -192,8 +192,8 @@ def main():
     player = Player(player_health)
 
     count = 1
-    R = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
-    enemies = R.level()
+    rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
+    enemies = rounds.level()
 
     towers = []
     projectiles = []
@@ -227,11 +227,11 @@ def main():
         # TODO: might want to move to update
         # handles level ending and spawning new wave
         if Enemy.enemy_count == 0:
-            R.next_wave()
-            enemies = R.level()
+            rounds.next_round()
+            enemies = rounds.level()
 
         # update logic
-        update(enemies, towers, R, projectiles)
+        update(enemies, towers, rounds, projectiles)
 
         # refresh/redraw display
         draw_window(enemies, towers, projectiles)
