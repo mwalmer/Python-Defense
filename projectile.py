@@ -13,8 +13,8 @@ class Projectile:
         return self.x, self.y
 
     def motion(self, change_x, change_y):
-        self.x += change_x
-        self.y += change_y
+        self.x = self.x + (change_x - self.x)//32
+        self.y = self.y + (change_y - self.y)//32
 
     def absolute_position(self, new_x, new_y):
         self.x = new_x

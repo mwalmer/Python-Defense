@@ -6,7 +6,6 @@ from helper_functions import scale, set_ratio
 import pygame
 import os
 
-
 pygame.display.init()
 display_info = pygame.display.Info()
 width = display_info.current_w
@@ -29,7 +28,6 @@ NUM_TILES_X, NUM_TILES_Y = 25, 20
 
 WIDTH = TILE_SIZE * NUM_TILES_X
 HEIGHT = TILE_SIZE * NUM_TILES_Y
-
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Python Defense")
@@ -72,7 +70,6 @@ ENEMY2_SPRITE = pygame.transform.scale(ENEMY2_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
 
-
 # 0 = grass
 # 1 = dirt
 # 2 = menu area
@@ -97,6 +94,8 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
+
+
 # MAP IS 25 ACROSS AND 20 DOWN, 5 last columns are for menu
 
 
@@ -112,11 +111,11 @@ def to_start():
             return scale(temp_count * 32), y
 
 
-def update(enemies, towers, R):
+def update(enemies, towers, R, projectiles):
     pixel_per_frame = scale(1)
     to_remove = []
     for tower in towers:
-        pass
+        projectiles.append(tower.projectile)
 
     for enemy in enemies:
         enemy.check_health()
@@ -133,8 +132,12 @@ def update(enemies, towers, R):
         enemies.remove(enemy)
         Enemy.enemy_count -= 1
 
+    for projectile in projectiles:
+        if len(enemies) != 0:
+            projectile.motion(enemies[0].cords()[0], enemies[0].cords()[1])
 
-def draw_window(enemies, towers):
+
+def draw_window(enemies, towers, projectiles):
     # draws map
     for x, row in enumerate(MAP):
         tile = GRASS_TILE
@@ -156,6 +159,8 @@ def draw_window(enemies, towers):
         WIN.blit(enemy.sprite, enemy.cords())
     for tower in towers:
         WIN.blit(tower.sprite, tower.cords())
+    for projectile in projectiles:
+        WIN.blit(projectile.sprite, projectile.cords())
     pygame.display.update()
 
 
@@ -191,6 +196,7 @@ def main():
     enemies = R.level()
 
     towers = []
+    projectiles = []
     #
     # for x in range(0, 2):
     #     tower_rect = pygame.Rect(2, 2, TOWER_WIDTH, TOWER_HEIGHT)
@@ -225,10 +231,10 @@ def main():
             enemies = R.level()
 
         # update logic
-        update(enemies, towers, R)
+        update(enemies, towers, R, projectiles)
 
         # refresh/redraw display
-        draw_window(enemies, towers)
+        draw_window(enemies, towers, projectiles)
 
     pygame.quit()
 
