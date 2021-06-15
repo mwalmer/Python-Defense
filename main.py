@@ -111,11 +111,27 @@ def to_start():
             return scale(temp_count * 32), y
 
 
-def update(enemies, towers, rounds, projectiles):
+def update(enemies, towers, rounds, projectiles, ticks):
     pixel_per_frame = scale(1)
-    to_remove = []
+    delete_enemy = []
+    delete_projectiles = []
+
     for tower in towers:
-        projectiles.append(tower.projectile)
+        #  checks the towers attack speed before firing
+        tower.ticks += ticks
+        if tower.ticks >= tower.attack_speed:
+            projectiles.append(tower.fire_projectile())
+            tower.ticks -= tower.attack_speed
+
+    #  TODO: account for turret range, also what if enemy dies before shot hits
+    for projectile in projectiles:
+        if len(enemies) != 0:
+            x, y = enemies[0].cords()
+            projectile.motion(x, y)
+            # TODO: add to remove_projectile when done
+
+    for projectile in delete_projectiles:
+        projectiles.remove(projectile)
 
     for enemy in enemies:
         enemy.check_health()
@@ -124,17 +140,13 @@ def update(enemies, towers, rounds, projectiles):
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
 
         if enemy.check_health():
-            to_remove.append(enemy)
+            delete_enemy.append(enemy)
         elif enemy.y > HEIGHT:
-            to_remove.append(enemy)
+            delete_enemy.append(enemy)
 
-    for enemy in to_remove:
+    for enemy in delete_enemy:
         enemies.remove(enemy)
         Enemy.enemy_count -= 1
-
-    for projectile in projectiles:
-        if len(enemies) != 0:
-            projectile.motion(enemies[0].cords()[0], enemies[0].cords()[1])
 
 
 def draw_window(enemies, towers, projectiles):
@@ -197,17 +209,12 @@ def main():
 
     towers = []
     projectiles = []
-    #
-    # for x in range(0, 2):
-    #     tower_rect = pygame.Rect(2, 2, TOWER_WIDTH, TOWER_HEIGHT)
-    #     tower = Tower(f'tower_{x}', 10, 3, tower_rect, TOWER1_SPRITE)
-    #     towers.append(tower)
 
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
     while run:
-        clock.tick(FPS)
+        ticks = clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -216,12 +223,11 @@ def main():
                 #  TODO: reformat
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 0:
                     MAP[mouse_y // scale(32)][mouse_x // scale(32)] = 3
-                    tower_rect = pygame.Rect((mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32),
-                                             TOWER_SIZE, TOWER_SIZE)
-                    fireball_rect = pygame.Rect((mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32),
-                                                FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
-                    towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, TOWER1_SPRITE, "Fireball",
-                                        fireball_rect, FIRE_PROJECTILE_SPRITE))
+                    temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
+                    tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
+                    fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
+                    towers.append(Tower(f'tower_{tower_count}', 10, 1, tower_rect, TOWER1_SPRITE, "Fireball",
+                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks))
                     tower_count += 1
 
         # TODO: might want to move to update
@@ -231,7 +237,7 @@ def main():
             enemies = rounds.level()
 
         # update logic
-        update(enemies, towers, rounds, projectiles)
+        update(enemies, towers, rounds, projectiles, ticks)
 
         # refresh/redraw display
         draw_window(enemies, towers, projectiles)
