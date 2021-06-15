@@ -220,7 +220,7 @@ def main():
                                              TOWER_SIZE, TOWER_SIZE)
                     fireball_rect = pygame.Rect((mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32),
                                                 FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
-                    towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, TOWER1_SPRITE, "Fireball",
+                    towers.append(Tower(f'tower_{tower_count}', 10, .1, tower_rect, TOWER1_SPRITE, "Fireball",
                                         fireball_rect, FIRE_PROJECTILE_SPRITE))
                     tower_count += 1
 
