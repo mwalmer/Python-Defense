@@ -1,5 +1,5 @@
 from helper_functions import scale
-
+import math
 
 class Projectile:
     def __init__(self, name, damage, attack_speed, rect, sprite):
@@ -17,8 +17,14 @@ class Projectile:
 
     # TODO: make a constant speed, right now as the projectile gets closer it slows down, might never reach enemy either
     def motion(self, change_x, change_y):
-        self.x = self.x + (change_x - self.x)//scale(32)
-        self.y = self.y + (change_y - self.y)//scale(32)
+        x_component = change_x - self.x
+        y_component = change_y - self.y
+        if x_component == 0:
+            x_component = .0000000000001
+        x_direction = math.cos(math.atan2(y_component, x_component))
+        y_direction = math.sin(math.atan2(y_component, x_component))
+        self.x = (self.x + x_direction * scale(1) * self.attack_speed)
+        self.y = (self.y + y_direction * scale(1) * self.attack_speed)
 
     def absolute_position(self, new_x, new_y):
         self.x = new_x
