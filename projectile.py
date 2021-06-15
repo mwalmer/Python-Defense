@@ -15,7 +15,6 @@ class Projectile:
     def cords(self):
         return self.x, self.y
 
-    # TODO: make a constant speed, right now as the projectile gets closer it slows down, might never reach enemy either
     def motion(self, change_x, change_y):
         x_component = change_x - self.x
         y_component = change_y - self.y
