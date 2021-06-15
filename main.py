@@ -113,7 +113,7 @@ def to_start():
 
 def update(enemies, towers, rounds, projectiles, ticks):
     pixel_per_frame = scale(1)
-    delete_enemy = []
+    delete_enemies = []
     delete_projectiles = []
 
     for tower in towers:
@@ -140,11 +140,11 @@ def update(enemies, towers, rounds, projectiles, ticks):
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
 
         if enemy.check_health():
-            delete_enemy.append(enemy)
+            delete_enemies.append(enemy)
         elif enemy.y > HEIGHT:
-            delete_enemy.append(enemy)
+            delete_enemies.append(enemy)
 
-    for enemy in delete_enemy:
+    for enemy in delete_enemies:
         enemies.remove(enemy)
         Enemy.enemy_count -= 1
 
