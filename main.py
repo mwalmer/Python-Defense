@@ -72,7 +72,7 @@ ENEMY2_SPRITE = pygame.transform.scale(ENEMY2_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
 
-UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TOWER_SIZE*2, TOWER_SIZE))
+UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TILE_SIZE*2, TILE_SIZE))
 
 # 0 = grass
 # 1 = dirt
@@ -177,7 +177,7 @@ def draw_window(enemies, towers, projectiles):
         WIN.blit(tower.sprite, tower.cords())
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
-    WIN.blit(UPGRADE_SPRITE, (scale(20.5*32),scale(32*17)))
+    WIN.blit(UPGRADE_SPRITE, (20.5*TILE_SIZE,17*TILE_SIZE))
     pygame.display.update()
 
 
@@ -215,6 +215,8 @@ def main():
     towers = []
     projectiles = []
 
+    upgrade_me = None # temporary placeholder for a clicked tower (USED FOR UPGRADES)
+
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
@@ -243,8 +245,15 @@ def main():
                     for tower in towers:
                         if tower.cords() == (temp_x,temp_y):
                             # TODO Display an upgrade button with details of the cost of the upgrade
-                            upgrade_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
-                            tower.basic_upgrade(5,5)
+                            upgrade_me = tower
+                            #tower.basic_upgrade(5,5)
+
+                if mouse_y >= TILE_SIZE*17 and mouse_y <= TILE_SIZE*17 + TILE_SIZE:
+                    if mouse_x >= TILE_SIZE*20.5 and mouse_x <=TILE_SIZE*20.5 + TILE_SIZE*2:
+                        if upgrade_me != None:
+                            upgrade_me.basic_upgrade(5,5)
+                            print("UPGRADE SUCCEEDED")
+                            upgrade_me = None
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
