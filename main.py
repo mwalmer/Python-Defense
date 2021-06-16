@@ -230,10 +230,14 @@ def main():
                                         fireball_rect, FIRE_PROJECTILE_SPRITE, ticks))
                     tower_count += 1
 
+                # Checks if click was over a tower and then proceeds with upgrading tower
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
+
+                    # Finds which tower was clicked
                     for tower in towers:
                         if tower.cords() == (temp_x,temp_y):
+                            # TODO Display an upgrade button with details of the cost of the upgrade
                             tower.basic_upgrade(5,5)
 
         # TODO: might want to move to update
