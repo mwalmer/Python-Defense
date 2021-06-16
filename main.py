@@ -56,6 +56,8 @@ ENEMY2_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy2.png'
 ENEMY3_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy3.png')).convert_alpha()
 FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png')).convert()
 
+UPGRADE_SPRITE = pygame.image.load(os.path.join('assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
+
 # Scale images
 GRASS_TILE = pygame.transform.scale(GRASS_TILE, TILE_XY)
 DIRT_TILE = pygame.transform.scale(DIRT_TILE, TILE_XY)
@@ -69,6 +71,8 @@ ENEMY1_SPRITE = pygame.transform.scale(ENEMY1_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 ENEMY2_SPRITE = pygame.transform.scale(ENEMY2_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
+
+UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TOWER_SIZE*2, TOWER_SIZE))
 
 # 0 = grass
 # 1 = dirt
@@ -173,6 +177,7 @@ def draw_window(enemies, towers, projectiles):
         WIN.blit(tower.sprite, tower.cords())
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
+    WIN.blit(UPGRADE_SPRITE, (scale(20.5*32),scale(32*17)))
     pygame.display.update()
 
 
@@ -238,6 +243,7 @@ def main():
                     for tower in towers:
                         if tower.cords() == (temp_x,temp_y):
                             # TODO Display an upgrade button with details of the cost of the upgrade
+                            upgrade_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                             tower.basic_upgrade(5,5)
 
         # TODO: might want to move to update
