@@ -230,6 +230,12 @@ def main():
                                         fireball_rect, FIRE_PROJECTILE_SPRITE, ticks))
                     tower_count += 1
 
+                if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
+                    temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
+                    for tower in towers:
+                        if tower.cords() == (temp_x,temp_y):
+                            tower.basic_upgrade(5,5)
+
         # TODO: might want to move to update
         # handles level ending and spawning new wave
         if Enemy.enemy_count == 0:

@@ -24,6 +24,8 @@ class Tower:
 
     # basic upgrade function for towers
     def basic_upgrade(self, damage, attack_speed):
-        self.damage = damage
-        self.attack_speed = attack_speed
-        self.projectile = Projectile(self.projectile.name, damage, attack_speed, self.projectile.rect, self.projectile.sprite)
+        self.damage = self.damage + damage
+        self.attack_speed = self.attack_speed + attack_speed
+        proj_damage = self.projectile.damage + damage
+        proj_attack_speed = self.projectile.attack_speed + attack_speed
+        self.projectile = Projectile(self.projectile.name, proj_damage, proj_attack_speed, self.projectile.rect, self.projectile.sprite)
