@@ -46,6 +46,9 @@ FIRE_PROJECTILE_SIZE = scale(16)
 GRASS_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'grass_tile.png')).convert()
 DIRT_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'dirt_tile.png')).convert()
 MENU_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'menu_tile.png')).convert()
+HILITE_TILE = pygame.image.load(os.path.join('assets', 'buttons', 'hilite.png')).convert_alpha()
+#HILITE_TILE.fill((255,255,255,128),None, pygame.BLEND_RGBA_MULT)
+
 TOWER1_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower1.png')).convert_alpha()
 TOWER2_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower2.png')).convert_alpha()
 TOWER3_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower3.png')).convert_alpha()
@@ -62,6 +65,8 @@ UPGRADE_SPRITE = pygame.image.load(os.path.join('assets', 'buttons', 'bt-upgrade
 GRASS_TILE = pygame.transform.scale(GRASS_TILE, TILE_XY)
 DIRT_TILE = pygame.transform.scale(DIRT_TILE, TILE_XY)
 MENU_TILE = pygame.transform.scale(MENU_TILE, TILE_XY)
+HILITE_TILE = pygame.transform.scale(HILITE_TILE, TILE_XY)
+
 TOWER1_SPRITE = pygame.transform.scale(TOWER1_SPRITE, (TOWER_SIZE, TOWER_SIZE))
 TOWER2_SPRITE = pygame.transform.scale(TOWER2_SPRITE, (TOWER_SIZE, TOWER_SIZE))
 TOWER3_SPRITE = pygame.transform.scale(TOWER3_SPRITE, (TOWER_SIZE, TOWER_SIZE))
@@ -101,6 +106,8 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
 
 
 # MAP IS 25 ACROSS AND 20 DOWN, 5 last columns are for menu
+
+
 
 
 # Only finds starting x cord, fine for now
@@ -153,7 +160,7 @@ def update(enemies, towers, rounds, projectiles, ticks):
         Enemy.enemy_count -= 1
 
 
-def draw_window(enemies, towers, projectiles):
+def draw_window(enemies, towers, projectiles, hilite):
     # draws map
     for x, row in enumerate(MAP):
         tile = GRASS_TILE
@@ -175,8 +182,13 @@ def draw_window(enemies, towers, projectiles):
         WIN.blit(enemy.sprite, enemy.cords())
     for tower in towers:
         WIN.blit(tower.sprite, tower.cords())
+  
+    if hilite != None:
+        WIN.blit(HILITE_TILE, hilite.cords())
+
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
+
     WIN.blit(UPGRADE_SPRITE, (20.5*TILE_SIZE,17*TILE_SIZE))
     pygame.display.update()
 
@@ -244,15 +256,13 @@ def main():
                     # Finds which tower was clicked
                     for tower in towers:
                         if tower.cords() == (temp_x,temp_y):
-                            # TODO Display an upgrade button with details of the cost of the upgrade
                             upgrade_me = tower
-                            #tower.basic_upgrade(5,5)
 
+                # Checks if upgrade button was clicked
                 if mouse_y >= TILE_SIZE*17 and mouse_y <= TILE_SIZE*17 + TILE_SIZE:
                     if mouse_x >= TILE_SIZE*20.5 and mouse_x <=TILE_SIZE*20.5 + TILE_SIZE*2:
                         if upgrade_me != None:
                             upgrade_me.basic_upgrade(5,5)
-                            print("UPGRADE SUCCEEDED")
                             upgrade_me = None
 
         # TODO: might want to move to update
@@ -265,7 +275,7 @@ def main():
         update(enemies, towers, rounds, projectiles, ticks)
 
         # refresh/redraw display
-        draw_window(enemies, towers, projectiles)
+        draw_window(enemies, towers, projectiles, upgrade_me)
 
     pygame.quit()
 
