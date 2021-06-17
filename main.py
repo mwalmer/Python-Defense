@@ -151,6 +151,7 @@ def update(enemies, towers, rounds, projectiles, ticks):
             projectile.motion(x, y)
             for enemy in enemies:
                 if projectile.rect.colliderect(enemy.rect):
+                    enemy.health -= projectile.damage
                     delete_projectiles.append(projectile)
             # TODO: add to remove_projectile when done
 
@@ -172,6 +173,7 @@ def update(enemies, towers, rounds, projectiles, ticks):
             delete_enemies.append(enemy)
 
     for enemy in delete_enemies:
+        # if enemy in delete_enemies: not needed but added here if things get buggy, we needed it in delete_projectiles
         enemies.remove(enemy)
         Enemy.enemy_count -= 1
 
@@ -211,7 +213,7 @@ def draw_window(enemies, towers, projectiles, hilite):
         elif tower.level == 5:
             WIN.blit(LEVEL5_TILE, tower.cords())
 
-    if hilite != None:
+    if hilite is not None:
         WIN.blit(HILITE_TILE, hilite.cords())
 
     for projectile in projectiles:
@@ -219,7 +221,6 @@ def draw_window(enemies, towers, projectiles, hilite):
 
     WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
     pygame.display.update()
-
 
 
 def enemy_pathfinding(enemy):
