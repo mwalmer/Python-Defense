@@ -1,6 +1,7 @@
 from helper_functions import scale
 import math
 
+
 class Projectile:
     def __init__(self, name, damage, attack_speed, rect, sprite):
         self.name = name

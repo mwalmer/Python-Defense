@@ -177,7 +177,7 @@ def draw_window(enemies, towers, projectiles, hilite):
                 tile = GRASS_TILE
 
             WIN.blit(tile, (y * TILE_SIZE, x * TILE_SIZE))
-    # Scale sprites
+
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
     for tower in towers:
@@ -227,13 +227,14 @@ def main():
     towers = []
     projectiles = []
 
-    upgrade_me = None # temporary placeholder for a clicked tower (USED FOR UPGRADES)
+    upgrade_me = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
     while run:
         ticks = clock.tick(FPS)
+        # TODO: limit possible event types
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -255,8 +256,10 @@ def main():
 
                     # Finds which tower was clicked
                     for tower in towers:
-                        if tower.cords() == (temp_x,temp_y):
+                        if tower.cords() == (temp_x, temp_y):
+                            # TODO Display an upgrade button with details of the cost of the upgrade
                             upgrade_me = tower
+                            # tower.basic_upgrade(5, 5)
 
                 # Checks if upgrade button was clicked
                 if mouse_y >= TILE_SIZE*17 and mouse_y <= TILE_SIZE*17 + TILE_SIZE:
