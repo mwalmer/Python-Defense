@@ -14,6 +14,7 @@ class Tower:
         self.sprite = sprite
         self.projectile = Projectile(projectile_name, damage, attack_speed, projectile_rect, projectile_sprite)
         self.ticks = ticks
+        self.level = 1
 
     # returns a new copy of its projectile, if it didn't the tower could only shoot once
     def fire_projectile(self):
@@ -29,3 +30,11 @@ class Tower:
         proj_damage = self.projectile.damage + damage
         proj_attack_speed = self.projectile.attack_speed + attack_speed
         self.projectile = Projectile(self.projectile.name, proj_damage, proj_attack_speed, self.projectile.rect, self.projectile.sprite)
+        if self.level < 5:
+            self.level = self.level + 1
+
+    # Checks if you can level up tower (MAX LEVEL 5)
+    def level_up(self):
+        if self.level < 5:
+            return True
+        return False

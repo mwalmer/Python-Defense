@@ -47,7 +47,6 @@ GRASS_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'grass_tile.png')
 DIRT_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'dirt_tile.png')).convert()
 MENU_TILE = pygame.image.load(os.path.join('assets', 'tiles', 'menu_tile.png')).convert()
 HILITE_TILE = pygame.image.load(os.path.join('assets', 'buttons', 'hilite.png')).convert_alpha()
-#HILITE_TILE.fill((255,255,255,128),None, pygame.BLEND_RGBA_MULT)
 
 TOWER1_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower1.png')).convert_alpha()
 TOWER2_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower2.png')).convert_alpha()
@@ -60,6 +59,13 @@ ENEMY3_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy3.png'
 FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png')).convert()
 
 UPGRADE_SPRITE = pygame.image.load(os.path.join('assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
+
+# Level tiles for towers
+LEVEL1_TILE = pygame.image.load(os.path.join('assets', 'levels', 'num1.png')).convert_alpha()
+LEVEL2_TILE = pygame.image.load(os.path.join('assets', 'levels', 'num2.png')).convert_alpha()
+LEVEL3_TILE = pygame.image.load(os.path.join('assets', 'levels', 'num3.png')).convert_alpha()
+LEVEL4_TILE = pygame.image.load(os.path.join('assets', 'levels', 'num4.png')).convert_alpha()
+LEVEL5_TILE = pygame.image.load(os.path.join('assets', 'levels', 'num5.png')).convert_alpha()
 
 # Scale images
 GRASS_TILE = pygame.transform.scale(GRASS_TILE, TILE_XY)
@@ -78,6 +84,12 @@ ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
 
 UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TILE_SIZE*2, TILE_SIZE))
+
+LEVEL1_TILE = pygame.transform.scale(LEVEL1_TILE, TILE_XY)
+LEVEL2_TILE = pygame.transform.scale(LEVEL2_TILE, TILE_XY)
+LEVEL3_TILE = pygame.transform.scale(LEVEL3_TILE, TILE_XY)
+LEVEL4_TILE = pygame.transform.scale(LEVEL4_TILE, TILE_XY)
+LEVEL5_TILE = pygame.transform.scale(LEVEL5_TILE, TILE_XY)
 
 # 0 = grass
 # 1 = dirt
@@ -180,8 +192,20 @@ def draw_window(enemies, towers, projectiles, hilite):
 
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
+        
     for tower in towers:
         WIN.blit(tower.sprite, tower.cords())
+        # Check tower level and assign it a level tile
+        if tower.level == 1:
+            WIN.blit(LEVEL1_TILE, tower.cords())
+        elif tower.level == 2:
+            WIN.blit(LEVEL2_TILE, tower.cords())
+        elif tower.level == 3:
+            WIN.blit(LEVEL3_TILE, tower.cords())
+        elif tower.level == 4:
+            WIN.blit(LEVEL4_TILE, tower.cords())
+        elif tower.level == 5:
+            WIN.blit(LEVEL5_TILE, tower.cords())
   
     if hilite != None:
         WIN.blit(HILITE_TILE, hilite.cords())
@@ -265,8 +289,9 @@ def main():
                 if mouse_y >= TILE_SIZE*17 and mouse_y <= TILE_SIZE*17 + TILE_SIZE:
                     if mouse_x >= TILE_SIZE*20.5 and mouse_x <=TILE_SIZE*20.5 + TILE_SIZE*2:
                         if upgrade_me != None:
-                            upgrade_me.basic_upgrade(5,5)
-                            upgrade_me = None
+                            if upgrade_me.level_up():
+                                upgrade_me.basic_upgrade(5,5)
+                                upgrade_me = None
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
