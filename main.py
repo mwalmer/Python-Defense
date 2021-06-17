@@ -170,14 +170,15 @@ def draw_window(enemies, towers, projectiles):
                 tile = GRASS_TILE
 
             WIN.blit(tile, (y * TILE_SIZE, x * TILE_SIZE))
-    # Scale sprites
+
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
     for tower in towers:
         WIN.blit(tower.sprite, tower.cords())
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
-    WIN.blit(UPGRADE_SPRITE, (20.5*TILE_SIZE,17*TILE_SIZE))
+
+    WIN.blit(UPGRADE_SPRITE, (20.5*TILE_SIZE, 17*TILE_SIZE))
     pygame.display.update()
 
 
@@ -215,13 +216,14 @@ def main():
     towers = []
     projectiles = []
 
-    upgrade_me = None # temporary placeholder for a clicked tower (USED FOR UPGRADES)
+    upgrade_me = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
     while run:
         ticks = clock.tick(FPS)
+        # TODO: limit possible event types
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -243,17 +245,17 @@ def main():
 
                     # Finds which tower was clicked
                     for tower in towers:
-                        if tower.cords() == (temp_x,temp_y):
+                        if tower.cords() == (temp_x, temp_y):
                             # TODO Display an upgrade button with details of the cost of the upgrade
                             upgrade_me = tower
-                            #tower.basic_upgrade(5,5)
+                            # tower.basic_upgrade(5, 5)
 
                 if mouse_y >= TILE_SIZE*17 and mouse_y <= TILE_SIZE*17 + TILE_SIZE:
                     if mouse_x >= TILE_SIZE*20.5 and mouse_x <=TILE_SIZE*20.5 + TILE_SIZE*2:
-                        if upgrade_me != None:
-                            upgrade_me.basic_upgrade(5,5)
+                        if upgrade_me is not None:
+                            upgrade_me.basic_upgrade(5, 5)
                             print("UPGRADE SUCCEEDED")
-                            upgrade_me = None
+                            # upgrade_me = None
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
