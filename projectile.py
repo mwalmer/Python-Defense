@@ -25,7 +25,11 @@ class Projectile:
         y_direction = math.sin(math.atan2(y_component, x_component))
         self.x = (self.x + x_direction * scale(1) * self.attack_speed)
         self.y = (self.y + y_direction * scale(1) * self.attack_speed)
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def absolute_position(self, new_x, new_y):
         self.x = new_x
         self.y = new_y
+        self.rect.x = self.x
+        self.rect.y = self.y

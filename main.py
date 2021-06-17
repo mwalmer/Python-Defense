@@ -83,7 +83,7 @@ ENEMY2_SPRITE = pygame.transform.scale(ENEMY2_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
 
-UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TILE_SIZE*2, TILE_SIZE))
+UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TILE_SIZE * 2, TILE_SIZE))
 
 LEVEL1_TILE = pygame.transform.scale(LEVEL1_TILE, TILE_XY)
 LEVEL2_TILE = pygame.transform.scale(LEVEL2_TILE, TILE_XY)
@@ -120,8 +120,6 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
 # MAP IS 25 ACROSS AND 20 DOWN, 5 last columns are for menu
 
 
-
-
 # Only finds starting x cord, fine for now
 # y is set to 0
 def to_start():
@@ -151,16 +149,22 @@ def update(enemies, towers, rounds, projectiles, ticks):
         if len(enemies) != 0:
             x, y = enemies[0].cords()
             projectile.motion(x, y)
+            for enemy in enemies:
+                if projectile.rect.colliderect(enemy.rect):
+                    delete_projectiles.append(projectile)
             # TODO: add to remove_projectile when done
 
     for projectile in delete_projectiles:
-        projectiles.remove(projectile)
+        if projectile in projectiles:
+            projectiles.remove(projectile)
 
     for enemy in enemies:
         enemy.check_health()
         enemy_pathfinding(enemy)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
+        enemy.rect.x = enemy.x
+        enemy.rect.y = enemy.y
 
         if enemy.check_health():
             delete_enemies.append(enemy)
@@ -192,7 +196,7 @@ def draw_window(enemies, towers, projectiles, hilite):
 
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
-        
+
     for tower in towers:
         WIN.blit(tower.sprite, tower.cords())
         # Check tower level and assign it a level tile
@@ -206,15 +210,16 @@ def draw_window(enemies, towers, projectiles, hilite):
             WIN.blit(LEVEL4_TILE, tower.cords())
         elif tower.level == 5:
             WIN.blit(LEVEL5_TILE, tower.cords())
-  
+
     if hilite != None:
         WIN.blit(HILITE_TILE, hilite.cords())
 
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
 
-    WIN.blit(UPGRADE_SPRITE, (20.5*TILE_SIZE,17*TILE_SIZE))
+    WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
     pygame.display.update()
+
 
 
 def enemy_pathfinding(enemy):
@@ -286,11 +291,11 @@ def main():
                             # tower.basic_upgrade(5, 5)
 
                 # Checks if upgrade button was clicked
-                if mouse_y >= TILE_SIZE*17 and mouse_y <= TILE_SIZE*17 + TILE_SIZE:
-                    if mouse_x >= TILE_SIZE*20.5 and mouse_x <=TILE_SIZE*20.5 + TILE_SIZE*2:
+                if mouse_y >= TILE_SIZE * 17 and mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
+                    if mouse_x >= TILE_SIZE * 20.5 and mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         if upgrade_me != None:
                             if upgrade_me.level_up():
-                                upgrade_me.basic_upgrade(5,5)
+                                upgrade_me.basic_upgrade(5, 5)
                                 upgrade_me = None
 
         # TODO: might want to move to update
