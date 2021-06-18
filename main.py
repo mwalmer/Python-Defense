@@ -158,8 +158,8 @@ def update(enemies, towers, rounds, projectiles, ticks):
             # TODO: add to remove_projectile when done
 
     for projectile in delete_projectiles:
-        if projectile in projectiles:
-            projectiles.remove(projectile)
+        projectiles.remove(projectile)
+        delete_projectiles.remove(projectile)
 
     for enemy in enemies:
         enemy.check_health()
@@ -175,8 +175,8 @@ def update(enemies, towers, rounds, projectiles, ticks):
             delete_enemies.append(enemy)
 
     for enemy in delete_enemies:
-        # if enemy in delete_enemies: not needed but added here if things get buggy, we needed it in delete_projectiles
         enemies.remove(enemy)
+        delete_enemies.remove(enemy)
         Enemy.enemy_count -= 1
 
 
