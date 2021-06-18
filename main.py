@@ -1,3 +1,4 @@
+from pygame import sprite
 from enemy import Enemy
 from tower import Tower
 from player import Player
@@ -231,7 +232,7 @@ def draw_window(enemies, towers, projectiles, hilite):
         WIN.blit(projectile.sprite, projectile.cords())
 
     WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
-    
+
     pygame.display.update()
 
 
@@ -269,6 +270,9 @@ def main():
     towers = []
     projectiles = []
 
+    # current_tower used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
+    current_tower = TOWER1_SPRITE 
+
     upgrade_me = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
     clock = pygame.time.Clock()
@@ -288,7 +292,8 @@ def main():
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                     tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                     fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
-                    towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, TOWER1_SPRITE, "Fireball",
+
+                    towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, current_tower, "Fireball",
                                         fireball_rect, FIRE_PROJECTILE_SPRITE, ticks))
                     tower_count += 1
 
@@ -310,6 +315,21 @@ def main():
                             if upgrade_me.level_up():
                                 upgrade_me.basic_upgrade(5, 5)
                                 upgrade_me = None
+
+                # Checks if a menu tower selection was clicked
+                if MAP[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
+                    num = MAP[mouse_y // scale(32)][mouse_x // scale(32)]
+                    if num == 4:
+                        current_tower = TOWER1_SPRITE
+                    elif num == 5:
+                        current_tower = TOWER2_SPRITE
+                    elif num == 6:
+                        current_tower = TOWER3_SPRITE
+                    elif num == 7:
+                        current_tower = TOWER4_SPRITE
+                    elif num == 8:
+                        current_tower = TOWER5_SPRITE
+
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
