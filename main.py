@@ -60,6 +60,7 @@ ENEMY3_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy3.png'
 FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png')).convert()
 
 UPGRADE_SPRITE = pygame.image.load(os.path.join('assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
+START_SPRITE = pygame.image.load(os.path.join('assets', 'buttons', 'bt-start.png')).convert_alpha()
 
 # Level tiles for towers
 LEVEL1_TILE = pygame.image.load(os.path.join('assets', 'levels', 'num1.png')).convert_alpha()
@@ -85,6 +86,7 @@ ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
 
 UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TILE_SIZE * 2, TILE_SIZE))
+START_SPRITE = pygame.transform.scale(START_SPRITE, (TILE_SIZE * 2, TILE_SIZE))
 
 LEVEL1_TILE = pygame.transform.scale(LEVEL1_TILE, TILE_XY)
 LEVEL2_TILE = pygame.transform.scale(LEVEL2_TILE, TILE_XY)
@@ -231,7 +233,9 @@ def draw_window(enemies, towers, projectiles, hilite):
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
 
+    # Draw Menu Buttons
     WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
+    WIN.blit(START_SPRITE, (20.5 * TILE_SIZE, 15 * TILE_SIZE))
 
     pygame.display.update()
 
@@ -278,6 +282,7 @@ def main():
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
+    start_round = False # Changed to True when start button clicked
     while run:
         ticks = clock.tick(FPS)
         # TODO: limit possible event types
@@ -316,6 +321,12 @@ def main():
                                 upgrade_me.basic_upgrade(5, 5)
                                 upgrade_me = None
 
+                 # Checks if start button was clicked
+                if mouse_y >= TILE_SIZE * 15 and mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
+                    if mouse_x >= TILE_SIZE * 20.5 and mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
+                        print("START BT CLICKED")
+                        start_round = True
+
                 # Checks if a menu tower selection was clicked
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
                     num = MAP[mouse_y // scale(32)][mouse_x // scale(32)]
@@ -333,9 +344,10 @@ def main():
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
-        if Enemy.enemy_count == 0:
+        if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()
+            start_round = False
 
         # update logic
         update(enemies, towers, rounds, projectiles, ticks)
