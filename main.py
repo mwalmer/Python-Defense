@@ -139,6 +139,7 @@ MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 lives = 25
 
+
 # Only finds starting x cord, fine for now
 # y is set to 0
 def to_start():
@@ -164,22 +165,24 @@ def update(enemies, towers, rounds, projectiles, ticks):
             tower.ticks -= tower.attack_speed
 
     #  TODO: account for turret range, also what if enemy dies before shot hits
+    #   might want to optimize later on
     for projectile in projectiles:
+        has_not_hit = True
         if len(enemies) != 0:
             x, y = enemies[0].cords()
             projectile.motion(x, y)
+            #  TODO: make sure only one enemy is getting hit, and delete_projectile is only being appended once
             for enemy in enemies:
-                if projectile.rect.colliderect(enemy.rect):
+                if projectile.rect.colliderect(enemy.rect) and has_not_hit:
                     enemy.health -= projectile.damage
                     delete_projectiles.append(projectile)
+                    has_not_hit = False
             # TODO: add to remove_projectile when done
 
     for projectile in delete_projectiles:
         projectiles.remove(projectile)
-        delete_projectiles.remove(projectile)
 
     for enemy in enemies:
-        enemy.check_health()
         enemy_pathfinding(enemy)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
@@ -193,7 +196,6 @@ def update(enemies, towers, rounds, projectiles, ticks):
 
     for enemy in delete_enemies:
         enemies.remove(enemy)
-        delete_enemies.remove(enemy)
         Enemy.enemy_count -= 1
 
 
@@ -276,11 +278,7 @@ def enemy_pathfinding(enemy):
         enemy_tile_x = int(floor((enemy.x + (TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
     else:
         enemy_tile_x = int(floor((enemy.x) / WIDTH * NUM_TILES_X))
-    # print("X:", enemy_tile_x)
     enemy_tile_y = -int(floor((-enemy.y + TILE_SIZE - 2) / HEIGHT * NUM_TILES_Y))
-    # print("Enemy y coord:", enemy.y)
-    # print("Y:", enemy_tile_y)
-    # print("Map tile:", MAP[enemy_tile_y][enemy_tile_x])
     if enemy_tile_y >= 25 or enemy_tile_x >= 25:
         # delete_enemies.append(enemy)
         global lives
@@ -289,33 +287,12 @@ def enemy_pathfinding(enemy):
     elif MAP[enemy_tile_y][enemy_tile_x] == 9:
         enemy.face(LEFT)
         enemy.x_weight, enemy.y_weight = -1, 0
-        # print("left")
     elif MAP[enemy_tile_y][enemy_tile_x] == 10:
         enemy.face(RIGHT)
         enemy.x_weight, enemy.y_weight = 1, 0
-        # print("right")
     elif MAP[enemy_tile_y][enemy_tile_x] == 11:
         enemy.face(DOWN)
-        # print("down")
         enemy.x_weight, enemy.y_weight = 0, 1
-    # if enemy.x == scale(96) and enemy.y < scale(128):
-    #     enemy.x_weight, enemy.y_weight = 0, 1
-    # elif enemy.x < scale(416) and scale(128) <= enemy.y < scale(350):
-    #     enemy.face(RIGHT)
-    #     enemy.x_weight, enemy.y_weight = 1, 0
-    #     enemy.y = scale(128) if enemy.y > scale(128) else enemy.y
-    # elif enemy.x >= scale(416) and enemy.y < scale(352):
-    #     enemy.face(DOWN)
-    #     enemy.x_weight, enemy.y_weight = 0, 1
-    #     enemy.x = scale(416) if enemy.x > scale(416) else enemy.x
-    # elif enemy.x > scale(224) and enemy.y >= scale(352):
-    #     enemy.face(LEFT)
-    #     enemy.x_weight, enemy.y_weight = -1, 0
-    #     enemy.y = scale(352) if enemy.y >= scale(352) else enemy.y
-    # else:
-    #     enemy.face(DOWN)
-    #     enemy.x_weight, enemy.y_weight = 0, 1
-    #     enemy.x = scale(224) if enemy.x < scale(224) else enemy.x
 
 
 def main():
