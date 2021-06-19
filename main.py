@@ -1,13 +1,12 @@
 from math import floor
+import pygame
+import os
 
-from pygame import sprite
 from enemy import Enemy
 from tower import Tower
 from player import Player
 from round import Rounds
 from helper_functions import scale, set_ratio
-import pygame
-import os
 
 pygame.display.init()
 display_info = pygame.display.Info()
@@ -177,7 +176,6 @@ def update(enemies, towers, rounds, projectiles, ticks):
                     enemy.health -= projectile.damage
                     delete_projectiles.append(projectile)
                     has_not_hit = False
-            # TODO: add to remove_projectile when done
 
     for projectile in delete_projectiles:
         projectiles.remove(projectile)
