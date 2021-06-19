@@ -3,10 +3,10 @@ import math
 
 
 class Projectile:
-    def __init__(self, name, damage, attack_speed, rect, sprite):
+    def __init__(self, name, damage, projectile_speed, rect, sprite):
         self.name = name
         self.damage = damage
-        self.attack_speed = attack_speed
+        self.projectile_speed = projectile_speed
         self.rect = rect
         self.x = rect.x
         self.y = rect.y
@@ -23,8 +23,8 @@ class Projectile:
             x_component = .0000000000001
         x_direction = math.cos(math.atan2(y_component, x_component))
         y_direction = math.sin(math.atan2(y_component, x_component))
-        self.x = (self.x + x_direction * scale(1) * self.attack_speed)
-        self.y = (self.y + y_direction * scale(1) * self.attack_speed)
+        self.x = (self.x + x_direction * scale(1) * self.projectile_speed)
+        self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
         self.rect.x = self.x
         self.rect.y = self.y
 

@@ -3,7 +3,7 @@ import copy
 
 
 class Tower:
-    def __init__(self, name, damage, attack_speed, rect, sprite, projectile_name, projectile_rect, projectile_sprite, ticks):
+    def __init__(self, name, damage, attack_speed, rect, sprite, projectile_name, projectile_rect, projectile_sprite, ticks, projectile_speed):
         self.name = name
         self.damage = damage
         self.attack_speed = 1000 / attack_speed
@@ -12,9 +12,10 @@ class Tower:
         self.y = rect.y
         self._sprite = sprite
         self.sprite = sprite
-        self.projectile = Projectile(projectile_name, damage, attack_speed, projectile_rect, projectile_sprite)
+        self.projectile = Projectile(projectile_name, damage, projectile_speed, projectile_rect, projectile_sprite)
         self.ticks = ticks
         self.level = 1
+        self.projectile_speed = projectile_speed
 
     # returns a new copy of its projectile, if it didn't the tower could only shoot once
     def fire_projectile(self):
@@ -24,12 +25,11 @@ class Tower:
         return self.x, self.y
 
     # basic upgrade function for towers
-    def basic_upgrade(self, damage, attack_speed):
-        self.damage = self.damage + damage
-        self.attack_speed = self.attack_speed + attack_speed
-        proj_damage = self.projectile.damage + damage
-        proj_attack_speed = self.projectile.attack_speed + attack_speed
-        self.projectile = Projectile(self.projectile.name, proj_damage, proj_attack_speed, self.projectile.rect, self.projectile.sprite)
+    def basic_upgrade(self, damage, attack_speed, projectile_speed):
+        self.damage += damage
+        self.attack_speed -= 1000 / (attack_speed * 2)
+        self.projectile_speed += projectile_speed
+        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, self.projectile.rect, self.projectile.sprite)
         if self.level < 5:
             self.level = self.level + 1
 

@@ -332,7 +332,7 @@ def main():
                     fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
 
                     towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, current_tower, "Fireball",
-                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks))
+                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3))
                     tower_count += 1
 
                 # Checks if click was over a tower and then proceeds with upgrading tower
@@ -344,14 +344,14 @@ def main():
                         if tower.cords() == (temp_x, temp_y):
                             # TODO Display an upgrade button with details of the cost of the upgrade
                             upgrade_me = tower
-                            # tower.basic_upgrade(5, 5)
+                            # tower.basic_upgrade(5, 5, 1)
 
                 # Checks if upgrade button was clicked
                 if mouse_y >= TILE_SIZE * 17 and mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
                     if mouse_x >= TILE_SIZE * 20.5 and mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         if upgrade_me != None:
                             if upgrade_me.level_up():
-                                upgrade_me.basic_upgrade(5, 5)
+                                upgrade_me.basic_upgrade(5, 5, 1)
                                 upgrade_me = None
 
                 # Checks if start button was clicked
