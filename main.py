@@ -352,7 +352,8 @@ def main():
                         if upgrade_me != None:
                             if upgrade_me.level_up():
                                 upgrade_me.basic_upgrade(5, 5, 1)
-                                upgrade_me = None
+                                # don't have to reset upgrade_me after upgrade
+                                # upgrade_me = None
 
                 # Checks if start button was clicked
                 if mouse_y >= TILE_SIZE * 15 and mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
