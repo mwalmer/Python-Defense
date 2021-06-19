@@ -11,7 +11,7 @@ class Enemy:
         self.rect = rect
         self.x = rect.x
         self.y = rect.y
-        self.x_weight = 1
+        self.x_weight = 0
         self.y_weight = 1
         self._sprite = sprite
         self.sprite = sprite

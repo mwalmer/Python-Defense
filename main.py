@@ -1,3 +1,5 @@
+from math import floor
+
 from pygame import sprite
 from enemy import Enemy
 from tower import Tower
@@ -11,24 +13,29 @@ pygame.display.init()
 display_info = pygame.display.Info()
 width = display_info.current_w
 height = display_info.current_h
+print(height)
 
 # Scaling pixels to fixed ratio
 # adjust this to change window size
-if height > width:
-    ratio = 1.5 if height <= 1920 else 2
+
+NUM_TILES_X, NUM_TILES_Y = 25, 25
+
+if height - 60 < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each other.
+    ratio = ((height - 60) / 32) / NUM_TILES_Y  # -60 is for the window bar
     set_ratio(ratio)
 else:
-    ratio = 1.5 if width <= 1920 else 2
+    ratio = (width / 32) / NUM_TILES_X
     set_ratio(ratio)
 
 # Default tile size
 TILE_SIZE = scale(32)
+print(TILE_SIZE)
 TILE_XY = (TILE_SIZE, TILE_SIZE)
-
-NUM_TILES_X, NUM_TILES_Y = 25, 20
 
 WIDTH = TILE_SIZE * NUM_TILES_X
 HEIGHT = TILE_SIZE * NUM_TILES_Y
+print(WIDTH)
+print(HEIGHT)
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Python Defense")
@@ -99,18 +106,26 @@ LEVEL5_TILE = pygame.transform.scale(LEVEL5_TILE, TILE_XY)
 # 2 = menu area
 # 3 = grass_with_tower: just renders the grass again but reassigns the value to 3 so we know a towerHasAlreadyBeenPlaced
 # 4-8 = tower icon on menu
-MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+# 9 = enemies go left
+# 10 = enemies go right
+# 11 = down
+MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 5, 2],
        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 6, 2, 7, 2],
+       [0, 0, 0, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 0, 0, 0, 0, 0, 0, 2, 6, 2, 7, 2],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 8, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 11, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
@@ -121,8 +136,8 @@ MAP = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
 
 
-# MAP IS 25 ACROSS AND 20 DOWN, 5 last columns are for menu
-
+# MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
+lives = 25
 
 # Only finds starting x cord, fine for now
 # y is set to 0
@@ -130,7 +145,7 @@ def to_start():
     temp_count = 0
     y = 0
     for i in MAP[0]:
-        if i != 1:
+        if i != 11:
             temp_count += 1
         else:
             return scale(temp_count * 32), y
@@ -171,7 +186,7 @@ def update(enemies, towers, rounds, projectiles, ticks):
         enemy.rect.x = enemy.x
         enemy.rect.y = enemy.y
 
-        if enemy.check_health():
+        if enemy.check_health():  # This seems super resource intensive, can't we just call remove immediately?
             delete_enemies.append(enemy)
         elif enemy.y > HEIGHT:
             delete_enemies.append(enemy)
@@ -189,6 +204,8 @@ def draw_window(enemies, towers, projectiles, hilite):
         for y, cord in enumerate(row):
             # draws grass and path
             # needs to be drawn before enemies or towers
+
+            # Rename cord to a more fitting var name
             if cord == 0:
                 tile = GRASS_TILE
             elif cord == 1:
@@ -207,6 +224,12 @@ def draw_window(enemies, towers, projectiles, hilite):
                 tile = TOWER4_SPRITE
             elif cord == 8:
                 tile = TOWER5_SPRITE
+            elif cord == 9:
+                tile = DIRT_TILE
+            elif cord == 10:
+                tile = DIRT_TILE
+            elif cord == 11:
+                tile = DIRT_TILE
 
             WIN.blit(tile, (y * TILE_SIZE, x * TILE_SIZE))
 
@@ -234,7 +257,7 @@ def draw_window(enemies, towers, projectiles, hilite):
         WIN.blit(projectile.sprite, projectile.cords())
 
     # Draw Menu Buttons
-    WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
+    WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))  # What the heck? User proper scale function y'all
     WIN.blit(START_SPRITE, (20.5 * TILE_SIZE, 15 * TILE_SIZE))
 
     pygame.display.update()
@@ -242,24 +265,57 @@ def draw_window(enemies, towers, projectiles, hilite):
 
 def enemy_pathfinding(enemy):
     # TODO: make dynamic pathfinding
-    if enemy.x == scale(96) and enemy.y < scale(128):
-        enemy.x_weight, enemy.y_weight = 0, 1
-    elif enemy.x < scale(416) and scale(128) <= enemy.y < scale(350):
-        enemy.face(RIGHT)
-        enemy.x_weight, enemy.y_weight = 1, 0
-        enemy.y = scale(128) if enemy.y > scale(128) else enemy.y
-    elif enemy.x >= scale(416) and enemy.y < scale(352):
-        enemy.face(DOWN)
-        enemy.x_weight, enemy.y_weight = 0, 1
-        enemy.x = scale(416) if enemy.x > scale(416) else enemy.x
-    elif enemy.x > scale(224) and enemy.y >= scale(352):
+    # Get what tile the enemy is in
+    # Compare tile number
+    # Rotate appropriately
+    # Enemy tile number can be found by checking x vs screen width
+    # Add 1/2 tile width for center, do later?
+    # Screen is 825 wide, x coord is 100. Thus we should have 100/825 * num tiles then floored to find tile x
+    # print("Enemy x coord:", enemy.x)
+    if enemy.x_weight == -1:
+        enemy_tile_x = int(floor((enemy.x + (TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
+    else:
+        enemy_tile_x = int(floor((enemy.x) / WIDTH * NUM_TILES_X))
+    # print("X:", enemy_tile_x)
+    enemy_tile_y = -int(floor((-enemy.y + TILE_SIZE - 2) / HEIGHT * NUM_TILES_Y))
+    # print("Enemy y coord:", enemy.y)
+    # print("Y:", enemy_tile_y)
+    # print("Map tile:", MAP[enemy_tile_y][enemy_tile_x])
+    if enemy_tile_y >= 25 or enemy_tile_x >= 25:
+        # delete_enemies.append(enemy)
+        global lives
+        lives = lives - 1
+        #  insert remove enemy logic and live loss here
+    elif MAP[enemy_tile_y][enemy_tile_x] == 9:
         enemy.face(LEFT)
         enemy.x_weight, enemy.y_weight = -1, 0
-        enemy.y = scale(352) if enemy.y >= scale(352) else enemy.y
-    else:
+        # print("left")
+    elif MAP[enemy_tile_y][enemy_tile_x] == 10:
+        enemy.face(RIGHT)
+        enemy.x_weight, enemy.y_weight = 1, 0
+        # print("right")
+    elif MAP[enemy_tile_y][enemy_tile_x] == 11:
         enemy.face(DOWN)
+        # print("down")
         enemy.x_weight, enemy.y_weight = 0, 1
-        enemy.x = scale(224) if enemy.x < scale(224) else enemy.x
+    # if enemy.x == scale(96) and enemy.y < scale(128):
+    #     enemy.x_weight, enemy.y_weight = 0, 1
+    # elif enemy.x < scale(416) and scale(128) <= enemy.y < scale(350):
+    #     enemy.face(RIGHT)
+    #     enemy.x_weight, enemy.y_weight = 1, 0
+    #     enemy.y = scale(128) if enemy.y > scale(128) else enemy.y
+    # elif enemy.x >= scale(416) and enemy.y < scale(352):
+    #     enemy.face(DOWN)
+    #     enemy.x_weight, enemy.y_weight = 0, 1
+    #     enemy.x = scale(416) if enemy.x > scale(416) else enemy.x
+    # elif enemy.x > scale(224) and enemy.y >= scale(352):
+    #     enemy.face(LEFT)
+    #     enemy.x_weight, enemy.y_weight = -1, 0
+    #     enemy.y = scale(352) if enemy.y >= scale(352) else enemy.y
+    # else:
+    #     enemy.face(DOWN)
+    #     enemy.x_weight, enemy.y_weight = 0, 1
+    #     enemy.x = scale(224) if enemy.x < scale(224) else enemy.x
 
 
 def main():
@@ -275,14 +331,14 @@ def main():
     projectiles = []
 
     # current_tower used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
-    current_tower = TOWER1_SPRITE 
+    current_tower = TOWER1_SPRITE
 
     upgrade_me = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
-    start_round = False # Changed to True when start button clicked
+    start_round = False  # Changed to True when start button clicked
     while run:
         ticks = clock.tick(FPS)
         # TODO: limit possible event types
@@ -321,7 +377,7 @@ def main():
                                 upgrade_me.basic_upgrade(5, 5)
                                 upgrade_me = None
 
-                 # Checks if start button was clicked
+                # Checks if start button was clicked
                 if mouse_y >= TILE_SIZE * 15 and mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
                     if mouse_x >= TILE_SIZE * 20.5 and mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         print("START BT CLICKED")
@@ -340,7 +396,6 @@ def main():
                         current_tower = TOWER4_SPRITE
                     elif num == 8:
                         current_tower = TOWER5_SPRITE
-
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
