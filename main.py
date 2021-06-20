@@ -21,10 +21,10 @@ print(height)
 NUM_TILES_X, NUM_TILES_Y = 25, 25
 
 if height - 60 < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each other.
-    ratio = ((height - 60) / 32) / NUM_TILES_Y  # -60 is for the window bar
+    ratio = floor(((height - 60) / 32) / NUM_TILES_Y)  # -60 is for the window bar
     set_ratio(ratio)
 else:
-    ratio = (width / 32) / NUM_TILES_X
+    ratio = floor((width / 32) / NUM_TILES_X)
     set_ratio(ratio)
 
 # Default tile size
@@ -135,9 +135,9 @@ MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
 
-
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 lives = 25
+
 
 # Only finds starting x cord, fine for now
 # y is set to 0
@@ -149,6 +149,22 @@ def to_start():
             temp_count += 1
         else:
             return scale(temp_count * 32), y
+
+
+def clear(enemies, projectiles, ticks):
+    delete_enemies = []
+    delete_projectiles = []
+    for projectile in projectiles:
+        delete_projectiles.append(projectile)
+    for projectile in delete_projectiles:
+        projectiles.remove(projectile)
+        delete_projectiles.remove(projectile)
+    for enemy in enemies:
+        delete_enemies.append(enemy)
+    for enemy in delete_enemies:
+        enemies.remove(enemy)
+        delete_enemies.remove(enemy)
+        Enemy.enemy_count -= 1
 
 
 def update(enemies, towers, rounds, projectiles, ticks):
@@ -281,7 +297,11 @@ def enemy_pathfinding(enemy):
     # print("Enemy y coord:", enemy.y)
     # print("Y:", enemy_tile_y)
     # print("Map tile:", MAP[enemy_tile_y][enemy_tile_x])
-    if enemy_tile_y >= 25 or enemy_tile_x >= 25:
+    if enemy_tile_y < 0:
+        enemy.face(DOWN)
+        # print("down")
+        enemy.x_weight, enemy.y_weight = 0, 1
+    elif enemy_tile_y >= 25 or enemy_tile_x >= 25:
         # delete_enemies.append(enemy)
         global lives
         lives = lives - 1
@@ -399,14 +419,15 @@ def main():
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
+        if Enemy.enemy_count == 0 and not start_round:
+            clear(enemies, projectiles, ticks)
+        if Enemy.enemy_count != 0:
+            # update logic
+            update(enemies, towers, rounds, projectiles, ticks)
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()
             start_round = False
-
-        # update logic
-        update(enemies, towers, rounds, projectiles, ticks)
-
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, upgrade_me)
 
