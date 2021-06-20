@@ -1,13 +1,12 @@
 from math import floor
+import pygame
+import os
 
-from pygame import sprite
 from enemy import Enemy
 from tower import Tower
 from player import Player
 from round import Rounds
 from helper_functions import scale, set_ratio
-import pygame
-import os
 
 pygame.display.init()
 display_info = pygame.display.Info()
@@ -21,10 +20,10 @@ print(height)
 NUM_TILES_X, NUM_TILES_Y = 25, 25
 
 if height - 60 < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each other.
-    ratio = floor(((height - 60) / 32) / NUM_TILES_Y)  # -60 is for the window bar
+    ratio = ((height - 60) / 32) / NUM_TILES_Y  # -60 is for the window bar
     set_ratio(ratio)
 else:
-    ratio = floor((width / 32) / NUM_TILES_X)
+    ratio = (width / 32) / NUM_TILES_X
     set_ratio(ratio)
 
 # Default tile size
@@ -135,6 +134,7 @@ MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
 
+
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 lives = 25
 
@@ -180,22 +180,23 @@ def update(enemies, towers, rounds, projectiles, ticks):
             tower.ticks -= tower.attack_speed
 
     #  TODO: account for turret range, also what if enemy dies before shot hits
+    #   might want to optimize later on
     for projectile in projectiles:
+        has_not_hit = True
         if len(enemies) != 0:
             x, y = enemies[0].cords()
             projectile.motion(x, y)
+            #  TODO: make sure only one enemy is getting hit, and delete_projectile is only being appended once
             for enemy in enemies:
-                if projectile.rect.colliderect(enemy.rect):
+                if projectile.rect.colliderect(enemy.rect) and has_not_hit:
                     enemy.health -= projectile.damage
                     delete_projectiles.append(projectile)
-            # TODO: add to remove_projectile when done
+                    has_not_hit = False
 
     for projectile in delete_projectiles:
         projectiles.remove(projectile)
-        delete_projectiles.remove(projectile)
 
     for enemy in enemies:
-        enemy.check_health()
         enemy_pathfinding(enemy)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
@@ -209,7 +210,6 @@ def update(enemies, towers, rounds, projectiles, ticks):
 
     for enemy in delete_enemies:
         enemies.remove(enemy)
-        delete_enemies.remove(enemy)
         Enemy.enemy_count -= 1
 
 
@@ -292,7 +292,6 @@ def enemy_pathfinding(enemy):
         enemy_tile_x = int(floor((enemy.x + (TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
     else:
         enemy_tile_x = int(floor((enemy.x) / WIDTH * NUM_TILES_X))
-    # print("X:", enemy_tile_x)
     enemy_tile_y = -int(floor((-enemy.y + TILE_SIZE - 2) / HEIGHT * NUM_TILES_Y))
     # print("Enemy y coord:", enemy.y)
     # print("Y:", enemy_tile_y)
@@ -302,6 +301,7 @@ def enemy_pathfinding(enemy):
         # print("down")
         enemy.x_weight, enemy.y_weight = 0, 1
     elif enemy_tile_y >= 25 or enemy_tile_x >= 25:
+    if enemy_tile_y >= 25 or enemy_tile_x >= 25:
         # delete_enemies.append(enemy)
         global lives
         lives = lives - 1
@@ -309,33 +309,12 @@ def enemy_pathfinding(enemy):
     elif MAP[enemy_tile_y][enemy_tile_x] == 9:
         enemy.face(LEFT)
         enemy.x_weight, enemy.y_weight = -1, 0
-        # print("left")
     elif MAP[enemy_tile_y][enemy_tile_x] == 10:
         enemy.face(RIGHT)
         enemy.x_weight, enemy.y_weight = 1, 0
-        # print("right")
     elif MAP[enemy_tile_y][enemy_tile_x] == 11:
         enemy.face(DOWN)
-        # print("down")
         enemy.x_weight, enemy.y_weight = 0, 1
-    # if enemy.x == scale(96) and enemy.y < scale(128):
-    #     enemy.x_weight, enemy.y_weight = 0, 1
-    # elif enemy.x < scale(416) and scale(128) <= enemy.y < scale(350):
-    #     enemy.face(RIGHT)
-    #     enemy.x_weight, enemy.y_weight = 1, 0
-    #     enemy.y = scale(128) if enemy.y > scale(128) else enemy.y
-    # elif enemy.x >= scale(416) and enemy.y < scale(352):
-    #     enemy.face(DOWN)
-    #     enemy.x_weight, enemy.y_weight = 0, 1
-    #     enemy.x = scale(416) if enemy.x > scale(416) else enemy.x
-    # elif enemy.x > scale(224) and enemy.y >= scale(352):
-    #     enemy.face(LEFT)
-    #     enemy.x_weight, enemy.y_weight = -1, 0
-    #     enemy.y = scale(352) if enemy.y >= scale(352) else enemy.y
-    # else:
-    #     enemy.face(DOWN)
-    #     enemy.x_weight, enemy.y_weight = 0, 1
-    #     enemy.x = scale(224) if enemy.x < scale(224) else enemy.x
 
 
 def main():
@@ -375,7 +354,7 @@ def main():
                     fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
 
                     towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, current_tower, "Fireball",
-                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks))
+                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3))
                     tower_count += 1
 
                 # Checks if click was over a tower and then proceeds with upgrading tower
@@ -387,15 +366,16 @@ def main():
                         if tower.cords() == (temp_x, temp_y):
                             # TODO Display an upgrade button with details of the cost of the upgrade
                             upgrade_me = tower
-                            # tower.basic_upgrade(5, 5)
+                            # tower.basic_upgrade(5, 5, 1)
 
                 # Checks if upgrade button was clicked
                 if mouse_y >= TILE_SIZE * 17 and mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
                     if mouse_x >= TILE_SIZE * 20.5 and mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         if upgrade_me != None:
                             if upgrade_me.level_up():
-                                upgrade_me.basic_upgrade(5, 5)
-                                upgrade_me = None
+                                upgrade_me.basic_upgrade(5, 5, 1)
+                                # don't have to reset upgrade_me after upgrade
+                                # upgrade_me = None
 
                 # Checks if start button was clicked
                 if mouse_y >= TILE_SIZE * 15 and mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
