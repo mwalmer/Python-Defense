@@ -20,10 +20,10 @@ print(height)
 NUM_TILES_X, NUM_TILES_Y = 25, 25
 
 if height - 60 < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each other.
-    ratio = ((height - 60) / 32) / NUM_TILES_Y  # -60 is for the window bar
+    ratio = floor(((height - 60) / 32) / NUM_TILES_Y)  # -60 is for the window bar
     set_ratio(ratio)
 else:
-    ratio = (width / 32) / NUM_TILES_X
+    ratio = floor((width / 32) / NUM_TILES_X)
     set_ratio(ratio)
 
 # Default tile size
@@ -301,7 +301,6 @@ def enemy_pathfinding(enemy):
         # print("down")
         enemy.x_weight, enemy.y_weight = 0, 1
     elif enemy_tile_y >= 25 or enemy_tile_x >= 25:
-    if enemy_tile_y >= 25 or enemy_tile_x >= 25:
         # delete_enemies.append(enemy)
         global lives
         lives = lives - 1
