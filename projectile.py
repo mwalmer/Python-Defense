@@ -12,6 +12,7 @@ class Projectile:
         self.y = rect.y
         self._sprite = sprite
         self.sprite = sprite
+        self.remove = False
 
     def cords(self):
         return self.x, self.y
@@ -33,3 +34,6 @@ class Projectile:
         self.y = new_y
         self.rect.x = self.x
         self.rect.y = self.y
+
+    def flag_removal(self):
+        self.remove = True

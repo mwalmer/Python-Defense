@@ -151,26 +151,13 @@ def to_start():
             return scale(temp_count * 32), y
 
 
-def clear(enemies, projectiles, ticks):
-    delete_enemies = []
-    delete_projectiles = []
-    for projectile in projectiles:
-        delete_projectiles.append(projectile)
-    for projectile in delete_projectiles:
-        projectiles.remove(projectile)
-        delete_projectiles.remove(projectile)
-    for enemy in enemies:
-        delete_enemies.append(enemy)
-    for enemy in delete_enemies:
-        enemies.remove(enemy)
-        delete_enemies.remove(enemy)
-        Enemy.enemy_count -= 1
+def clear(enemies, projectiles):
+    enemies[:] = []
+    projectiles[:] = []
 
 
 def update(enemies, towers, rounds, projectiles, ticks):
     pixel_per_frame = scale(1)
-    delete_enemies = []
-    delete_projectiles = []
 
     for tower in towers:
         #  checks the towers attack speed before firing
@@ -186,15 +173,15 @@ def update(enemies, towers, rounds, projectiles, ticks):
         if len(enemies) != 0:
             x, y = enemies[0].cords()
             projectile.motion(x, y)
-            #  TODO: make sure only one enemy is getting hit, and delete_projectile is only being appended once
+            #  TODO: make sure only one enemy is getting hit
             for enemy in enemies:
                 if projectile.rect.colliderect(enemy.rect) and has_not_hit:
                     enemy.health -= projectile.damage
-                    delete_projectiles.append(projectile)
+                    projectile.flag_removal()
                     has_not_hit = False
 
-    for projectile in delete_projectiles:
-        projectiles.remove(projectile)
+    # sets list equal to remaining projectiles
+    projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
 
     for enemy in enemies:
         enemy_pathfinding(enemy)
@@ -203,14 +190,13 @@ def update(enemies, towers, rounds, projectiles, ticks):
         enemy.rect.x = enemy.x
         enemy.rect.y = enemy.y
 
-        if enemy.check_health():  # This seems super resource intensive, can't we just call remove immediately?
-            delete_enemies.append(enemy)
+        if enemy.check_health():
+            enemy.flag_removal()
         elif enemy.y > HEIGHT:
-            delete_enemies.append(enemy)
+            enemy.flag_removal()
 
-    for enemy in delete_enemies:
-        enemies.remove(enemy)
-        Enemy.enemy_count -= 1
+    # sets list equal to remaining enemies
+    enemies[:] = [enemy for enemy in enemies if not enemy.remove]
 
 
 def draw_window(enemies, towers, projectiles, hilite):
@@ -399,7 +385,7 @@ def main():
         # TODO: might want to move to update
         # handles level ending and spawning new wave
         if Enemy.enemy_count == 0 and not start_round:
-            clear(enemies, projectiles, ticks)
+            clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
             # update logic
             update(enemies, towers, rounds, projectiles, ticks)

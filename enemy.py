@@ -16,6 +16,7 @@ class Enemy:
         self._sprite = sprite
         self.sprite = sprite
         Enemy.enemy_count += 1
+        self.remove = False
 
     def face(self, deg):
         self.sprite = pygame.transform.rotate(self._sprite, deg)
@@ -26,3 +27,7 @@ class Enemy:
     def check_health(self):
         if self.health <= 0:
             return True
+
+    def flag_removal(self):
+        self.remove = True
+        Enemy.enemy_count -= 1
