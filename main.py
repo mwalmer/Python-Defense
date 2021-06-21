@@ -10,8 +10,8 @@ from helper_functions import scale, set_ratio
 
 pygame.display.init()
 display_info = pygame.display.Info()
-width = 1920  # display_info.current_w
-height = 1080  # display_info.current_h
+width = display_info.current_w
+height = display_info.current_h
 print(height)
 
 # Scaling pixels to fixed ratio
@@ -19,9 +19,9 @@ print(height)
 
 NUM_TILES_X, NUM_TILES_Y = 25, 25
 
-if height - (1080-850) < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each
+if height - (24*2) < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each
     # other.
-    ratio = ((height - (1080-850)) / 32) / NUM_TILES_Y  # -60 is for the window bar
+    ratio = ((height - (24*2)) / 32) / NUM_TILES_Y  # -60 is for the window bar
     set_ratio(ratio)
 else:
     ratio = (width / 32) / NUM_TILES_X
