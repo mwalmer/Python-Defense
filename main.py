@@ -8,6 +8,8 @@ from player import Player
 from round import Rounds
 from helper_functions import scale, set_ratio
 
+#  nt is the os.name for windows
+
 pygame.display.init()
 display_info = pygame.display.Info()
 width = display_info.current_w
@@ -17,14 +19,15 @@ print(height)
 # Scaling pixels to fixed ratio
 # adjust this to change window size
 
-NUM_TILES_X, NUM_TILES_Y = 25, 25
+NUM_TILES_X, NUM_TILES_Y = 25, 20
 
-if height - (24*2) < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each
-    # other.
-    ratio = ((height - (24*2)) / 32) / NUM_TILES_Y  # -60 is for the window bar
+if os.name != 'nt':
+    ratio = 1
+elif height > width:
+    ratio = 1.5 if height <= 1920 else 2
     set_ratio(ratio)
 else:
-    ratio = (width / 32) / NUM_TILES_X
+    ratio = 1.5 if width <= 1920 else 2
     set_ratio(ratio)
 
 # Default tile size
@@ -47,7 +50,7 @@ UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 # Sizes
 TOWER_SIZE = TILE_SIZE
-ENEMY_SIZE = scale(24)
+ENEMY_SIZE = TILE_SIZE
 FIRE_PROJECTILE_SIZE = scale(16)
 
 # Load image
@@ -61,7 +64,7 @@ TOWER2_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower2.png')
 TOWER3_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower3.png')).convert_alpha()
 TOWER4_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower4.png')).convert_alpha()
 TOWER5_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower5.png')).convert_alpha()
-ENEMY1_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'img.png')).convert_alpha()
+ENEMY1_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy1.png')).convert_alpha()
 ENEMY2_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy2.png')).convert_alpha()
 ENEMY3_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy3.png')).convert_alpha()
 FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png')).convert()
@@ -124,11 +127,6 @@ MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 11, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
@@ -286,7 +284,7 @@ def enemy_pathfinding(enemy):
         enemy.face(DOWN)
         # print("down")
         enemy.x_weight, enemy.y_weight = 0, 1
-    elif enemy_tile_y >= 25 or enemy_tile_x >= 25:
+    elif enemy_tile_y >= 20 or enemy_tile_x >= 25:
         # delete_enemies.append(enemy)
         global lives
         lives = lives - 1
