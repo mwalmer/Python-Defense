@@ -47,7 +47,7 @@ UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 # Sizes
 TOWER_SIZE = TILE_SIZE
-ENEMY_SIZE = TILE_SIZE
+ENEMY_SIZE = scale(24)
 FIRE_PROJECTILE_SIZE = scale(16)
 
 # Load image
@@ -61,7 +61,7 @@ TOWER2_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower2.png')
 TOWER3_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower3.png')).convert_alpha()
 TOWER4_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower4.png')).convert_alpha()
 TOWER5_SPRITE = pygame.image.load(os.path.join('assets', 'towers', 'tower5.png')).convert_alpha()
-ENEMY1_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy1.png')).convert_alpha()
+ENEMY1_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'img.png')).convert_alpha()
 ENEMY2_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy2.png')).convert_alpha()
 ENEMY3_SPRITE = pygame.image.load(os.path.join('assets', 'enemies', 'enemy3.png')).convert_alpha()
 FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('assets', 'projectiles', 'fireball.png')).convert()
