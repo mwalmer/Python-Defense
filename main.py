@@ -10,8 +10,8 @@ from helper_functions import scale, set_ratio
 
 pygame.display.init()
 display_info = pygame.display.Info()
-width = display_info.current_w
-height = display_info.current_h
+width = 1920  # display_info.current_w
+height = 1080  # display_info.current_h
 print(height)
 
 # Scaling pixels to fixed ratio
@@ -19,11 +19,12 @@ print(height)
 
 NUM_TILES_X, NUM_TILES_Y = 25, 25
 
-if height - 60 < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each other.
-    ratio = floor(((height - 60) / 32) / NUM_TILES_Y)  # -60 is for the window bar
+if height - (1080-850) < width:  # This map needs to be square or the height and width need to be compared to /25 /20 of each
+    # other.
+    ratio = ((height - (1080-850)) / 32) / NUM_TILES_Y  # -60 is for the window bar
     set_ratio(ratio)
 else:
-    ratio = floor((width / 32) / NUM_TILES_X)
+    ratio = (width / 32) / NUM_TILES_X
     set_ratio(ratio)
 
 # Default tile size
@@ -133,7 +134,6 @@ MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
-
 
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 lives = 25
