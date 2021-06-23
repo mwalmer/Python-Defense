@@ -27,6 +27,12 @@ class Tower:
     def cords(self):
         return self.x, self.y
 
+    def any_within_range(self, enemies):
+        for enemy in enemies:
+            if self.within_range(enemy.x, enemy.y):
+                return True
+        return False
+
     def within_range(self, enemy_x, enemy_y):
         if math.sqrt((enemy_x - self.x) ** 2 + (enemy_y - self.y) ** 2) <= self.range:
             return True

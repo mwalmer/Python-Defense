@@ -7,7 +7,6 @@ class Projectile:
         self.name = name
         self.damage = damage
         self.projectile_speed = projectile_speed
-        self.range = range
         self.rect = rect
         self.x = rect.x
         self.y = rect.y

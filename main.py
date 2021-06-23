@@ -166,8 +166,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
     for tower in towers:
         #  checks the towers attack speed before firing
         tower.ticks += ticks
-        enemy_x, enemy_y = enemies[0].cords()
-        if tower.ticks >= tower.attack_speed and tower.within_range(enemy_x, enemy_y):
+        if tower.ticks >= tower.attack_speed and tower.any_within_range(enemies):
             projectiles.append(tower.fire_projectile())
             tower.ticks -= tower.attack_speed
 
@@ -369,7 +368,7 @@ def main():
                 # Checks if upgrade button was clicked
                 if TILE_SIZE * 17 <= mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
                     if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
-                        if upgrade_me != None:
+                        if upgrade_me is not None:
                             if upgrade_me.level_up():
                                 upgrade_me.basic_upgrade(5, 5, 1, 50)
                                 # don't have to reset upgrade_me after upgrade
