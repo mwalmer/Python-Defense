@@ -6,7 +6,7 @@ from enemy import Enemy
 from tower import Tower
 from player import Player
 from round import Rounds
-from helper_functions import scale, set_ratio
+from helper_functions import scale, set_ratio, round_ratio
 
 #  nt is the os.name for windows
 
@@ -18,23 +18,32 @@ print(height)
 
 # Scaling pixels to fixed ratio
 # adjust this to change window size
-
+global lives_string
+lives_string = "Lives: 100"
+global money_string
+money_string = "Money: 150"
 NUM_TILES_X, NUM_TILES_Y = 25, 20
 
 # test colors/cords for text
 pygame.init()
 # screen = pygame.display.set_mode((400, 400))
-font = pygame.font.SysFont('arial', 32)
-text = font.render("test", True, (0, 0, 0))
 
-if os.name != 'nt':
-    ratio = 1
-elif height > width:
-    ratio = 1.5 if height <= 1920 else 2
-    set_ratio(ratio)
-else:
-    ratio = 1.5 if width <= 1920 else 2
-    set_ratio(ratio)
+
+# We need to fit NUM_TILES_Y on screen, height will be the default limit.
+MAX_HEIGHT = display_info.current_h - 70  # room for window header
+MAX_PIXELS_PER_TILE = MAX_HEIGHT / NUM_TILES_Y
+RATIO_TO_BE_ROUNDED = MAX_PIXELS_PER_TILE / 32  # ratio * 32 = scaled, so scaled / 32 = ratio
+ratio = round_ratio(RATIO_TO_BE_ROUNDED)
+set_ratio(ratio)
+
+# if os.name != 'nt':
+#     ratio = 1
+# elif height > width:
+#     ratio = 1.5 if height <= 1920 else 2
+#     set_ratio(ratio)
+# else:
+#     ratio = 1.5 if width <= 1920 else 2
+#     set_ratio(ratio)
 
 # Default tile size
 TILE_SIZE = scale(32)
@@ -203,9 +212,13 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
         if enemy.check_health():
             player.add_money()
             print('Money ' + str(player.get_money()))
+            global money_string
+            money_string = "Money: " + str(player.get_money())
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
             player.take_damage()
+            global lives_string
+            lives_string = "Lives: " + str(player.get_health())
             print('health ' + str(player.get_health()))
             enemy.flag_removal()
 
@@ -215,8 +228,6 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
 
 def draw_window(enemies, towers, projectiles, hilite):
     # draws map
-    # Text not working
-    WIN.blit(text, (1200, 960))
     for x, row in enumerate(MAP):
         tile = GRASS_TILE
         for y, cord in enumerate(row):
@@ -275,38 +286,32 @@ def draw_window(enemies, towers, projectiles, hilite):
         WIN.blit(projectile.sprite, projectile.cords())
 
     # Draw Menu Buttons
-    WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))  # What the heck? User proper scale function y'all
+    WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
     WIN.blit(START_SPRITE, (20.5 * TILE_SIZE, 15 * TILE_SIZE))
-
+    BLACK = (0, 0, 0)
+    font = pygame.font.SysFont('Arial', int(TILE_SIZE/2))
+    global lives_string
+    global money_string
+    text1 = font.render(lives_string, True, BLACK)
+    text2 = font.render(money_string, True, BLACK)
+    WIN.blit(text1, (21*TILE_SIZE, 1*TILE_SIZE))
+    WIN.blit(text2, (21*TILE_SIZE, 2*TILE_SIZE))
     pygame.display.update()
 
 
 def enemy_pathfinding(enemy):
-    # TODO: make dynamic pathfinding
-    # Get what tile the enemy is in
-    # Compare tile number
-    # Rotate appropriately
-    # Enemy tile number can be found by checking x vs screen width
-    # Add 1/2 tile width for center, do later?
-    # Screen is 825 wide, x coord is 100. Thus we should have 100/825 * num tiles then floored to find tile x
-    # print("Enemy x coord:", enemy.x)
     if enemy.x_weight == -1:
         enemy_tile_x = int(floor((enemy.x + (TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
     else:
         enemy_tile_x = int(floor(enemy.x / WIDTH * NUM_TILES_X))
     enemy_tile_y = -int(floor((-enemy.y + TILE_SIZE - 2) / HEIGHT * NUM_TILES_Y))
-    # print("Enemy y coord:", enemy.y)
-    # print("Y:", enemy_tile_y)
-    # print("Map tile:", MAP[enemy_tile_y][enemy_tile_x])
     if enemy_tile_y < 0:
         enemy.face(DOWN)
-        # print("down")
         enemy.x_weight, enemy.y_weight = 0, 1
     elif enemy_tile_y >= 20 or enemy_tile_x >= 25:
-        # delete_enemies.append(enemy)
         global lives
-        lives = lives - 1
-        #  insert remove enemy logic and live loss here
+        lives = lives - 1  # Duplicate code? This may have been rewritten in update
+        # if removed, update conditions to keep from out-of-bounds error
     elif MAP[enemy_tile_y][enemy_tile_x] == 9:
         enemy.face(LEFT)
         enemy.x_weight, enemy.y_weight = -1, 0
@@ -332,7 +337,7 @@ def main():
     projectiles = []
 
     # current_tower used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
-    current_tower = TOWER1_SPRITE
+    current_tower = TOWER1_SPRITE  # Maybe add a highlight to the menu for this?
 
     upgrade_me = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
@@ -349,16 +354,20 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 #  TODO: reformat
+                player_money = main_player.get_money()
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 0:
-                    MAP[mouse_y // scale(32)][mouse_x // scale(32)] = 3
-                    temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
-                    tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
-                    fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
+                    if player_money >= 15:
+                        MAP[mouse_y // scale(32)][mouse_x // scale(32)] = 3
+                        temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
+                        tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
+                        fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
 
-                    towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
-                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, ))
-                    tower_count += 1
-
+                        towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
+                                            fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, ))
+                        tower_count += 1
+                        main_player.money = player_money - 15
+                        global money_string
+                        money_string = "Money: " + str(main_player.money)
                 # Checks if click was over a tower and then proceeds with upgrading tower
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
@@ -375,9 +384,13 @@ def main():
                     if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         if upgrade_me is not None:
                             if upgrade_me.level_up():
-                                upgrade_me.basic_upgrade(5, 5, 1, 50)
-                                # don't have to reset upgrade_me after upgrade
-                                # upgrade_me = None
+                                if player_money >= 15:
+                                    upgrade_me.basic_upgrade(5, 5, 1, 50)
+                                    main_player.money = player_money - 15
+
+                                    money_string = "Money: " + str(main_player.money)
+                                    # don't have to reset upgrade_me after upgrade
+                                    # upgrade_me = None
 
                 # Checks if start button was clicked
                 if TILE_SIZE * 15 <= mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
