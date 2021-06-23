@@ -1,12 +1,15 @@
 from projectile import Projectile
 import copy
+import math
 
 
 class Tower:
-    def __init__(self, name, damage, attack_speed, rect, sprite, projectile_name, projectile_rect, projectile_sprite, ticks, projectile_speed):
+    def __init__(self, name, damage, attack_speed, range, rect, sprite, projectile_name, projectile_rect,
+                 projectile_sprite, ticks, projectile_speed):
         self.name = name
         self.damage = damage
         self.attack_speed = 1000 / attack_speed
+        self.range = range
         self.rect = rect
         self.x = rect.x
         self.y = rect.y
@@ -24,12 +27,18 @@ class Tower:
     def cords(self):
         return self.x, self.y
 
+    def within_range(self, enemy_x, enemy_y):
+        if math.sqrt((enemy_x - self.x) ** 2 + (enemy_y - self.y) ** 2) <= self.range:
+            return True
+        return False
+
     # basic upgrade function for towers
     def basic_upgrade(self, damage, attack_speed, projectile_speed):
         self.damage += damage
         self.attack_speed -= 1000 / (attack_speed * 2)
         self.projectile_speed += projectile_speed
-        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, self.projectile.rect, self.projectile.sprite)
+        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, self.projectile.rect,
+                                     self.projectile.sprite)
         if self.level < 5:
             self.level = self.level + 1
 

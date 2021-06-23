@@ -21,13 +21,11 @@ print(height)
 
 NUM_TILES_X, NUM_TILES_Y = 25, 20
 
-#test colors/cords for text
+# test colors/cords for text
 pygame.init()
-#screen = pygame.display.set_mode((400, 400))
+# screen = pygame.display.set_mode((400, 400))
 font = pygame.font.SysFont('arial', 32)
-text = font.render("test", True, (0,0,0))
-
-
+text = font.render("test", True, (0, 0, 0))
 
 if os.name != 'nt':
     ratio = 1
@@ -168,7 +166,8 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
     for tower in towers:
         #  checks the towers attack speed before firing
         tower.ticks += ticks
-        if tower.ticks >= tower.attack_speed:
+        enemy_x, enemy_y = enemies[0].cords()
+        if tower.ticks >= tower.attack_speed and tower.within_range(enemy_x, enemy_y):
             projectiles.append(tower.fire_projectile())
             tower.ticks -= tower.attack_speed
 
@@ -178,6 +177,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
         has_not_hit = True
         if len(enemies) != 0:
             x, y = enemies[0].cords()
+
             projectile.motion(x, y)
             #  TODO: make sure only one enemy is getting hit
             for enemy in enemies:
@@ -211,8 +211,8 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
 
 def draw_window(enemies, towers, projectiles, hilite):
     # draws map
-    #Text not working
-    WIN.blit(text,(1200,960))
+    # Text not working
+    WIN.blit(text, (1200, 960))
     for x, row in enumerate(MAP):
         tile = GRASS_TILE
         for y, cord in enumerate(row):
@@ -289,7 +289,7 @@ def enemy_pathfinding(enemy):
     if enemy.x_weight == -1:
         enemy_tile_x = int(floor((enemy.x + (TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
     else:
-        enemy_tile_x = int(floor((enemy.x) / WIDTH * NUM_TILES_X))
+        enemy_tile_x = int(floor(enemy.x / WIDTH * NUM_TILES_X))
     enemy_tile_y = -int(floor((-enemy.y + TILE_SIZE - 2) / HEIGHT * NUM_TILES_Y))
     # print("Enemy y coord:", enemy.y)
     # print("Y:", enemy_tile_y)
@@ -318,7 +318,7 @@ def main():
     # TODO: enemy path finding
     player_health = 100
     player_money = 150
-    MainPlayer = Player(player_health,player_money)
+    MainPlayer = Player(player_health, player_money)
 
     count = 1
     rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
@@ -351,7 +351,7 @@ def main():
                     tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                     fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
 
-                    towers.append(Tower(f'tower_{tower_count}', 10, 3, tower_rect, current_tower, "Fireball",
+                    towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
                                         fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3))
                     tower_count += 1
 
@@ -376,8 +376,8 @@ def main():
                                 # upgrade_me = None
 
                 # Checks if start button was clicked
-                if mouse_y >= TILE_SIZE * 15 and mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
-                    if mouse_x >= TILE_SIZE * 20.5 and mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
+                if TILE_SIZE * 15 <= mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
+                    if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         print("START BT CLICKED")
                         start_round = True
 
@@ -401,14 +401,13 @@ def main():
             clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
             # update logic
-            update(enemies, towers, rounds, projectiles, ticks,MainPlayer)
+            update(enemies, towers, rounds, projectiles, ticks, MainPlayer)
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()
             start_round = False
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, upgrade_me)
-
 
     pygame.quit()
 
