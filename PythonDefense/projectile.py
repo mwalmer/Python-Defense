@@ -1,4 +1,4 @@
-from helper_functions import scale
+from PythonDefense.helper_functions import scale
 import math
 
 

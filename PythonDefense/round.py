@@ -1,6 +1,6 @@
 import pygame
-from helper_functions import scale
-from enemy import Enemy
+from PythonDefense.helper_functions import scale
+from PythonDefense.enemy import Enemy
 
 # Directions
 UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270

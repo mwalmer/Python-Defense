@@ -1,4 +1,4 @@
-from projectile import Projectile
+from PythonDefense.projectile import Projectile
 import copy
 import math
 
