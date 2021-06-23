@@ -21,17 +21,18 @@ class Tower:
         self.projectile_speed = projectile_speed
 
     # returns a new copy of its projectile, if it didn't the tower could only shoot once
-    def fire_projectile(self):
+    def fire_projectile(self, closest):
+        self.projectile.closest = closest
         return copy.copy(self.projectile)
 
     def cords(self):
         return self.x, self.y
 
     def any_within_range(self, enemies):
-        for enemy in enemies:
-            if self.within_range(enemy.x, enemy.y):
-                return True
-        return False
+        for i in range(len(enemies)):
+            if self.within_range(enemies[i].x, enemies[i].y):
+                return i
+        return -1
 
     def within_range(self, enemy_x, enemy_y):
         if math.sqrt((enemy_x - self.x) ** 2 + (enemy_y - self.y) ** 2) <= self.range:

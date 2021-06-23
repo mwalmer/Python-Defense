@@ -166,24 +166,29 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
     for tower in towers:
         #  checks the towers attack speed before firing
         tower.ticks += ticks
-        if tower.ticks >= tower.attack_speed and tower.any_within_range(enemies):
-            projectiles.append(tower.fire_projectile())
+
+        # If you change name closest_enemy_index then you need to update it later in fire_projectile stat declaration
+        closest_enemy_index = tower.any_within_range(enemies)
+        if tower.ticks >= tower.attack_speed and closest_enemy_index != -1:
+            projectiles.append(tower.fire_projectile(closest_enemy_index))
             tower.ticks -= tower.attack_speed
 
-    #  TODO: account for turret range, also what if enemy dies before shot hits
     #   might want to optimize later on
     for projectile in projectiles:
         has_not_hit = True
         if len(enemies) != 0:
-            x, y = enemies[0].cords()
+            if len(enemies) > projectile.closest:
+                x, y = enemies[projectile.closest].cords()
 
-            projectile.motion(x, y)
-            #  TODO: make sure only one enemy is getting hit
-            for enemy in enemies:
-                if projectile.rect.colliderect(enemy.rect) and has_not_hit:
-                    enemy.health -= projectile.damage
-                    projectile.flag_removal()
-                    has_not_hit = False
+                projectile.motion(x, y)
+                #  TODO: make sure only one enemy is getting hit
+                for enemy in enemies:
+                    if projectile.rect.colliderect(enemy.rect) and has_not_hit:
+                        enemy.health -= projectile.damage
+                        projectile.flag_removal()
+                        has_not_hit = False
+            else:
+                projectile.flag_removal()
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
@@ -351,7 +356,7 @@ def main():
                     fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
 
                     towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
-                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3))
+                                        fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, ))
                     tower_count += 1
 
                 # Checks if click was over a tower and then proceeds with upgrading tower

@@ -13,6 +13,7 @@ class Projectile:
         self._sprite = sprite
         self.sprite = sprite
         self.remove = False
+        self.closest = -1
 
     def cords(self):
         return self.x, self.y
