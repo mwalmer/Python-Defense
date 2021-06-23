@@ -8,3 +8,9 @@ class Player:
 
     def getMoney(self):
         return self.money
+
+    def takeDamage(self):
+        self.health = self.health - 1
+
+    def getHealth(self):
+        return self.health

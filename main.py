@@ -198,9 +198,11 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
 
         if enemy.check_health():
             player.AddMoney()
-            print(player.getMoney())
+            print('Money ' + str(player.getMoney()))
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
+            player.takeDamage()
+            print('health ' + str(player.getHealth()))
             enemy.flag_removal()
 
     # sets list equal to remaining enemies
