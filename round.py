@@ -8,7 +8,8 @@ UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 class Rounds:
     # TODO: remove enemy_size and enemy_sprite, class round shouldn't need to know about the enemies
-    def __init__(self, start_cords, enemy_size, enemy_sprite, round=1):
+    # changed round initialization to 0 so 1st level doesn't start until button is pressed
+    def __init__(self, start_cords, enemy_size, enemy_sprite, round=0):
         self.enemy_size = enemy_size
         self.enemy_sprite = enemy_sprite
         self.x, self.y = start_cords
