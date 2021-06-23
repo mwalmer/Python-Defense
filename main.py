@@ -21,6 +21,14 @@ print(height)
 
 NUM_TILES_X, NUM_TILES_Y = 25, 20
 
+#test colors/cords for text
+pygame.init()
+#screen = pygame.display.set_mode((400, 400))
+font = pygame.font.SysFont('arial', 32)
+text = font.render("test", True, (0,0,0))
+
+
+
 if os.name != 'nt':
     ratio = 1
 elif height > width:
@@ -154,7 +162,7 @@ def clear(enemies, projectiles):
     projectiles[:] = []
 
 
-def update(enemies, towers, rounds, projectiles, ticks):
+def update(enemies, towers, rounds, projectiles, ticks, player):
     pixel_per_frame = scale(1)
 
     for tower in towers:
@@ -189,6 +197,8 @@ def update(enemies, towers, rounds, projectiles, ticks):
         enemy.rect.y = enemy.y
 
         if enemy.check_health():
+            player.AddMoney()
+            print(player.getMoney())
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
             enemy.flag_removal()
@@ -199,6 +209,8 @@ def update(enemies, towers, rounds, projectiles, ticks):
 
 def draw_window(enemies, towers, projectiles, hilite):
     # draws map
+    #Text not working
+    WIN.blit(text,(1200,960))
     for x, row in enumerate(MAP):
         tile = GRASS_TILE
         for y, cord in enumerate(row):
@@ -303,7 +315,8 @@ def enemy_pathfinding(enemy):
 def main():
     # TODO: enemy path finding
     player_health = 100
-    player = Player(player_health)
+    player_money = 150
+    MainPlayer = Player(player_health,player_money)
 
     count = 1
     rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
@@ -386,13 +399,14 @@ def main():
             clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
             # update logic
-            update(enemies, towers, rounds, projectiles, ticks)
+            update(enemies, towers, rounds, projectiles, ticks,MainPlayer)
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()
             start_round = False
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, upgrade_me)
+
 
     pygame.quit()
 
