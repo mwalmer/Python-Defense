@@ -197,12 +197,12 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
         enemy.rect.y = enemy.y
 
         if enemy.check_health():
-            player.AddMoney()
-            print('Money ' + str(player.getMoney()))
+            player.add_money()
+            print('Money ' + str(player.get_money()))
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
-            player.takeDamage()
-            print('health ' + str(player.getHealth()))
+            player.take_damage()
+            print('health ' + str(player.get_health()))
             enemy.flag_removal()
 
     # sets list equal to remaining enemies
@@ -318,7 +318,7 @@ def main():
     # TODO: enemy path finding
     player_health = 100
     player_money = 150
-    MainPlayer = Player(player_health, player_money)
+    main_player = Player(player_health, player_money)
 
     count = 1
     rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
@@ -367,11 +367,11 @@ def main():
                             # tower.basic_upgrade(5, 5, 1)
 
                 # Checks if upgrade button was clicked
-                if mouse_y >= TILE_SIZE * 17 and mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
-                    if mouse_x >= TILE_SIZE * 20.5 and mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
+                if TILE_SIZE * 17 <= mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
+                    if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         if upgrade_me != None:
                             if upgrade_me.level_up():
-                                upgrade_me.basic_upgrade(5, 5, 1)
+                                upgrade_me.basic_upgrade(5, 5, 1, 50)
                                 # don't have to reset upgrade_me after upgrade
                                 # upgrade_me = None
 
@@ -401,7 +401,7 @@ def main():
             clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
             # update logic
-            update(enemies, towers, rounds, projectiles, ticks, MainPlayer)
+            update(enemies, towers, rounds, projectiles, ticks, main_player)
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()

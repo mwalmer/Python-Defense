@@ -33,12 +33,13 @@ class Tower:
         return False
 
     # basic upgrade function for towers
-    def basic_upgrade(self, damage, attack_speed, projectile_speed):
+    def basic_upgrade(self, damage, attack_speed, projectile_speed, range):
         self.damage += damage
         self.attack_speed -= 1000 / (attack_speed * 2)
         self.projectile_speed += projectile_speed
         self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, self.projectile.rect,
                                      self.projectile.sprite)
+        self.range += range
         if self.level < 5:
             self.level = self.level + 1
 
