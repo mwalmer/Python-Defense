@@ -392,6 +392,9 @@ def main():
                             # TODO Display an upgrade button with details of the cost of the upgrade
                             selected_tower = tower
                             # tower.basic_upgrade(5, 5, 1)
+                # clears selected tower when clicking on grass/path
+                elif MAP[mouse_y // scale(32)][mouse_x // scale(32)] < 2:
+                    selected_tower = None
 
 
                 # Checks if upgrade button was clicked
