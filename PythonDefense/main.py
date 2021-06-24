@@ -1,4 +1,5 @@
 from math import floor
+
 import pygame
 import os
 
@@ -69,30 +70,30 @@ ENEMY_SIZE = TILE_SIZE
 FIRE_PROJECTILE_SIZE = scale(16)
 
 # Load image
-GRASS_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'tiles', 'grass_tile.png')).convert()
-DIRT_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'tiles', 'dirt_tile.png')).convert()
-MENU_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'tiles', 'menu_tile.png')).convert()
-HILITE_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'buttons', 'hilite.png')).convert_alpha()
+GRASS_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'grass_tile.png')).convert()
+DIRT_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'dirt_tile.png')).convert()
+MENU_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'menu_tile.png')).convert()
+HILITE_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'hilite.png')).convert_alpha()
 
-TOWER1_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'towers', 'tower1.png')).convert_alpha()
-TOWER2_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'towers', 'tower2.png')).convert_alpha()
-TOWER3_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'towers', 'tower3.png')).convert_alpha()
-TOWER4_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'towers', 'tower4.png')).convert_alpha()
-TOWER5_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'towers', 'tower5.png')).convert_alpha()
-ENEMY1_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'enemies', 'enemy1.png')).convert_alpha()
-ENEMY2_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'enemies', 'enemy2.png')).convert_alpha()
-ENEMY3_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'enemies', 'enemy3.png')).convert_alpha()
-FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'projectiles', 'fireball.png')).convert()
+TOWER1_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower1.png')).convert_alpha()
+TOWER2_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower2.png')).convert_alpha()
+TOWER3_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower3.png')).convert_alpha()
+TOWER4_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower4.png')).convert_alpha()
+TOWER5_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower5.png')).convert_alpha()
+ENEMY1_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy1.png')).convert_alpha()
+ENEMY2_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy2.png')).convert_alpha()
+ENEMY3_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy3.png')).convert_alpha()
+FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball.png')).convert()
 
-UPGRADE_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
-START_SPRITE = pygame.image.load(os.path.join('PythonDefense/assets', 'buttons', 'bt-start.png')).convert_alpha()
+UPGRADE_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
+START_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-start.png')).convert_alpha()
 
 # Level tiles for towers
-LEVEL1_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'levels', 'num1.png')).convert_alpha()
-LEVEL2_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'levels', 'num2.png')).convert_alpha()
-LEVEL3_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'levels', 'num3.png')).convert_alpha()
-LEVEL4_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'levels', 'num4.png')).convert_alpha()
-LEVEL5_TILE = pygame.image.load(os.path.join('PythonDefense/assets', 'levels', 'num5.png')).convert_alpha()
+LEVEL1_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num1.png')).convert_alpha()
+LEVEL2_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num2.png')).convert_alpha()
+LEVEL3_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num3.png')).convert_alpha()
+LEVEL4_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num4.png')).convert_alpha()
+LEVEL5_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num5.png')).convert_alpha()
 
 # Scale images
 GRASS_TILE = pygame.transform.scale(GRASS_TILE, TILE_XY)
