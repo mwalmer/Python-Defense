@@ -44,7 +44,7 @@ class Tower:
         self.damage += damage
         self.attack_speed -= 1000 / (attack_speed * 2)
         self.projectile_speed += projectile_speed
-        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, self.projectile.rect,
+        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, self.rect,
                                      self.projectile.sprite)
         self.range += range
         if self.level < 5:
