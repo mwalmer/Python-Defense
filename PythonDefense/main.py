@@ -227,7 +227,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
 
 
-def draw_window(enemies, towers, projectiles, hilite):
+def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower):
     # draws map
     for x, row in enumerate(MAP):
         tile = GRASS_TILE
@@ -245,14 +245,20 @@ def draw_window(enemies, towers, projectiles, hilite):
             elif cord == 3:
                 tile = GRASS_TILE
             elif cord == 4:
+                # menu has to be drawn under towers, since they do not take up full tile
+                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
                 tile = TOWER1_SPRITE
             elif cord == 5:
+                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
                 tile = TOWER2_SPRITE
             elif cord == 6:
+                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
                 tile = TOWER3_SPRITE
             elif cord == 7:
+                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
                 tile = TOWER4_SPRITE
             elif cord == 8:
+                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
                 tile = TOWER5_SPRITE
             elif cord == 9:
                 tile = DIRT_TILE
@@ -285,6 +291,10 @@ def draw_window(enemies, towers, projectiles, hilite):
 
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
+
+    # draws current tower/selected shop tower by mouse
+    if current_tower is not None:
+        WIN.blit(current_tower, mouse_cords)
 
     # Draw Menu Buttons
     WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
@@ -340,7 +350,7 @@ def main():
     # current_tower used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
     current_tower = TOWER1_SPRITE  # Maybe add a highlight to the menu for this?
 
-    upgrade_me = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
+    selected_tower = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
     clock = pygame.time.Clock()
     run = True
@@ -354,10 +364,11 @@ def main():
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
+
                 #  TODO: reformat
                 player_money = main_player.get_money()
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 0:
-                    if player_money >= 15:
+                    if player_money >= 15 and current_tower is not None:
                         MAP[mouse_y // scale(32)][mouse_x // scale(32)] = 3
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
@@ -365,6 +376,7 @@ def main():
 
                         towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
                                             fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, ))
+                        current_tower = None
                         tower_count += 1
                         main_player.money = player_money - 15
                         global money_string
@@ -372,26 +384,27 @@ def main():
                 # Checks if click was over a tower and then proceeds with upgrading tower
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
-
+                    current_tower = None
                     # Finds which tower was clicked
                     for tower in towers:
                         if tower.cords() == (temp_x, temp_y):
                             # TODO Display an upgrade button with details of the cost of the upgrade
-                            upgrade_me = tower
+                            selected_tower = tower
                             # tower.basic_upgrade(5, 5, 1)
+
 
                 # Checks if upgrade button was clicked
                 if TILE_SIZE * 17 <= mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
                     if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
-                        if upgrade_me is not None:
-                            if upgrade_me.level_up():
+                        if selected_tower is not None:
+                            if selected_tower.level_up():
                                 if player_money >= 15:
-                                    upgrade_me.basic_upgrade(5, 5, 1, 50)
+                                    selected_tower.basic_upgrade(5, 5, 1, 50)
                                     main_player.money = player_money - 15
 
                                     money_string = "Money: " + str(main_player.money)
-                                    # don't have to reset upgrade_me after upgrade
-                                    # upgrade_me = None
+                                    # don't have to reset selected_tower after upgrade
+                                    # selected_tower = None
 
                 # Checks if start button was clicked
                 if TILE_SIZE * 15 <= mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
@@ -413,6 +426,11 @@ def main():
                     elif num == 8:
                         current_tower = TOWER5_SPRITE
 
+        if current_tower is not None:
+            mouse_cords = pygame.mouse.get_pos()
+        else:
+            mouse_cords = None
+
         # TODO: might want to move to update
         # handles level ending and spawning new wave
         if Enemy.enemy_count == 0 and not start_round:
@@ -425,7 +443,7 @@ def main():
             enemies = rounds.level()
             start_round = False
         # refresh/redraw display
-        draw_window(enemies, towers, projectiles, upgrade_me)
+        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower)
 
     pygame.quit()
 
