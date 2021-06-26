@@ -122,6 +122,8 @@ LEVEL4_TILE = pygame.transform.scale(LEVEL4_TILE, TILE_XY)
 LEVEL5_TILE = pygame.transform.scale(LEVEL5_TILE, TILE_XY)
 
 collision_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'Trompo collido.wav'))
+start_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'start_button.wav'))
+upgrade_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'upgrade_button.wav'))
 
 # 0 = grass
 # 1 = dirt
@@ -409,7 +411,7 @@ def main():
                                 if player_money >= 15:
                                     selected_tower.basic_upgrade(5, 5, 1, 50)
                                     main_player.money = player_money - 15
-
+                                    upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
                                     # don't have to reset selected_tower after upgrade
                                     # selected_tower = None
@@ -418,6 +420,7 @@ def main():
                 if TILE_SIZE * 15 <= mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
                     if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
                         print("START BT CLICKED")
+                        start_button_sound.play_sound()
                         start_round = True
 
                 # Checks if a menu tower selection was clicked
