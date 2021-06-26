@@ -7,6 +7,7 @@ from PythonDefense.enemy import Enemy
 from PythonDefense.tower import Tower
 from PythonDefense.player import Player
 from PythonDefense.round import Rounds
+from PythonDefense.sound import Sound
 from PythonDefense.helper_functions import scale, set_ratio, round_ratio
 
 #  nt is the os.name for windows
@@ -120,6 +121,8 @@ LEVEL3_TILE = pygame.transform.scale(LEVEL3_TILE, TILE_XY)
 LEVEL4_TILE = pygame.transform.scale(LEVEL4_TILE, TILE_XY)
 LEVEL5_TILE = pygame.transform.scale(LEVEL5_TILE, TILE_XY)
 
+collision_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'Trompo collido.wav'))
+
 # 0 = grass
 # 1 = dirt
 # 2 = menu area
@@ -197,6 +200,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
                     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
                         enemy.health -= projectile.damage
                         projectile.flag_removal()
+                        collision_sound.play_sound()
                         has_not_hit = False
             else:
                 projectile.flag_removal()
