@@ -124,8 +124,10 @@ LEVEL5_TILE = pygame.transform.scale(LEVEL5_TILE, TILE_XY)
 collision_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'Trompo collido.wav'))
 start_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'start_button.wav'))
 upgrade_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'upgrade_button.wav'))
-tower_placement = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_placement.wav'))
-tower_grab = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_grab.wav'))
+tower_placement_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_placement.wav'))
+tower_grab_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_grab.wav'))
+lose_life_even_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'lose_life_even.wav'))
+lose_life_odd_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'lose_life_odd.wav'))
 
 # 0 = grass
 # 1 = dirt
@@ -226,6 +228,10 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
             money_string = "Money: " + str(player.get_money())
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
+            if player.get_health() % 2 == 0:
+                lose_life_even_sound.play_sound()
+            else:
+                lose_life_odd_sound.play_sound()
             player.take_damage()
             global lives_string
             lives_string = "Lives: " + str(player.get_health())
@@ -382,7 +388,7 @@ def main():
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                         fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
-                        tower_placement.play_sound()
+                        tower_placement_sound.play_sound()
                         towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
                                             fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, ))
                         current_tower = None
@@ -430,19 +436,19 @@ def main():
                     num = MAP[mouse_y // scale(32)][mouse_x // scale(32)]
                     if num == 4:
                         current_tower = TOWER1_SPRITE
-                        tower_grab.play_sound()
+                        tower_grab_sound.play_sound()
                     elif num == 5:
                         current_tower = TOWER2_SPRITE
-                        tower_grab.play_sound()
+                        tower_grab_sound.play_sound()
                     elif num == 6:
                         current_tower = TOWER3_SPRITE
-                        tower_grab.play_sound()
+                        tower_grab_sound.play_sound()
                     elif num == 7:
                         current_tower = TOWER4_SPRITE
-                        tower_grab.play_sound()
+                        tower_grab_sound.play_sound()
                     elif num == 8:
                         current_tower = TOWER5_SPRITE
-                        tower_grab.play_sound()
+                        tower_grab_sound.play_sound()
 
         if current_tower is not None:
             mouse_cords = pygame.mouse.get_pos()
