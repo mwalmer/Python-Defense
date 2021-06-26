@@ -124,6 +124,8 @@ LEVEL5_TILE = pygame.transform.scale(LEVEL5_TILE, TILE_XY)
 collision_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'Trompo collido.wav'))
 start_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'start_button.wav'))
 upgrade_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'upgrade_button.wav'))
+tower_placement = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_placement.wav'))
+tower_grab = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_grab.wav'))
 
 # 0 = grass
 # 1 = dirt
@@ -380,7 +382,7 @@ def main():
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                         fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
-
+                        tower_placement.play_sound()
                         towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
                                             fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, ))
                         current_tower = None
@@ -423,19 +425,24 @@ def main():
                         start_button_sound.play_sound()
                         start_round = True
 
-                # Checks if a menu tower selection was clicked
+                # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
                     num = MAP[mouse_y // scale(32)][mouse_x // scale(32)]
                     if num == 4:
                         current_tower = TOWER1_SPRITE
+                        tower_grab.play_sound()
                     elif num == 5:
                         current_tower = TOWER2_SPRITE
+                        tower_grab.play_sound()
                     elif num == 6:
                         current_tower = TOWER3_SPRITE
+                        tower_grab.play_sound()
                     elif num == 7:
                         current_tower = TOWER4_SPRITE
+                        tower_grab.play_sound()
                     elif num == 8:
                         current_tower = TOWER5_SPRITE
+                        tower_grab.play_sound()
 
         if current_tower is not None:
             mouse_cords = pygame.mouse.get_pos()
