@@ -74,20 +74,32 @@ FIRE_PROJECTILE_SIZE = scale(16)
 GRASS_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'grass_tile.png')).convert()
 DIRT_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'dirt_tile.png')).convert()
 MENU_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'menu_tile.png')).convert()
-HILITE_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'hilite.png')).convert_alpha()
+HILITE_TILE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'hilite.png')).convert_alpha()
 
-TOWER1_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower1.png')).convert_alpha()
-TOWER2_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower2.png')).convert_alpha()
-TOWER3_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower3.png')).convert_alpha()
-TOWER4_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower4.png')).convert_alpha()
-TOWER5_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower5.png')).convert_alpha()
-ENEMY1_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy1.png')).convert_alpha()
-ENEMY2_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy2.png')).convert_alpha()
-ENEMY3_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy3.png')).convert_alpha()
-FIRE_PROJECTILE_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball.png')).convert()
+TOWER1_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower1.png')).convert_alpha()
+TOWER2_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower2.png')).convert_alpha()
+TOWER3_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower3.png')).convert_alpha()
+TOWER4_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower4.png')).convert_alpha()
+TOWER5_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower5.png')).convert_alpha()
+ENEMY1_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy1.png')).convert_alpha()
+ENEMY2_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy2.png')).convert_alpha()
+ENEMY3_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy3.png')).convert_alpha()
+FIRE_PROJECTILE_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball.png')).convert()
 
-UPGRADE_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
-START_SPRITE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-start.png')).convert_alpha()
+UPGRADE_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
+START_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-start.png')).convert_alpha()
 
 # Level tiles for towers
 LEVEL1_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num1.png')).convert_alpha()
@@ -159,6 +171,7 @@ MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
 
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
+
 lives = 25
 
 
@@ -315,13 +328,13 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
     WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
     WIN.blit(START_SPRITE, (20.5 * TILE_SIZE, 15 * TILE_SIZE))
     BLACK = (0, 0, 0)
-    font = pygame.font.SysFont('Arial', int(TILE_SIZE/2))
+    font = pygame.font.SysFont('Arial', int(TILE_SIZE / 2))
     global lives_string
     global money_string
     text1 = font.render(lives_string, True, BLACK)
     text2 = font.render(money_string, True, BLACK)
-    WIN.blit(text1, (21*TILE_SIZE, 1*TILE_SIZE))
-    WIN.blit(text2, (21*TILE_SIZE, 2*TILE_SIZE))
+    WIN.blit(text1, (21 * TILE_SIZE, 1 * TILE_SIZE))
+    WIN.blit(text2, (21 * TILE_SIZE, 2 * TILE_SIZE))
     pygame.display.update()
 
 
@@ -349,10 +362,18 @@ def enemy_pathfinding(enemy):
         enemy.x_weight, enemy.y_weight = 0, 1
 
 
-def main():
+def game_loop():
     # TODO: enemy path finding
-    player_health = 100
-    player_money = 150
+    player_health = 10
+    player_money = 149
+
+    # So these get properly updated instead of just on hit/change
+    global lives_string
+    lives_string = "Lives: " + str(player_health)
+    # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
+    # global money_string
+    # money_string = "Money: " + str(player_money)
+
     main_player = Player(player_health, player_money)
 
     count = 1
@@ -371,7 +392,7 @@ def main():
     run = True
     tower_count = 0
     start_round = False  # Changed to True when start button clicked
-    while run:
+    while run and main_player.get_health() > 0:
         ticks = clock.tick(FPS)
         # TODO: limit possible event types
         for event in pygame.event.get():
@@ -409,7 +430,6 @@ def main():
                 # clears selected tower when clicking on grass/path
                 elif MAP[mouse_y // scale(32)][mouse_x // scale(32)] < 2:
                     selected_tower = None
-
 
                 # Checks if upgrade button was clicked
                 if TILE_SIZE * 17 <= mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
@@ -469,7 +489,61 @@ def main():
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower)
 
+    if main_player.get_health() <= 0:
+        end_menu()
+    else:
+        pygame.quit()
+
+
+def start_menu():
+    WIN.fill((0, 0, 255))
+    color = (255, 255, 255)
+    font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
+    start_text = font.render('Start', True, color)
+    button_rect = start_text.get_rect()
+    button_rect[0] = width / 6
+    button_rect[1] = height / 2.5
+    run = True
+    clock = pygame.time.Clock()
+    skip = False
+    while run and not skip:
+        ticks = clock.tick(FPS)
+        WIN.blit(start_text, (width / 6, height / 2.5))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse = pygame.mouse.get_pos()
+                if button_rect.collidepoint(mouse):
+                    skip = True
+        pygame.display.update()
+    if skip:
+        return True
+    else:
+        pygame.quit()
+        return False
+
+
+def end_menu():
+    WIN.fill((175, 238, 238))
+    color = (255, 69, 0)
+    font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
+    start_text = font.render('Game Over', True, color)
+    run = True
+    clock = pygame.time.Clock()
+    while run:
+        ticks = clock.tick(FPS)
+        WIN.blit(start_text, (width / 6, height / 2.5))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        pygame.display.update()
     pygame.quit()
+
+
+def main():
+    if start_menu():
+        game_loop()
 
 
 if __name__ == '__main__':
