@@ -377,7 +377,7 @@ def game_loop():
     main_player = Player(player_health, player_money)
 
     count = 1
-    rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE,ENEMY2_SPRITE,ENEMY3_SPRITE)
+    rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE, ENEMY2_SPRITE, ENEMY3_SPRITE)
     enemies = rounds.level()
 
     towers = []
@@ -490,7 +490,9 @@ def game_loop():
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower)
 
     if main_player.get_health() <= 0:
+        Enemy.enemy_count = 0  # Resets static var in enemy.py
         return True
+
     else:
         pygame.quit()
         return False
@@ -505,8 +507,7 @@ def start_menu():
     button_rect[0] = width / 6
     button_rect[1] = height / 2.5
     run = True
-    skip = False
-    while run and not skip:
+    while run:
         WIN.blit(start_text, (width / 6, height / 2.5))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -514,13 +515,10 @@ def start_menu():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
-                    skip = True
+                    return True
         pygame.display.update()
-    if skip:
-        return True
-    else:
-        pygame.quit()
-        return False
+    pygame.quit()
+    return False
 
 
 def end_menu():
@@ -532,8 +530,7 @@ def end_menu():
     button_rect[0] = width / 6
     button_rect[1] = height / 2.5
     run = True
-    skip = False
-    while run and not skip:
+    while run:
         WIN.blit(end_text, (width / 6, height / 2.5))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -541,13 +538,10 @@ def end_menu():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
-                    skip = True
+                    return True
         pygame.display.update()
-    if skip:
-        return True
-    else:
-        pygame.quit()
-        return False
+    pygame.quit()
+    return False
 
 
 def main():
