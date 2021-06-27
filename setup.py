@@ -1,15 +1,19 @@
 from setuptools import setup
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 setup(
     name='PythonDefense',
-    version='1.0.5',
+    version='1.1.2',
     description='Tower defense game written in python',
     author='Alex Skladanek, Amer  Khalifa, Benjamin Coretese, Eric Weisfeld, Maxwell Walmer',
     url='https://github.com/mwalmer/Python-Defense',
-    packages=['PythonDefense', ],
+    packages=['PythonDefense',],
+    long_description=long_description,
     entry_points={
         'console_scripts': [
-            'play_PythonDefense=PythonDefense.main:main'
+            'play_PythonDefense=PythonDefense.main:main',
         ],
     },
     install_requires=[
