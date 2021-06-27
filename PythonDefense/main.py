@@ -490,9 +490,10 @@ def game_loop():
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower)
 
     if main_player.get_health() <= 0:
-        end_menu()
+        return True
     else:
         pygame.quit()
+        return False
 
 
 def start_menu():
@@ -504,10 +505,8 @@ def start_menu():
     button_rect[0] = width / 6
     button_rect[1] = height / 2.5
     run = True
-    clock = pygame.time.Clock()
     skip = False
     while run and not skip:
-        ticks = clock.tick(FPS)
         WIN.blit(start_text, (width / 6, height / 2.5))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -528,22 +527,42 @@ def end_menu():
     WIN.fill((175, 238, 238))
     color = (255, 69, 0)
     font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
-    start_text = font.render('Game Over', True, color)
+    end_text = font.render('Game Over', True, color)
+    button_rect = end_text.get_rect()
+    button_rect[0] = width / 6
+    button_rect[1] = height / 2.5
     run = True
-    clock = pygame.time.Clock()
-    while run:
-        ticks = clock.tick(FPS)
-        WIN.blit(start_text, (width / 6, height / 2.5))
+    skip = False
+    while run and not skip:
+        WIN.blit(end_text, (width / 6, height / 2.5))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse = pygame.mouse.get_pos()
+                if button_rect.collidepoint(mouse):
+                    skip = True
         pygame.display.update()
-    pygame.quit()
+    if skip:
+        return True
+    else:
+        pygame.quit()
+        return False
 
 
 def main():
-    if start_menu():
-        game_loop()
+    loop = True
+    while loop:
+        if start_menu():
+            if game_loop():
+                if end_menu():
+                    pass
+                else:
+                    loop = False
+            else:
+                loop = False
+        else:
+            loop = False
 
 
 if __name__ == '__main__':
