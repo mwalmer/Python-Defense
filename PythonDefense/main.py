@@ -377,7 +377,7 @@ def game_loop():
     main_player = Player(player_health, player_money)
 
     count = 1
-    rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE)
+    rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE,ENEMY2_SPRITE,ENEMY3_SPRITE)
     enemies = rounds.level()
 
     towers = []
