@@ -366,7 +366,7 @@ def game_loop():
     # TODO: enemy path finding
     player_health = 10
     player_money = 149
-
+    won = False
     # So these get properly updated instead of just on hit/change
     global lives_string
     lives_string = "Lives: " + str(player_health)
@@ -392,7 +392,7 @@ def game_loop():
     run = True
     tower_count = 0
     start_round = False  # Changed to True when start button clicked
-    while run and main_player.get_health() > 0:
+    while run and main_player.get_health() > 0 and not won:
         ticks = clock.tick(FPS)
         # TODO: limit possible event types
         for event in pygame.event.get():
@@ -488,6 +488,11 @@ def game_loop():
             start_round = False
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower)
+        if Enemy.enemy_count == 0 and rounds.last_round():
+            won = True
+
+    if won:
+        win_screen()
 
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py
@@ -502,7 +507,7 @@ def start_menu():
     WIN.fill((0, 0, 255))
     color = (255, 255, 255)
     font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
-    start_text = font.render('Start', True, color)
+    start_text = font.render('Start by clicking this text', True, color)
     button_rect = start_text.get_rect()
     button_rect[0] = width / 6
     button_rect[1] = height / 2.5
@@ -526,12 +531,14 @@ def end_menu():
     color = (255, 69, 0)
     font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
     end_text = font.render('Game Over', True, color)
-    button_rect = end_text.get_rect()
+    reset_text = font.render('Click this text to reset the game', True, color)
+    button_rect = reset_text.get_rect()
     button_rect[0] = width / 6
     button_rect[1] = height / 2.5
     run = True
     while run:
-        WIN.blit(end_text, (width / 6, height / 2.5))
+        WIN.blit(reset_text, (width / 6, height / 2.5))
+        WIN.blit(end_text, (width / 6, height / 3.5))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -543,6 +550,20 @@ def end_menu():
     pygame.quit()
     return False
 
+def win_screen():
+    WIN.fill((236, 192, 67))
+    color = (19, 63, 188)
+    font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
+    win_text = font.render('You win! Well played', True, color)
+    run = True
+    while run:
+        WIN.blit(win_text, (width / 6, height / 2.5))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        pygame.display.update()
+    pygame.quit()
+    return False
 
 def main():
     loop = True

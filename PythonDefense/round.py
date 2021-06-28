@@ -54,3 +54,6 @@ class Rounds:
 
     def next_round(self):
         self.round += 1
+
+    def last_round(self):
+        return self.round == 5
