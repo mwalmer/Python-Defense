@@ -393,8 +393,8 @@ def game_loop():
     global lives_string
     lives_string = "Lives: " + str(player_health)
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
-    # global money_string
-    # money_string = "Money: " + str(player_money)
+    global money_string
+    money_string = "Money: " + str(player_money)
 
     main_player = Player(player_health, player_money)
 
@@ -437,7 +437,6 @@ def game_loop():
                         current_tower = None
                         tower_count += 1
                         main_player.money = player_money - 15
-                        global money_string
                         money_string = "Money: " + str(main_player.money)
                 # Checks if click was over a tower and then proceeds with upgrading tower
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
