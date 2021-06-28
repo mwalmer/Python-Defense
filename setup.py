@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='PythonDefense',
-    version='1.0.3',
+    version='1.0.4',
     description='Tower defense game written in python',
     author='Alex Skladanek, Amer  Khalifa, Benjamin Coretese, Eric Weisfeld, Maxwell Walmer',
     url='https://github.com/mwalmer/Python-Defense',
