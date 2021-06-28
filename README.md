@@ -2,8 +2,8 @@
 Python Defense is a 2d tower defense game written in Python.
 
 ## Installation
-1. With PythonDefense-1.0.x.tar.gz downloaded in the desired directory, cd into that directory
-2. run: `pip install PythonDefense-1.0.x.tar.gz`
+1. With PythonDefense-1.0.4.tar.gz downloaded in the desired directory, cd into that directory
+2. run: `pip install PythonDefense-1.0.4.tar.gz`
 3. To run use `play_PythonDefense`
 
 ## Creating distribution file
