@@ -529,7 +529,7 @@ def game_loop():
 def start_menu():
     WIN.fill((0, 0, 255))
     color = (255, 255, 255)
-    font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
+    font = pygame.font.SysFont('Arial', scale(30))
     start_text = font.render('Start by clicking this text', True, color)
     button_rect = start_text.get_rect()
     button_rect[0] = width / 6
@@ -554,7 +554,7 @@ def end_menu():
     MAP = copy.copy(CONST_MAP)
     WIN.fill((175, 238, 238))
     color = (255, 69, 0)
-    font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
+    font = pygame.font.SysFont('Arial', scale(30))
     end_text = font.render('Game Over', True, color)
     reset_text = font.render('Click this text to reset the game', True, color)
     button_rect = reset_text.get_rect()
@@ -579,7 +579,7 @@ def end_menu():
 def win_screen():
     WIN.fill((236, 192, 67))
     color = (19, 63, 188)
-    font = pygame.font.SysFont('Arial', int(scale(TILE_SIZE)))
+    font = pygame.font.SysFont('Arial', scale(30))
     win_text = font.render('You win! Well played', True, color)
     run = True
     while run:
