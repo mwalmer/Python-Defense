@@ -486,6 +486,7 @@ def game_loop():
             rounds.next_round()
             enemies = rounds.level()
             start_round = False
+            projectiles[:] = []
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower)
         if Enemy.enemy_count == 0 and rounds.last_round():
@@ -550,6 +551,7 @@ def end_menu():
     pygame.quit()
     return False
 
+
 def win_screen():
     WIN.fill((236, 192, 67))
     color = (19, 63, 188)
@@ -564,6 +566,7 @@ def win_screen():
         pygame.display.update()
     pygame.quit()
     return False
+
 
 def main():
     loop = True
