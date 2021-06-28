@@ -258,7 +258,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
 
         if enemy.check_health():
             player.add_money()
-            print('Money ' + str(player.get_money()))
+            # print('Money ' + str(player.get_money()))
             global money_string
             money_string = "Money: " + str(player.get_money())
             enemy.flag_removal()
@@ -270,7 +270,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
             player.take_damage()
             global lives_string
             lives_string = "Lives: " + str(player.get_health())
-            print('health ' + str(player.get_health()))
+            # print('health ' + str(player.get_health()))
             enemy.flag_removal()
 
     # sets list equal to remaining enemies
