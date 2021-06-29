@@ -407,7 +407,7 @@ def game_loop():
 
     # current_tower used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
     current_tower = None  # Maybe add a highlight to the menu for this?
-
+    has_placed = True
     selected_tower = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
     clock = pygame.time.Clock()
@@ -438,6 +438,7 @@ def game_loop():
                         tower_count += 1
                         main_player.money = player_money - 15
                         money_string = "Money: " + str(main_player.money)
+                        has_placed = True
                 # Checks if click was over a tower and then proceeds with upgrading tower
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
@@ -447,6 +448,7 @@ def game_loop():
                         if tower.cords() == (temp_x, temp_y):
                             # TODO Display an upgrade button with details of the cost of the upgrade
                             selected_tower = tower
+                            has_placed = True
                             # tower.basic_upgrade(5, 5, 1)
                 # clears selected tower when clicking on grass/path
                 elif MAP[mouse_y // scale(32)][mouse_x // scale(32)] < 2:
@@ -455,7 +457,7 @@ def game_loop():
                 # Checks if upgrade button was clicked
                 if TILE_SIZE * 17 <= mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
                     if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
-                        if selected_tower is not None:
+                        if selected_tower is not None and has_placed is not False:
                             if selected_tower.level_up():
                                 if player_money >= 15:
                                     selected_tower.basic_upgrade(5, 5, 1, 50)
@@ -483,26 +485,36 @@ def game_loop():
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER1_SPRITE
                         tower_grab_sound.play_sound()
+                        has_placed = False
+
                     elif num == 5:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER2_SPRITE
                         tower_grab_sound.play_sound()
+                        has_placed = False
+
                     elif num == 6:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER3_SPRITE
                         tower_grab_sound.play_sound()
+                        has_placed = False
+
                     elif num == 7:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER4_SPRITE
                         tower_grab_sound.play_sound()
+                        has_placed = False
+
                     elif num == 8:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER5_SPRITE
                         tower_grab_sound.play_sound()
+                        has_placed = False
+
 
         if current_tower is not None:
             mouse_cords = pygame.mouse.get_pos()
@@ -542,12 +554,14 @@ def start_menu():
     WIN.fill((25, 200, 255))
     color = (0, 0, 0)
     font = pygame.font.SysFont('Arial', scale(32))
-    start_text = font.render('Python Defense', True, color)
+    title_text = font.render('Python Defense', True, color)
+    start_text = font.render('Click Here To Start!', True, color)
     button_rect = start_text.get_rect()
     button_rect[0] = width / 6
     button_rect[1] = height / 2.5
     run = True
     while run:
+        WIN.blit(title_text, (width / 6, height / 3))
         WIN.blit(start_text, (width / 6, height / 2.5))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -589,16 +603,28 @@ def end_menu():
 
 
 def win_screen():
+    global MAP
+    MAP = copy.copy(CONST_MAP)
+    WIN.fill((175, 238, 238))
     WIN.fill((236, 192, 67))
     color = (19, 63, 188)
-    font = pygame.font.SysFont('Arial', scale(30))
+    font = pygame.font.SysFont('Arial', scale(32))
     win_text = font.render('You win! Well played', True, color)
+    reset_text = font.render('Click this text to reset the game', True, color)
+    button_rect = reset_text.get_rect()
+    button_rect[0] = width / 6
+    button_rect[1] = height / 2.5
     run = True
     while run:
-        WIN.blit(win_text, (width / 6, height / 2.5))
+        WIN.blit(reset_text, (width / 6, height / 2.5))
+        WIN.blit(win_text, (width / 6, height / 3.5))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse = pygame.mouse.get_pos()
+                if button_rect.collidepoint(mouse):
+                    return True
         pygame.display.update()
     pygame.quit()
     return False
@@ -610,6 +636,8 @@ def main():
         if start_menu():
             if game_loop():
                 if end_menu():
+                    pass
+                elif win_screen():
                     pass
                 else:
                     loop = False
