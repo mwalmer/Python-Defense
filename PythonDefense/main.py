@@ -172,25 +172,25 @@ MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2,
        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
 
 CONST_MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 5, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 0, 0, 0, 0, 0, 0, 2, 6, 2, 7, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 8, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 11, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
+             [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 5, 2],
+             [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 0, 0, 0, 0, 0, 0, 2, 6, 2, 7, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 8, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 11, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+             [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
 
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 
@@ -406,7 +406,7 @@ def game_loop():
     projectiles = []
 
     # current_tower used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
-    current_tower = TOWER1_SPRITE  # Maybe add a highlight to the menu for this?
+    current_tower = None  # Maybe add a highlight to the menu for this?
 
     selected_tower = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
 
@@ -475,19 +475,32 @@ def game_loop():
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
                     num = MAP[mouse_y // scale(32)][mouse_x // scale(32)]
+                    temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
+                    tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
+                    fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
                     if num == 4:
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER1_SPRITE
                         tower_grab_sound.play_sound()
                     elif num == 5:
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER2_SPRITE
                         tower_grab_sound.play_sound()
                     elif num == 6:
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER3_SPRITE
                         tower_grab_sound.play_sound()
                     elif num == 7:
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER4_SPRITE
                         tower_grab_sound.play_sound()
                     elif num == 8:
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
                         current_tower = TOWER5_SPRITE
                         tower_grab_sound.play_sound()
 
@@ -526,10 +539,10 @@ def game_loop():
 
 
 def start_menu():
-    WIN.fill((0, 0, 255))
-    color = (255, 255, 255)
-    font = pygame.font.SysFont('Arial', scale(30))
-    start_text = font.render('Start by clicking this text', True, color)
+    WIN.fill((25, 200, 255))
+    color = (0, 0, 0)
+    font = pygame.font.SysFont('Arial', scale(32))
+    start_text = font.render('Python Defense', True, color)
     button_rect = start_text.get_rect()
     button_rect[0] = width / 6
     button_rect[1] = height / 2.5
@@ -553,7 +566,7 @@ def end_menu():
     MAP = copy.copy(CONST_MAP)
     WIN.fill((175, 238, 238))
     color = (255, 69, 0)
-    font = pygame.font.SysFont('Arial', scale(30))
+    font = pygame.font.SysFont('Arial', scale(32))
     end_text = font.render('Game Over', True, color)
     reset_text = font.render('Click this text to reset the game', True, color)
     button_rect = reset_text.get_rect()
