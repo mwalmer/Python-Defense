@@ -409,14 +409,21 @@ def game_loop():
                 #  TODO: reformat
                 player_money = main_player.get_money()
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 0:
-                    if player_money >= 15 and current_tower is not None:
+                    if player_money >= 15 and selected_tower is not None:
                         MAP[mouse_y // scale(32)][mouse_x // scale(32)] = 3
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                         fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
                         tower_placement_sound.play_sound()
-                        towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
-                                            fireball_rect, ICE_PROJECTILE_SPRITE, ticks, 3, Projectile.arc_motion))
+                        selected_tower.rect = tower_rect
+                        selected_tower.x = tower_rect.x
+                        selected_tower.y = tower_rect.y
+                        selected_tower.projectile.rect = fireball_rect
+                        selected_tower.projectile.x = fireball_rect.x
+                        selected_tower.projectile.y = fireball_rect.y
+                        selected_tower.sprite = current_tower
+                        towers.append(selected_tower)
+                        # selected_tower = None
                         current_tower = None
                         tower_count += 1
                         main_player.money = player_money - 15
@@ -464,40 +471,39 @@ def game_loop():
                     tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                     fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
                     if num == 4:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER1_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 5:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER2_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 6:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER3_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER4_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
+                        selected_tower = Tower(f'tower_{tower_count + 1}', 10, 10, 1000, tower_rect, current_tower,
                                                "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER5_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
-
 
         if current_tower is not None:
             mouse_cords = pygame.mouse.get_pos()
