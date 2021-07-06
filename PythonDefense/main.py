@@ -415,6 +415,8 @@ def game_loop():
                         tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
                         fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
                         tower_placement_sound.play_sound()
+
+                        # TODO: selected tower is initialized with menu sprite/cords, this is just a temp solution
                         selected_tower.rect = tower_rect
                         selected_tower.x = tower_rect.x
                         selected_tower.y = tower_rect.y
@@ -423,8 +425,10 @@ def game_loop():
                         selected_tower.projectile.y = fireball_rect.y
                         selected_tower.sprite = current_tower
                         towers.append(selected_tower)
-                        # selected_tower = None
+
+                        selected_tower = None
                         current_tower = None
+
                         tower_count += 1
                         main_player.money = player_money - 15
                         money_string = "Money: " + str(main_player.money)
