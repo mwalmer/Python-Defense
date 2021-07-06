@@ -8,6 +8,7 @@ from PythonDefense.tower import Tower
 from PythonDefense.player import Player
 from PythonDefense.round import Rounds
 from PythonDefense.sound import Sound
+from PythonDefense.projectile import Projectile
 from PythonDefense.helper_functions import scale, set_ratio, round_ratio
 
 #  nt is the os.name for windows
@@ -69,6 +70,7 @@ UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 TOWER_SIZE = TILE_SIZE
 ENEMY_SIZE = TILE_SIZE
 FIRE_PROJECTILE_SIZE = scale(16)
+ICE_PROJECTILE_SIZE = scale(16)
 
 # Load image
 GRASS_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'grass_tile.png')).convert()
@@ -95,6 +97,8 @@ ENEMY3_SPRITE = pygame.image.load(
     os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy3.png')).convert_alpha()
 FIRE_PROJECTILE_SPRITE = pygame.image.load(
     os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball.png')).convert()
+ICE_PROJECTILE_SPRITE = pygame.image.load(
+    os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'iceball.png')).convert()
 
 UPGRADE_SPRITE = pygame.image.load(
     os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
@@ -123,6 +127,7 @@ ENEMY1_SPRITE = pygame.transform.scale(ENEMY1_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 ENEMY2_SPRITE = pygame.transform.scale(ENEMY2_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
 FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
+ICE_PROJECTILE_SPRITE = pygame.transform.scale(ICE_PROJECTILE_SPRITE, (ICE_PROJECTILE_SIZE, ICE_PROJECTILE_SIZE))
 
 UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TILE_SIZE * 2, TILE_SIZE))
 START_SPRITE = pygame.transform.scale(START_SPRITE, (TILE_SIZE * 2, TILE_SIZE))
@@ -213,8 +218,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
         if len(enemies) != 0:
             if len(enemies) > projectile.closest:
                 x, y = enemies[projectile.closest].cords()
-
-                projectile.motion(x, y)
+                projectile.movement_function(projectile(), x, y)
                 #  TODO: make sure only one enemy is getting hit
                 for enemy in enemies:
                     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
@@ -412,7 +416,7 @@ def game_loop():
                         fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
                         tower_placement_sound.play_sound()
                         towers.append(Tower(f'tower_{tower_count}', 10, 3, 500, tower_rect, current_tower, "Fireball",
-                                            fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, ))
+                                            fireball_rect, ICE_PROJECTILE_SPRITE, ticks, 3, Projectile.arc_motion))
                         current_tower = None
                         tower_count += 1
                         main_player.money = player_money - 15
@@ -461,35 +465,35 @@ def game_loop():
                     fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
                     if num == 4:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER1_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 5:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER2_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 6:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER3_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER4_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 1, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, )
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
                         current_tower = TOWER5_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False

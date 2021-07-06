@@ -5,7 +5,7 @@ import math
 
 class Tower:
     def __init__(self, name, damage, attack_speed, range, rect, sprite, projectile_name, projectile_rect,
-                 projectile_sprite, ticks, projectile_speed):
+                 projectile_sprite, ticks, projectile_speed, projectile_motion_function):
         self.name = name
         self.damage = damage
         self.attack_speed = 1000 / attack_speed
@@ -15,7 +15,8 @@ class Tower:
         self.y = rect.y
         self._sprite = sprite
         self.sprite = sprite
-        self.projectile = Projectile(projectile_name, damage, projectile_speed, projectile_rect, projectile_sprite)
+        self.projectile = Projectile(projectile_name, damage, projectile_speed, projectile_rect, projectile_sprite, projectile_motion_function)
+        self.projectile_motion_function = projectile_motion_function
         self.ticks = ticks
         self.level = 1
         self.projectile_speed = projectile_speed
@@ -45,7 +46,7 @@ class Tower:
         self.attack_speed -= 1000 / (attack_speed * 2)
         self.projectile_speed += projectile_speed
         self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
-                                     self.projectile.sprite)
+                                     self.projectile.sprite, self.projectile_motion_function)
         self.range += range
         if self.level < 5:
             self.level = self.level + 1
