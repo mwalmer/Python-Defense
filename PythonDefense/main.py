@@ -490,21 +490,21 @@ def game_loop():
 
                     elif num == 6:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.arc_motion)
                         current_tower = TOWER3_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
                         current_tower = TOWER4_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 10, 10, 1000, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
+                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
                         current_tower = TOWER5_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
