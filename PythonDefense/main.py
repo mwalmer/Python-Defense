@@ -262,6 +262,7 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
 
     # Draw Menu Buttons
     WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (21.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
     BLACK = (0, 0, 0)
     font = pygame.font.SysFont('Arial', int(sprite_sheet.TILE_SIZE / 2))

@@ -45,6 +45,12 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'iceball.png')).convert()
         self.UPGRADE_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert()
+        self.UPGRADE_DAMAGE_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt_upgrade_damage.png')).convert_alpha()
+        self.UPGRADE_RANGE_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt_upgrade_range.png')).convert_alpha()
+        self.UPGRADE_SPEED_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt_upgrade_speed.png')).convert_alpha()
         self.START_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-start.png')).convert_alpha()
         self.LEVEL1_TILE = pygame.image.load(
@@ -77,6 +83,9 @@ class SpriteSets:
         self.ICE_PROJECTILE_SPRITE = pygame.transform.scale(self.ICE_PROJECTILE_SPRITE,
                                                             (self.ICE_PROJECTILE_SIZE, self.ICE_PROJECTILE_SIZE))
         self.UPGRADE_SPRITE = pygame.transform.scale(self.UPGRADE_SPRITE, (self.TILE_SIZE * 2, self.TILE_SIZE))
+        self.UPGRADE_DAMAGE_SPRITE = pygame.transform.scale(self.UPGRADE_DAMAGE_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))
+        self.UPGRADE_RANGE_SPRITE = pygame.transform.scale(self.UPGRADE_RANGE_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))
+        self.UPGRADE_SPEED_SPRITE = pygame.transform.scale(self.UPGRADE_SPEED_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))
         self.START_SPRITE = pygame.transform.scale(self.START_SPRITE, (self.TILE_SIZE * 2, self.TILE_SIZE))
 
         self.LEVEL1_TILE = pygame.transform.scale(self.LEVEL1_TILE, self.TILE_XY)
