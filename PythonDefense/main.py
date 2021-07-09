@@ -10,6 +10,7 @@ from PythonDefense.round import Rounds
 from PythonDefense.sound import Sound
 from PythonDefense.projectile import Projectile
 from PythonDefense.helper_functions import scale, set_ratio, round_ratio
+from PythonDefense.sprite_sets import SpriteSets
 
 #  nt is the os.name for windows
 
@@ -67,76 +68,6 @@ FPS = 60
 UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 # Sizes
-TOWER_SIZE = TILE_SIZE
-ENEMY_SIZE = TILE_SIZE
-FIRE_PROJECTILE_SIZE = scale(16)
-ICE_PROJECTILE_SIZE = scale(16)
-
-# Load image
-GRASS_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'grass_tile.png')).convert()
-DIRT_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'dirt_tile.png')).convert()
-MENU_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'menu_tile.png')).convert()
-HILITE_TILE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'hilite.png')).convert_alpha()
-
-TOWER1_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower1.png')).convert_alpha()
-TOWER2_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower2.png')).convert_alpha()
-TOWER3_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower3.png')).convert_alpha()
-TOWER4_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower4.png')).convert_alpha()
-TOWER5_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower5.png')).convert_alpha()
-ENEMY1_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy1.png')).convert_alpha()
-ENEMY2_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy2.png')).convert_alpha()
-ENEMY3_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy3.png')).convert_alpha()
-FIRE_PROJECTILE_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball.png')).convert()
-ICE_PROJECTILE_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'iceball.png')).convert()
-
-UPGRADE_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert_alpha()
-START_SPRITE = pygame.image.load(
-    os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-start.png')).convert_alpha()
-
-# Level tiles for towers
-LEVEL1_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num1.png')).convert_alpha()
-LEVEL2_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num2.png')).convert_alpha()
-LEVEL3_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num3.png')).convert_alpha()
-LEVEL4_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num4.png')).convert_alpha()
-LEVEL5_TILE = pygame.image.load(os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num5.png')).convert_alpha()
-
-# Scale images
-GRASS_TILE = pygame.transform.scale(GRASS_TILE, TILE_XY)
-DIRT_TILE = pygame.transform.scale(DIRT_TILE, TILE_XY)
-MENU_TILE = pygame.transform.scale(MENU_TILE, TILE_XY)
-HILITE_TILE = pygame.transform.scale(HILITE_TILE, TILE_XY)
-
-TOWER1_SPRITE = pygame.transform.scale(TOWER1_SPRITE, (TOWER_SIZE, TOWER_SIZE))
-TOWER2_SPRITE = pygame.transform.scale(TOWER2_SPRITE, (TOWER_SIZE, TOWER_SIZE))
-TOWER3_SPRITE = pygame.transform.scale(TOWER3_SPRITE, (TOWER_SIZE, TOWER_SIZE))
-TOWER4_SPRITE = pygame.transform.scale(TOWER4_SPRITE, (TOWER_SIZE, TOWER_SIZE))
-TOWER5_SPRITE = pygame.transform.scale(TOWER5_SPRITE, (TOWER_SIZE, TOWER_SIZE))
-ENEMY1_SPRITE = pygame.transform.scale(ENEMY1_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
-ENEMY2_SPRITE = pygame.transform.scale(ENEMY2_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
-ENEMY3_SPRITE = pygame.transform.scale(ENEMY3_SPRITE, (ENEMY_SIZE, ENEMY_SIZE))
-FIRE_PROJECTILE_SPRITE = pygame.transform.scale(FIRE_PROJECTILE_SPRITE, (FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE))
-ICE_PROJECTILE_SPRITE = pygame.transform.scale(ICE_PROJECTILE_SPRITE, (ICE_PROJECTILE_SIZE, ICE_PROJECTILE_SIZE))
-
-UPGRADE_SPRITE = pygame.transform.scale(UPGRADE_SPRITE, (TILE_SIZE * 2, TILE_SIZE))
-START_SPRITE = pygame.transform.scale(START_SPRITE, (TILE_SIZE * 2, TILE_SIZE))
-
-LEVEL1_TILE = pygame.transform.scale(LEVEL1_TILE, TILE_XY)
-LEVEL2_TILE = pygame.transform.scale(LEVEL2_TILE, TILE_XY)
-LEVEL3_TILE = pygame.transform.scale(LEVEL3_TILE, TILE_XY)
-LEVEL4_TILE = pygame.transform.scale(LEVEL4_TILE, TILE_XY)
-LEVEL5_TILE = pygame.transform.scale(LEVEL5_TILE, TILE_XY)
 
 collision_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'Trompo collido.wav'))
 start_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'start_button.wav'))
@@ -198,7 +129,7 @@ def clear(enemies, projectiles):
     projectiles[:] = []
 
 
-def update(enemies, towers, rounds, projectiles, ticks, player):
+def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet):
     pixel_per_frame = scale(1)
 
     for tower in towers:
@@ -233,7 +164,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
 
     for enemy in enemies:
-        enemy_pathfinding(enemy)
+        enemy_pathfinding(enemy, sprite_sheet)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
         enemy.rect.x = enemy.x
@@ -260,47 +191,47 @@ def update(enemies, towers, rounds, projectiles, ticks, player):
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
 
 
-def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower):
+def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower, sprite_sheet):
     # draws map
     for x, row in enumerate(MAP):
-        tile = GRASS_TILE
+        tile = sprite_sheet.GRASS_TILE
         for y, cord in enumerate(row):
             # draws grass and path
             # needs to be drawn before enemies or towers
 
             # Rename cord to a more fitting var name
             if cord == 0:
-                tile = GRASS_TILE
+                tile = sprite_sheet.GRASS_TILE
             elif cord == 1:
-                tile = DIRT_TILE
+                tile = sprite_sheet.DIRT_TILE
             elif cord == 2:
-                tile = MENU_TILE
+                tile = sprite_sheet.MENU_TILE
             elif cord == 3:
-                tile = GRASS_TILE
+                tile = sprite_sheet.GRASS_TILE
             elif cord == 4:
                 # menu has to be drawn under towers, since they do not take up full tile
-                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
-                tile = TOWER1_SPRITE
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.TOWER1_SPRITE
             elif cord == 5:
-                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
-                tile = TOWER2_SPRITE
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.TOWER2_SPRITE
             elif cord == 6:
-                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
-                tile = TOWER3_SPRITE
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.TOWER3_SPRITE
             elif cord == 7:
-                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
-                tile = TOWER4_SPRITE
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.TOWER4_SPRITE
             elif cord == 8:
-                WIN.blit(MENU_TILE, (y * TILE_SIZE, x * TILE_SIZE))
-                tile = TOWER5_SPRITE
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.TOWER5_SPRITE
             elif cord == 9:
-                tile = DIRT_TILE
+                tile = sprite_sheet.DIRT_TILE
             elif cord == 10:
-                tile = DIRT_TILE
+                tile = sprite_sheet.DIRT_TILE
             elif cord == 11:
-                tile = DIRT_TILE
+                tile = sprite_sheet.DIRT_TILE
 
-            WIN.blit(tile, (y * TILE_SIZE, x * TILE_SIZE))
+            WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
@@ -309,18 +240,18 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
         WIN.blit(tower.sprite, tower.cords())
         # Check tower level and assign it a level tile
         if tower.level == 1:
-            WIN.blit(LEVEL1_TILE, tower.cords())
+            WIN.blit(sprite_sheet.LEVEL1_TILE, tower.cords())
         elif tower.level == 2:
-            WIN.blit(LEVEL2_TILE, tower.cords())
+            WIN.blit(sprite_sheet.LEVEL2_TILE, tower.cords())
         elif tower.level == 3:
-            WIN.blit(LEVEL3_TILE, tower.cords())
+            WIN.blit(sprite_sheet.LEVEL3_TILE, tower.cords())
         elif tower.level == 4:
-            WIN.blit(LEVEL4_TILE, tower.cords())
+            WIN.blit(sprite_sheet.LEVEL4_TILE, tower.cords())
         elif tower.level == 5:
-            WIN.blit(LEVEL5_TILE, tower.cords())
+            WIN.blit(sprite_sheet.LEVEL5_TILE, tower.cords())
 
     if hilite is not None:
-        WIN.blit(HILITE_TILE, hilite.cords())
+        WIN.blit(sprite_sheet.HILITE_TILE, hilite.cords())
 
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
@@ -330,25 +261,25 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
         WIN.blit(current_tower, mouse_cords)
 
     # Draw Menu Buttons
-    WIN.blit(UPGRADE_SPRITE, (20.5 * TILE_SIZE, 17 * TILE_SIZE))
-    WIN.blit(START_SPRITE, (20.5 * TILE_SIZE, 15 * TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
     BLACK = (0, 0, 0)
-    font = pygame.font.SysFont('Arial', int(TILE_SIZE / 2))
+    font = pygame.font.SysFont('Arial', int(sprite_sheet.TILE_SIZE / 2))
     global lives_string
     global money_string
     text1 = font.render(lives_string, True, BLACK)
     text2 = font.render(money_string, True, BLACK)
-    WIN.blit(text1, (21 * TILE_SIZE, 1 * TILE_SIZE))
-    WIN.blit(text2, (21 * TILE_SIZE, 2 * TILE_SIZE))
+    WIN.blit(text1, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
+    WIN.blit(text2, (21 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE))
     pygame.display.update()
 
 
-def enemy_pathfinding(enemy):
+def enemy_pathfinding(enemy, sprite_sheet):
     if enemy.x_weight == -1:
-        enemy_tile_x = int(floor((enemy.x + (TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
+        enemy_tile_x = int(floor((enemy.x + (sprite_sheet.TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
     else:
         enemy_tile_x = int(floor(enemy.x / WIDTH * NUM_TILES_X))
-    enemy_tile_y = -int(floor((-enemy.y + TILE_SIZE - 2) / HEIGHT * NUM_TILES_Y))
+    enemy_tile_y = -int(floor((-enemy.y + sprite_sheet.TILE_SIZE - 2) / HEIGHT * NUM_TILES_Y))
     if enemy_tile_y < 0:
         enemy.face(DOWN)
         enemy.x_weight, enemy.y_weight = 0, 1
@@ -367,7 +298,7 @@ def enemy_pathfinding(enemy):
         enemy.x_weight, enemy.y_weight = 0, 1
 
 
-def game_loop():
+def game_loop(sprite_sheet):
     # TODO: enemy path finding
     player_health = 10
     player_money = 150
@@ -382,7 +313,7 @@ def game_loop():
     main_player = Player(player_health, player_money)
 
     count = 1
-    rounds = Rounds(to_start(), ENEMY_SIZE, ENEMY1_SPRITE, ENEMY2_SPRITE, ENEMY3_SPRITE)
+    rounds = Rounds(to_start(), sprite_sheet.ENEMY_SIZE, sprite_sheet.ENEMY1_SPRITE, sprite_sheet.ENEMY2_SPRITE, sprite_sheet.ENEMY3_SPRITE)
     enemies = rounds.level()
 
     towers = []
@@ -412,8 +343,8 @@ def game_loop():
                     if player_money >= 15 and selected_tower is not None:
                         MAP[mouse_y // scale(32)][mouse_x // scale(32)] = 3
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
-                        tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
-                        fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
+                        tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
+                        fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE, sprite_sheet.FIRE_PROJECTILE_SIZE)
                         tower_placement_sound.play_sound()
 
                         # TODO: selected tower is initialized with menu sprite/cords, this is just a temp solution
@@ -449,8 +380,8 @@ def game_loop():
                     selected_tower = None
 
                 # Checks if upgrade button was clicked
-                if TILE_SIZE * 17 <= mouse_y <= TILE_SIZE * 17 + TILE_SIZE:
-                    if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
+                if sprite_sheet.TILE_SIZE * 17 <= mouse_y <= sprite_sheet.TILE_SIZE * 17 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 2:
                         if selected_tower is not None and has_placed is not False:
                             if selected_tower.level_up():
                                 if player_money >= 15:
@@ -462,8 +393,8 @@ def game_loop():
                                     # selected_tower = None
 
                 # Checks if start button was clicked
-                if TILE_SIZE * 15 <= mouse_y <= TILE_SIZE * 15 + TILE_SIZE:
-                    if TILE_SIZE * 20.5 <= mouse_x <= TILE_SIZE * 20.5 + TILE_SIZE * 2:
+                if sprite_sheet.TILE_SIZE * 15 <= mouse_y <= sprite_sheet.TILE_SIZE * 15 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 2:
                         print("START BT CLICKED")
                         start_button_sound.play_sound()
                         start_round = True
@@ -472,40 +403,40 @@ def game_loop():
                 if MAP[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
                     num = MAP[mouse_y // scale(32)][mouse_x // scale(32)]
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
-                    tower_rect = pygame.Rect(temp_x, temp_y, TOWER_SIZE, TOWER_SIZE)
-                    fireball_rect = pygame.Rect(temp_x, temp_y, FIRE_PROJECTILE_SIZE, FIRE_PROJECTILE_SIZE)
+                    tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
+                    fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE, sprite_sheet.FIRE_PROJECTILE_SIZE)
                     if num == 4:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
-                        current_tower = TOWER1_SPRITE
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
+                        current_tower = sprite_sheet.TOWER1_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 5:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
-                        current_tower = TOWER2_SPRITE
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
+                        current_tower = sprite_sheet.TOWER2_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 6:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.arc_motion)
-                        current_tower = TOWER3_SPRITE
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.arc_motion)
+                        current_tower = sprite_sheet.TOWER3_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
-                        current_tower = TOWER4_SPRITE
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
+                        current_tower = sprite_sheet.TOWER4_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 10, 10, 1000, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
-                        current_tower = TOWER5_SPRITE
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
+                        current_tower = sprite_sheet.TOWER5_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
@@ -520,14 +451,14 @@ def game_loop():
             clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
             # update logic
-            update(enemies, towers, rounds, projectiles, ticks, main_player)
+            update(enemies, towers, rounds, projectiles, ticks, main_player, sprite_sheet)
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()
             start_round = False
             projectiles[:] = []
         # refresh/redraw display
-        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower)
+        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower, sprite_sheet)
         if Enemy.enemy_count == 0 and rounds.last_round():
             won = True
 
@@ -662,10 +593,11 @@ def win_screen():
 
 
 def main():
+    sprites = SpriteSets()
     loop = True
     while loop:
         if start_menu():
-            value = game_loop()
+            value = game_loop(sprites)
             if value == 1:
                 if end_menu():
                     pass
