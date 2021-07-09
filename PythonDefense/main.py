@@ -323,7 +323,7 @@ def game_loop(sprite_sheet):
     current_tower = None  # Maybe add a highlight to the menu for this?
     has_placed = True
     selected_tower = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
-
+    any_highlight = False
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
@@ -345,27 +345,27 @@ def game_loop(sprite_sheet):
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
                         fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE, sprite_sheet.FIRE_PROJECTILE_SIZE)
-                        tower_placement_sound.play_sound()
 
                         # TODO: selected tower is initialized with menu sprite/cords, this is just a temp solution
-                        selected_tower.rect = tower_rect
-                        selected_tower.x = tower_rect.x
-                        selected_tower.y = tower_rect.y
-                        selected_tower.projectile.rect = fireball_rect
-                        selected_tower.projectile.x = fireball_rect.x
-                        selected_tower.projectile.y = fireball_rect.y
-                        selected_tower.sprite = current_tower
-                        towers.append(selected_tower)
-
+                        if not any_highlight:
+                            tower_placement_sound.play_sound()
+                            selected_tower.rect = tower_rect
+                            selected_tower.x = tower_rect.x
+                            selected_tower.y = tower_rect.y
+                            selected_tower.projectile.rect = fireball_rect
+                            selected_tower.projectile.x = fireball_rect.x
+                            selected_tower.projectile.y = fireball_rect.y
+                            selected_tower.sprite = current_tower
+                            towers.append(selected_tower)
+                            tower_count += 1
+                            main_player.money = player_money - 15
+                            money_string = "Money: " + str(main_player.money)
+                            has_placed = True
                         selected_tower = None
                         current_tower = None
-
-                        tower_count += 1
-                        main_player.money = player_money - 15
-                        money_string = "Money: " + str(main_player.money)
-                        has_placed = True
+                        any_highlight = False
                 # Checks if click was over a tower and then proceeds with upgrading tower
-                if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
+                elif MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                     current_tower = None
                     # Finds which tower was clicked
@@ -374,6 +374,7 @@ def game_loop(sprite_sheet):
                             # TODO Display an upgrade button with details of the cost of the upgrade
                             selected_tower = tower
                             has_placed = True
+                            any_highlight = True
                             # tower.basic_upgrade(5, 5, 1)
                 # clears selected tower when clicking on grass/path
                 elif MAP[mouse_y // scale(32)][mouse_x // scale(32)] < 2:
