@@ -11,6 +11,7 @@ from PythonDefense.sound import Sound
 from PythonDefense.projectile import Projectile
 from PythonDefense.helper_functions import scale, set_ratio, round_ratio
 from PythonDefense.sprite_sets import SpriteSets
+from PythonDefense.map import Map
 
 #  nt is the os.name for windows
 
@@ -85,27 +86,6 @@ lose_life_odd_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 's
 # 9 = enemies go left
 # 10 = enemies go right
 # 11 = down
-MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 5, 2],
-       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 0, 0, 0, 0, 0, 0, 2, 6, 2, 7, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 8, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 11, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
-
 
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 
@@ -114,10 +94,10 @@ lives = 25
 
 # Only finds starting x cord, fine for now
 # y is set to 0
-def to_start():
+def to_start(game_map):
     temp_count = 0
     y = 0
-    for i in MAP[0]:
+    for i in game_map.Map[0]:
         if i != 11:
             temp_count += 1
         else:
@@ -129,7 +109,7 @@ def clear(enemies, projectiles):
     projectiles[:] = []
 
 
-def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet):
+def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, game_map):
     pixel_per_frame = scale(1)
 
     for tower in towers:
@@ -164,7 +144,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet):
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
 
     for enemy in enemies:
-        enemy_pathfinding(enemy, sprite_sheet)
+        enemy_pathfinding(enemy, sprite_sheet, game_map)
         enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
         enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
         enemy.rect.x = enemy.x
@@ -191,9 +171,9 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet):
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
 
 
-def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower, sprite_sheet):
+def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower, sprite_sheet, game_map):
     # draws map
-    for x, row in enumerate(MAP):
+    for x, row in enumerate(game_map.Map):
         tile = sprite_sheet.GRASS_TILE
         for y, cord in enumerate(row):
             # draws grass and path
@@ -277,7 +257,7 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
     pygame.display.update()
 
 
-def enemy_pathfinding(enemy, sprite_sheet):
+def enemy_pathfinding(enemy, sprite_sheet, game_map):
     if enemy.x_weight == -1:
         enemy_tile_x = int(floor((enemy.x + (sprite_sheet.TILE_SIZE - 2)) / WIDTH * NUM_TILES_X))
     else:
@@ -290,18 +270,19 @@ def enemy_pathfinding(enemy, sprite_sheet):
         global lives
         lives = lives - 1  # Duplicate code? This may have been rewritten in update
         # if removed, update conditions to keep from out-of-bounds error
-    elif MAP[enemy_tile_y][enemy_tile_x] == 9:
+    elif game_map.Map[enemy_tile_y][enemy_tile_x] == 9:
         enemy.face(LEFT)
         enemy.x_weight, enemy.y_weight = -1, 0
-    elif MAP[enemy_tile_y][enemy_tile_x] == 10:
+    elif game_map.Map[enemy_tile_y][enemy_tile_x] == 10:
         enemy.face(RIGHT)
         enemy.x_weight, enemy.y_weight = 1, 0
-    elif MAP[enemy_tile_y][enemy_tile_x] == 11:
+    elif game_map.Map[enemy_tile_y][enemy_tile_x] == 11:
         enemy.face(DOWN)
         enemy.x_weight, enemy.y_weight = 0, 1
 
 
-def game_loop(sprite_sheet):
+def game_loop(sprite_sheet, game_map):
+    game_map.set_default_map()
     # TODO: enemy path finding
     player_health = 10
     player_money = 150
@@ -316,7 +297,7 @@ def game_loop(sprite_sheet):
     main_player = Player(player_health, player_money)
 
     count = 1
-    rounds = Rounds(to_start(), sprite_sheet.ENEMY_SIZE, sprite_sheet.ENEMY1_SPRITE, sprite_sheet.ENEMY2_SPRITE, sprite_sheet.ENEMY3_SPRITE)
+    rounds = Rounds(to_start(game_map), sprite_sheet.ENEMY_SIZE, sprite_sheet.ENEMY1_SPRITE, sprite_sheet.ENEMY2_SPRITE, sprite_sheet.ENEMY3_SPRITE)
     enemies = rounds.level()
 
     towers = []
@@ -342,9 +323,9 @@ def game_loop(sprite_sheet):
 
                 #  TODO: reformat
                 player_money = main_player.get_money()
-                if MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 0:
+                if game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 0:
                     if player_money >= 15 and selected_tower is not None:
-                        MAP[mouse_y // scale(32)][mouse_x // scale(32)] = 3
+                        game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] = 3
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
                         fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE, sprite_sheet.FIRE_PROJECTILE_SIZE)
@@ -368,7 +349,7 @@ def game_loop(sprite_sheet):
                         current_tower = None
                         any_highlight = False
                 # Checks if click was over a tower and then proceeds with upgrading tower
-                elif MAP[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
+                elif game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                     current_tower = None
                     # Finds which tower was clicked
@@ -380,7 +361,7 @@ def game_loop(sprite_sheet):
                             any_highlight = True
                             # tower.basic_upgrade(5, 5, 1)
                 # clears selected tower when clicking on grass/path
-                elif MAP[mouse_y // scale(32)][mouse_x // scale(32)] < 2:
+                elif game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] < 2:
                     selected_tower = None
 
                 # Checks if upgrade button was clicked
@@ -404,8 +385,8 @@ def game_loop(sprite_sheet):
                         start_round = True
 
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
-                if MAP[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
-                    num = MAP[mouse_y // scale(32)][mouse_x // scale(32)]
+                if game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
+                    num = game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)]
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                     tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
                     fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE, sprite_sheet.FIRE_PROJECTILE_SIZE)
@@ -455,14 +436,14 @@ def game_loop(sprite_sheet):
             clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
             # update logic
-            update(enemies, towers, rounds, projectiles, ticks, main_player, sprite_sheet)
+            update(enemies, towers, rounds, projectiles, ticks, main_player, sprite_sheet, game_map)
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()
             start_round = False
             projectiles[:] = []
         # refresh/redraw display
-        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower, sprite_sheet)
+        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower, sprite_sheet, game_map)
         if Enemy.enemy_count == 0 and rounds.last_round():
             won = True
 
@@ -504,27 +485,6 @@ def start_menu():
 
 
 def end_menu():
-    global MAP
-    MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 5, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 0, 0, 0, 0, 0, 0, 2, 6, 2, 7, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 8, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 11, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
     WIN.fill((175, 238, 238))
     color = (255, 69, 0)
     font = pygame.font.SysFont('Arial', scale(32))
@@ -550,27 +510,6 @@ def end_menu():
 
 
 def win_screen():
-    global MAP
-    MAP = [[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 5, 2],
-           [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 0, 0, 0, 0, 0, 0, 2, 6, 2, 7, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 8, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 11, 1, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-           [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]]
     WIN.fill((175, 238, 238))
     WIN.fill((236, 192, 67))
     color = (19, 63, 188)
@@ -598,10 +537,11 @@ def win_screen():
 
 def main():
     sprites = SpriteSets()
+    game_map = Map()
     loop = True
     while loop:
         if start_menu():
-            value = game_loop(sprites)
+            value = game_loop(sprites, game_map)
             if value == 1:
                 if end_menu():
                     pass
