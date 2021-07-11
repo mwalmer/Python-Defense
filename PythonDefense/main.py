@@ -282,7 +282,6 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 
 def game_loop(sprite_sheet, game_map):
-    game_map.set_default_map()
     # TODO: enemy path finding
     player_health = 10
     player_money = 150
@@ -297,7 +296,8 @@ def game_loop(sprite_sheet, game_map):
     main_player = Player(player_health, player_money)
 
     count = 1
-    rounds = Rounds(to_start(game_map), sprite_sheet.ENEMY_SIZE, sprite_sheet.ENEMY1_SPRITE, sprite_sheet.ENEMY2_SPRITE, sprite_sheet.ENEMY3_SPRITE)
+    rounds = Rounds(to_start(game_map), sprite_sheet.ENEMY_SIZE, sprite_sheet.ENEMY1_SPRITE, sprite_sheet.ENEMY2_SPRITE,
+                    sprite_sheet.ENEMY3_SPRITE)
     enemies = rounds.level()
 
     towers = []
@@ -328,7 +328,8 @@ def game_loop(sprite_sheet, game_map):
                         game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] = 3
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
-                        fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE, sprite_sheet.FIRE_PROJECTILE_SIZE)
+                        fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
+                                                    sprite_sheet.FIRE_PROJECTILE_SIZE)
 
                         # TODO: selected tower is initialized with menu sprite/cords, this is just a temp solution
                         if not any_highlight:
@@ -389,38 +390,44 @@ def game_loop(sprite_sheet, game_map):
                     num = game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)]
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                     tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
-                    fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE, sprite_sheet.FIRE_PROJECTILE_SIZE)
+                    fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
+                                                sprite_sheet.FIRE_PROJECTILE_SIZE)
                     if num == 4:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
+                                               Projectile.motion)
                         current_tower = sprite_sheet.TOWER1_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 5:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.motion)
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
+                                               Projectile.motion)
                         current_tower = sprite_sheet.TOWER2_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 6:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.arc_motion)
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
+                                               Projectile.arc_motion)
                         current_tower = sprite_sheet.TOWER3_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
+                                               Projectile.snake_shot)
                         current_tower = sprite_sheet.TOWER4_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
                         selected_tower = Tower(f'tower_{tower_count + 1}', 10, 10, 1000, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3, Projectile.snake_shot)
+                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
+                                               Projectile.snake_shot)
                         current_tower = sprite_sheet.TOWER5_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
@@ -535,24 +542,60 @@ def win_screen():
     return False
 
 
+def level_screen(game_map):
+    WIN.fill((108, 135, 130))
+    color = (255, 255, 255)
+    font = pygame.font.SysFont('Arial', scale(32))
+    level_1_text = font.render('Level 1 Map', True, color)
+    button_1_rect = level_1_text.get_rect()
+    button_1_rect[0] = width / 6
+    button_1_rect[1] = height / 3.5
+    level_2_text = font.render('Level 2 Map', True, color)
+    button_2_rect = level_2_text.get_rect()
+    button_2_rect[0] = width / 6
+    button_2_rect[1] = height / 2.5
+    run = True
+    while run:
+        WIN.blit(level_1_text, (width / 6, height / 3.5))
+        WIN.blit(level_2_text, (width / 6, height / 2.5))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse = pygame.mouse.get_pos()
+                if button_1_rect.collidepoint(mouse):
+                    game_map.set_default_map()
+                    return True
+                if button_2_rect.collidepoint(mouse):
+                    game_map.set_level_2_map()
+                    return True
+        pygame.display.update()
+    pygame.quit()
+    return False
+
+
+
 def main():
     sprites = SpriteSets()
     game_map = Map()
     loop = True
     while loop:
         if start_menu():
-            value = game_loop(sprites, game_map)
-            if value == 1:
-                if end_menu():
-                    pass
-                else:
+            if level_screen(game_map):
+                value = game_loop(sprites, game_map)
+                if value == 1:
+                    if end_menu():
+                        pass
+                    else:
+                        loop = False
+                if value == 2:
+                    if win_screen():
+                        pass
+                    else:
+                        loop = False
+                if value == 3:
                     loop = False
-            if value == 2:
-                if win_screen():
-                    pass
-                else:
-                    loop = False
-            if value == 3:
+            else:
                 loop = False
         else:
             loop = False
