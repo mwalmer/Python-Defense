@@ -17,7 +17,8 @@ setup(
         ],
     },
     install_requires=[
-        'pygame~=2.0.1'
+        'pygame~=2.0.1',
+        'numpy~=1.21.0'
     ],
     include_package_data=True
 )
