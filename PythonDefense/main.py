@@ -439,6 +439,7 @@ def game_loop(sprite_sheet, game_map):
                         current_tower = sprite_sheet.TOWER5_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
+                    any_highlight = False
 
         if current_tower is not None:
             mouse_cords = pygame.mouse.get_pos()
