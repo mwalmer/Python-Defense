@@ -4,7 +4,7 @@ import pygame
 import os
 
 from PythonDefense.enemy import Enemy
-from PythonDefense.tower import Tower
+from PythonDefense.tower import Tower, get_tower_from_preset
 from PythonDefense.player import Player
 from PythonDefense.round import Rounds
 from PythonDefense.sound import Sound
@@ -283,6 +283,7 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 def game_loop(sprite_sheet, game_map):
     # TODO: enemy path finding
+    selected_preset = None
     player_health = 10
     player_money = 150
     won = False
@@ -324,29 +325,24 @@ def game_loop(sprite_sheet, game_map):
                 #  TODO: reformat
                 player_money = main_player.get_money()
                 if game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 0:
-                    if player_money >= 15 and selected_tower is not None:
+                    if player_money >= 15 and selected_preset is not None:
                         game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] = 3
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
-                        fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
+                        projectile_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
                                                     sprite_sheet.FIRE_PROJECTILE_SIZE)
 
                         # TODO: selected tower is initialized with menu sprite/cords, this is just a temp solution
                         if not any_highlight:
                             tower_placement_sound.play_sound()
-                            print(game_map.Map)
-                            selected_tower.rect = tower_rect
-                            selected_tower.x = tower_rect.x
-                            selected_tower.y = tower_rect.y
-                            selected_tower.projectile.rect = fireball_rect
-                            selected_tower.projectile.x = fireball_rect.x
-                            selected_tower.projectile.y = fireball_rect.y
-                            selected_tower.sprite = current_tower
-                            towers.append(selected_tower)
+                            # print(game_map.Map)
+                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect)
+                            towers.append(new_tower)
                             tower_count += 1
                             main_player.money = player_money - 15
                             money_string = "Money: " + str(main_player.money)
                             has_placed = True
+                            selected_preset = None
                         selected_tower = None
                         current_tower = None
                         any_highlight = False
@@ -401,41 +397,31 @@ def game_loop(sprite_sheet, game_map):
                     fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
                                                 sprite_sheet.FIRE_PROJECTILE_SIZE)
                     if num == 4:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
-                                               Projectile.motion)
+                        selected_preset = "python"
                         current_tower = sprite_sheet.TOWER1_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 5:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
-                                               Projectile.motion)
+                        selected_preset = "java"
                         current_tower = sprite_sheet.TOWER2_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 6:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
-                                               Projectile.arc_motion)
+                        selected_preset = "cpp"
                         current_tower = sprite_sheet.TOWER3_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 1, 1, 500, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
-                                               Projectile.snake_shot)
+                        selected_preset = "javascript"
                         current_tower = sprite_sheet.TOWER4_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
-                        selected_tower = Tower(f'tower_{tower_count + 1}', 10, 10, 1000, tower_rect, current_tower,
-                                               "Fireball", fireball_rect, sprite_sheet.FIRE_PROJECTILE_SPRITE, ticks, 3,
-                                               Projectile.snake_shot)
+                        selected_preset = "lisp"
                         current_tower = sprite_sheet.TOWER5_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False

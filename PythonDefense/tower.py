@@ -1,6 +1,40 @@
 from PythonDefense.projectile import Projectile
 import copy
 import math
+import sprite_sets
+
+
+def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
+    sprite_set = sprite_sets.SpriteSets()
+    tower_presets = {
+        "python": ["python_tower", 1, 1, 500, sprite_set.TOWER1_SPRITE,
+                   "python_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+        "java": ["java_tower", 1, 1, 500, sprite_set.TOWER2_SPRITE,
+                    "java_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+        "cpp": ["cpp_tower", 1, 1, 500, sprite_set.TOWER3_SPRITE,
+                   "cpp_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+        "javascript": ["javascript_tower", 1, 1, 500, sprite_set.TOWER4_SPRITE,
+                   "javascript_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+        "lisp": ["lisp_tower", 1, 1, 500, sprite_set.TOWER5_SPRITE,
+                   "lisp_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+    }
+
+    tp = tower_presets[tower_name]
+    name = tp[0]
+    damage = tp[1]
+    attack_speed = tp[2]
+    range = tp[3]
+    rect = tower_rect
+    sprite = tp[4]
+    projectile_name = tp[5]
+    projectile_rect = projectile_rect
+    projectile_sprite = tp[6]
+    ticks = ticks
+    projectile_speed = tp[7]
+    projectile_motion = Projectile.motion
+
+    return Tower(name, damage, attack_speed, range, rect, sprite, projectile_name, projectile_rect,
+                 projectile_sprite, ticks, projectile_speed, projectile_motion)
 
 
 class Tower:
