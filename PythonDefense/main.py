@@ -334,6 +334,7 @@ def game_loop(sprite_sheet, game_map):
                         # TODO: selected tower is initialized with menu sprite/cords, this is just a temp solution
                         if not any_highlight:
                             tower_placement_sound.play_sound()
+                            print(game_map.Map)
                             selected_tower.rect = tower_rect
                             selected_tower.x = tower_rect.x
                             selected_tower.y = tower_rect.y
@@ -362,8 +363,11 @@ def game_loop(sprite_sheet, game_map):
                             any_highlight = True
                             # tower.basic_upgrade(5, 5, 1)
                 # clears selected tower when clicking on grass/path
-                elif game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] < 2:
+                elif game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] < 2 or game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 9 or game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 10 \
+                        or game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 11:
+                    current_tower = None
                     selected_tower = None
+                    any_highlight = False
 
                 # Checks if upgrade button was clicked
                 if sprite_sheet.TILE_SIZE * 17 <= mouse_y <= sprite_sheet.TILE_SIZE * 17 + sprite_sheet.TILE_SIZE:
@@ -375,8 +379,12 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 15
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+
                                     # don't have to reset selected_tower after upgrade
                                     # selected_tower = None
+                                selected_tower = None
+                                current_tower = None
+                                any_highlight = False
 
                 # Checks if start button was clicked
                 if sprite_sheet.TILE_SIZE * 15 <= mouse_y <= sprite_sheet.TILE_SIZE * 15 + sprite_sheet.TILE_SIZE:
@@ -386,7 +394,7 @@ def game_loop(sprite_sheet, game_map):
                         start_round = True
 
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
-                if game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] > 3:
+                if 4 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] <= 8:
                     num = game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)]
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                     tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
