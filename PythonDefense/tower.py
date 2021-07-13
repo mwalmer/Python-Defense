@@ -2,7 +2,7 @@ from PythonDefense.projectile import Projectile
 import copy
 import math
 import sprite_sets
-
+from helper_functions import scale
 
 def get_tower_presets():
     sprite_set = sprite_sets.SpriteSets()
@@ -16,15 +16,15 @@ def get_tower_presets():
     lisp - projectile doesn't break and follows set path
     '''
     tower_presets = {
-        "python": ["python_tower", 1, 1, 500, sprite_set.PYTHON_TOWER_SPRITE,
+        "python": ["python_tower", 1, 1, scale(250), sprite_set.PYTHON_TOWER_SPRITE,
                    "python_projectile", sprite_set.ICE_PROJECTILE_SPRITE, 10, Projectile.snake_shot],
-        "java": ["java_tower", 1, 1, 500, sprite_set.JAVA_TOWER_SPRITE,
+        "java": ["java_tower", 1, 1, scale(250), sprite_set.JAVA_TOWER_SPRITE,
                     "java_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
-        "cpp": ["cpp_tower", 1, 1, 500, sprite_set.CPP_TOWER_SPRITE,
+        "cpp": ["cpp_tower", 1, 1, scale(250), sprite_set.CPP_TOWER_SPRITE,
                    "cpp_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
-        "javascript": ["javascript_tower", 1, 1, 500, sprite_set.JAVASCRIPT_TOWER_SPRITE,
+        "javascript": ["javascript_tower", 1, 1, scale(250), sprite_set.JAVASCRIPT_TOWER_SPRITE,
                    "javascript_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
-        "lisp": ["lisp_tower", 1, 1, 500, sprite_set.LISP_TOWER_SPRITE,
+        "lisp": ["lisp_tower", 1, 1, scale(250), sprite_set.LISP_TOWER_SPRITE,
                    "lisp_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.arc_motion],
     }
 
