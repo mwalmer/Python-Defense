@@ -114,14 +114,18 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
     for tower in towers:
         #  checks the towers attack speed before firing
+        tower.ticks += ticks
+        if tower.ticks >= tower.attack_speed:
+            tower.ticks = 0
+            tower.can_shoot = True
         if tower.any_within_range(enemies) != -1:
-            tower.ticks += ticks
-
             # If you change name closest_enemy_index then you need to update it later in fire_projectile stat declaration
             closest_enemy_index = tower.any_within_range(enemies)
-            if tower.ticks >= tower.attack_speed and closest_enemy_index != -1:
+            if closest_enemy_index != -1 and tower.can_shoot:
                 projectiles.append(tower.fire_projectile(closest_enemy_index))
-                tower.ticks -= tower.attack_speed
+                tower.ticks = 0
+                tower.can_shoot = False
+
 
     #   might want to optimize later on
     for projectile in projectiles:

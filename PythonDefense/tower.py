@@ -1,6 +1,7 @@
 from PythonDefense.projectile import Projectile
 import copy
 import math
+from helper_functions import scale
 import sprite_sets
 
 
@@ -39,6 +40,7 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect, sprite
 class Tower:
     def __init__(self, name, damage, attack_speed, range, rect, sprite, projectile_name, projectile_rect,
                  projectile_sprite, ticks, projectile_speed, projectile_motion_function):
+        self.can_shoot = True
         self.name = name
         self.damage = damage
         self.attack_speed = 1000 / attack_speed
