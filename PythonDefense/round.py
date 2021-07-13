@@ -50,21 +50,28 @@ class Rounds:
         elif self.round == 5:
             enemies1 = self.tankEn(4)
             enemies = enemies1
+        elif self.round == 6:
+            enemies1 = self.tankEn(2)
+            enemies2 = self.SoldierEn(6)
+            enemies = enemies1 + enemies2
+        elif self.round == 7:
+            enemies1 = self.scoutEn(5)
+            enemies = enemies1
         return enemies
 
     def next_round(self):
         self.round += 1
 
     def last_round(self):
-        return self.round == 5
+        return self.round == 7
 
     #slow and tanky
     def tankEn(self, num):
-        return self.spawn(num, 10, 1, self.enemy_size, self.enemy_sprite4)
+        return self.spawn(num, 15, 1, self.enemy_size, self.enemy_sprite4)
 
     #fast and weak
     def scoutEn(self, num):
-        return self.spawn(num, 3, 6, self.enemy_size, self.enemy_sprite3)
+        return self.spawn(num, 5, 6, self.enemy_size, self.enemy_sprite3)
 
     #generalist
     def SoldierEn(self,num):

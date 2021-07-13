@@ -285,7 +285,7 @@ def game_loop(sprite_sheet, game_map):
     # TODO: enemy path finding
     selected_preset = None
     player_health = 10
-    player_money = 150
+    player_money = 50
     won = False
     # So these get properly updated instead of just on hit/change
     global lives_string
