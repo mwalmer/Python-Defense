@@ -127,7 +127,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
                 tower.ticks = 0
                 tower.can_shoot = False
 
-    #   might want to optimize later on
+        #   might want to optimize later on
 
         # Might be optimized? Hard to tell because of weird errors/unfamiliarity with concurrency. I think this is better?
         # But may want to use timeit function to test it, I'll do that soon - Benny
@@ -170,22 +170,22 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
 
 async def projectile_movement(projectile, enemies):
-        if projectile.closest is not None:
-            x, y = projectile.closest.cords()
-            projectile.movement_function(projectile(), x, y)
-            if projectile.rect.colliderect(projectile.closest.rect):
-                projectile.closest.health -= projectile.damage
-                projectile.flag_removal()
-                collision_sound.play_sound()
-        else:
+    if projectile.closest is not None:
+        x, y = projectile.closest.cords()
+        projectile.movement_function(projectile(), x, y)
+        if projectile.rect.colliderect(projectile.closest.rect):
+            projectile.closest.health -= projectile.damage
             projectile.flag_removal()
-            # this can be modified for aoe projectiles
-            # for enemy in enemies:
-            #     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
-            #         enemy.health -= projectile.damage
-            #         projectile.flag_removal()
-            #         collision_sound.play_sound()
-            #         has_not_hit = False
+            collision_sound.play_sound()
+    else:
+        projectile.flag_removal()
+        # this can be modified for aoe projectiles
+        # for enemy in enemies:
+        #     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
+        #         enemy.health -= projectile.damage
+        #         projectile.flag_removal()
+        #         collision_sound.play_sound()
+        #         has_not_hit = False
 
 
 async def all_projectile_movement(projectiles, enemies):
@@ -196,6 +196,7 @@ async def all_projectile_movement(projectiles, enemies):
             await asyncio.gather(*tasks)
         except RuntimeError:  # This seems like a bad solution, look for other ways of concurrency here
             pass
+
 
 def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map):
     # draws map
@@ -409,7 +410,8 @@ def game_loop(sprite_sheet, game_map):
                             any_highlight = True
                             # tower.basic_upgrade(5, 5, 1)
                 # clears selected tower when clicking on grass/path
-                elif 0 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] < 2 or 9 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] <= \
+                elif 0 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] < 2 or 9 <= \
+                        game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] <= \
                         11:
                     # should occur on 0,1,9,10,11, TODO: Fix not deselecting on grass 0
                     current_tower_info = None
@@ -499,7 +501,8 @@ def game_loop(sprite_sheet, game_map):
             start_round = False
             projectiles[:] = []
         # refresh/redraw display
-        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map)
+        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
+                    game_map)
 
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py
