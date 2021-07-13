@@ -191,19 +191,19 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
             elif cord == 4:
                 # menu has to be drawn under towers, since they do not take up full tile
                 WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
-                tile = sprite_sheet.TOWER1_SPRITE
+                tile = sprite_sheet.PYTHON_TOWER_SPRITE
             elif cord == 5:
                 WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
-                tile = sprite_sheet.TOWER2_SPRITE
+                tile = sprite_sheet.JAVA_TOWER_SPRITE
             elif cord == 6:
                 WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
-                tile = sprite_sheet.TOWER3_SPRITE
+                tile = sprite_sheet.CPP_TOWER_SPRITE
             elif cord == 7:
                 WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
-                tile = sprite_sheet.TOWER4_SPRITE
+                tile = sprite_sheet.JAVASCRIPT_TOWER_SPRITE
             elif cord == 8:
                 WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
-                tile = sprite_sheet.TOWER5_SPRITE
+                tile = sprite_sheet.LISP_TOWER_SPRITE
             elif cord == 9:
                 tile = sprite_sheet.DIRT_TILE
             elif cord == 10:
@@ -405,31 +405,31 @@ def game_loop(sprite_sheet, game_map):
                                                 sprite_sheet.FIRE_PROJECTILE_SIZE)
                     if num == 4:
                         selected_preset = "python"
-                        current_tower = sprite_sheet.TOWER1_SPRITE
+                        current_tower = sprite_sheet.PYTHON_TOWER_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 5:
                         selected_preset = "java"
-                        current_tower = sprite_sheet.TOWER2_SPRITE
+                        current_tower = sprite_sheet.JAVA_TOWER_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 6:
                         selected_preset = "cpp"
-                        current_tower = sprite_sheet.TOWER3_SPRITE
+                        current_tower = sprite_sheet.CPP_TOWER_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
                         selected_preset = "javascript"
-                        current_tower = sprite_sheet.TOWER4_SPRITE
+                        current_tower = sprite_sheet.JAVASCRIPT_TOWER_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
                         selected_preset = "lisp"
-                        current_tower = sprite_sheet.TOWER5_SPRITE
+                        current_tower = sprite_sheet.LISP_TOWER_SPRITE
                         tower_grab_sound.play_sound()
                         has_placed = False
                     any_highlight = False

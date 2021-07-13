@@ -23,16 +23,16 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'menu_tile.png')).convert()
         self.HILITE_TILE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'hilite.png')).convert_alpha()
-        self.TOWER1_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower1.png')).convert_alpha()
-        self.TOWER2_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower2.png')).convert_alpha()
-        self.TOWER3_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower3.png')).convert_alpha()
-        self.TOWER4_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower4.png')).convert_alpha()
-        self.TOWER5_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'tower5.png')).convert_alpha()
+        self.PYTHON_TOWER = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'python_tower.png')).convert_alpha()
+        self.JAVA_TOWER_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'java_tower.png')).convert_alpha()
+        self.CPP_TOWER_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'cpp_tower.png')).convert_alpha()
+        self.JAVASCRIPT_TOWER_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'javascript_tower.png')).convert_alpha()
+        self.LISP_TOWER_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'LISP_TOWER.png')).convert_alpha()
         self.ENEMY1_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy1.png')).convert_alpha()
         self.ENEMY2_SPRITE = pygame.image.load(
@@ -76,11 +76,11 @@ class SpriteSets:
         self.MENU_TILE = pygame.transform.scale(self.MENU_TILE, self.TILE_XY)
         self.HILITE_TILE = pygame.transform.scale(self.HILITE_TILE, self.TILE_XY)
 
-        self.TOWER1_SPRITE = pygame.transform.scale(self.TOWER1_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
-        self.TOWER2_SPRITE = pygame.transform.scale(self.TOWER2_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
-        self.TOWER3_SPRITE = pygame.transform.scale(self.TOWER3_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
-        self.TOWER4_SPRITE = pygame.transform.scale(self.TOWER4_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
-        self.TOWER5_SPRITE = pygame.transform.scale(self.TOWER5_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.PYTHON_TOWER_SPRITE = pygame.transform.scale(self.PYTHON_TOWER, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.JAVA_TOWER_SPRITE = pygame.transform.scale(self.JAVA_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.CPP_TOWER_SPRITE = pygame.transform.scale(self.CPP_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.JAVASCRIPT_TOWER_SPRITE = pygame.transform.scale(self.JAVASCRIPT_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.LISP_TOWER_SPRITE = pygame.transform.scale(self.LISP_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
 
         self.ENEMY1_SPRITE = pygame.transform.scale(self.ENEMY1_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
         self.ENEMY2_SPRITE = pygame.transform.scale(self.ENEMY2_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
