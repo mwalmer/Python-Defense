@@ -237,38 +237,18 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     # highlight and show range for selected tower
     if selected_tower is not None:
         WIN.blit(sprite_sheet.HILITE_TILE, selected_tower.cords())
-
-        # draws tower range indicator
-        surf = pygame.Surface((selected_tower.range * 2, selected_tower.range * 2), pygame.SRCALPHA).convert_alpha()
-        radius_indicator_color = pygame.Color(0, 0, 0, 100)
-        pygame.draw.circle(surf, radius_indicator_color, (selected_tower.range, selected_tower.range), selected_tower.range)
-        # centers circle on tower
-        x, y = selected_tower.cords()
-        shifted_x = x - selected_tower.range + scale(16)
-        shifted_y = y - selected_tower.range + scale(16)
-        WIN.blit(surf, (shifted_x, shifted_y))
+        draw_range_indicator(selected_tower.range, selected_tower.cords())
 
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
 
-    # draws current tower/selected shop tower by mouse
+    # draws current tower/selected shop tower on mouse with range indicator
     if current_tower_info is not None:
         x, y = mouse_cords
         x, y = x - scale(16), y - scale(16)
         WIN.blit(current_tower_info[0], (x, y))
         tower_range = current_tower_info[1]
-
-        # draws tower range indicator
-        surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
-        radius_indicator_color = pygame.Color(0, 0, 0, 100)
-        pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
-                           tower_range)
-        # centers circle on tower
-        shifted_x = x - tower_range + scale(16)
-        shifted_y = y - tower_range + scale(16)
-        WIN.blit(surf, (shifted_x, shifted_y))
-
-
+        draw_range_indicator(tower_range, (x, y))
 
     # Draw Menu Buttons
     WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
@@ -285,6 +265,18 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(text1, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
     WIN.blit(text2, (21 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE))
     pygame.display.update()
+
+
+def draw_range_indicator(tower_range, cords):
+    surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
+    radius_indicator_color = pygame.Color(0, 0, 0, 100)
+    pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
+                       tower_range)
+    # centers circle on tower
+    x, y = cords
+    shifted_x = x - tower_range + scale(16)
+    shifted_y = y - tower_range + scale(16)
+    WIN.blit(surf, (shifted_x, shifted_y))
 
 
 def enemy_pathfinding(enemy, sprite_sheet, game_map):
