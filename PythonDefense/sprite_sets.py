@@ -39,6 +39,12 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy2.png')).convert_alpha()
         self.ENEMY3_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy3.png')).convert_alpha()
+        self.ENEMY4_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy4.png')).convert_alpha()
+        self.ENEMY5_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy5.png')).convert_alpha()
+        self.ENEMY6_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy6.png')).convert_alpha()
         self.FIRE_PROJECTILE_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball.png')).convert()
         self.ICE_PROJECTILE_SPRITE = pygame.image.load(
@@ -75,9 +81,14 @@ class SpriteSets:
         self.TOWER3_SPRITE = pygame.transform.scale(self.TOWER3_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
         self.TOWER4_SPRITE = pygame.transform.scale(self.TOWER4_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
         self.TOWER5_SPRITE = pygame.transform.scale(self.TOWER5_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
+
         self.ENEMY1_SPRITE = pygame.transform.scale(self.ENEMY1_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
         self.ENEMY2_SPRITE = pygame.transform.scale(self.ENEMY2_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
         self.ENEMY3_SPRITE = pygame.transform.scale(self.ENEMY3_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
+        self.ENEMY4_SPRITE = pygame.transform.scale(self.ENEMY4_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
+        self.ENEMY5_SPRITE = pygame.transform.scale(self.ENEMY5_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
+        self.ENEMY6_SPRITE = pygame.transform.scale(self.ENEMY6_SPRITE, (self.ENEMY_SIZE, self.ENEMY_SIZE))
+
         self.FIRE_PROJECTILE_SPRITE = pygame.transform.scale(self.FIRE_PROJECTILE_SPRITE,
                                                              (self.FIRE_PROJECTILE_SIZE, self.FIRE_PROJECTILE_SIZE))
         self.ICE_PROJECTILE_SPRITE = pygame.transform.scale(self.ICE_PROJECTILE_SPRITE,

@@ -298,7 +298,7 @@ def game_loop(sprite_sheet, game_map):
 
     count = 1
     rounds = Rounds(to_start(game_map), sprite_sheet.ENEMY_SIZE, sprite_sheet.ENEMY1_SPRITE, sprite_sheet.ENEMY2_SPRITE,
-                    sprite_sheet.ENEMY3_SPRITE)
+                    sprite_sheet.ENEMY3_SPRITE, sprite_sheet.ENEMY4_SPRITE, sprite_sheet.ENEMY5_SPRITE,sprite_sheet.ENEMY6_SPRITE)
     enemies = rounds.level()
 
     towers = []
