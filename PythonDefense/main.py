@@ -475,6 +475,8 @@ def game_loop(sprite_sheet, game_map):
         if Enemy.enemy_count != 0:
             # update logic
             update(enemies, towers, rounds, projectiles, ticks, main_player, sprite_sheet, game_map)
+        if Enemy.enemy_count == 0 and rounds.last_round():
+            won = True
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             enemies = rounds.level()
@@ -482,8 +484,6 @@ def game_loop(sprite_sheet, game_map):
             projectiles[:] = []
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map)
-        if Enemy.enemy_count == 0 and rounds.last_round():
-            won = True
 
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py
