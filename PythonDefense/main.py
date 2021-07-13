@@ -118,39 +118,45 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if tower.ticks >= tower.attack_speed:
             tower.ticks = 0
             tower.can_shoot = True
-        if tower.any_within_range(enemies) != -1:
+        if enemies is not None:
             # If you change name closest_enemy_index then you need to update it later in fire_projectile stat declaration
-            closest_enemy_index = tower.any_within_range(enemies)
-            if closest_enemy_index != -1 and tower.can_shoot:
-                projectiles.append(tower.fire_projectile(closest_enemy_index))
+            closest_enemy = tower.get_enemy(enemies)
+            if closest_enemy is not None and tower.can_shoot:
+                projectiles.append(tower.fire_projectile(closest_enemy))
                 tower.ticks = 0
                 tower.can_shoot = False
 
-
     #   might want to optimize later on
     for projectile in projectiles:
-        has_not_hit = True
-        if len(enemies) != 0:
-            if len(enemies) > projectile.closest:
-                x, y = enemies[projectile.closest].cords()
-                projectile.movement_function(projectile(), x, y)
-                #  TODO: make sure only one enemy is getting hit
-                for enemy in enemies:
-                    if projectile.rect.colliderect(enemy.rect) and has_not_hit:
-                        enemy.health -= projectile.damage
-                        projectile.flag_removal()
-                        collision_sound.play_sound()
-                        has_not_hit = False
-            else:
+        if projectile.closest is not None:
+            x, y = projectile.closest.cords()
+            projectile.movement_function(projectile(), x, y)
+            if projectile.rect.colliderect(projectile.closest.rect):
+                projectile.closest.health -= projectile.damage
                 projectile.flag_removal()
+                collision_sound.play_sound()
+        else:
+            projectile.flag_removal()
+            # this can be modified for aoe projectiles
+            # for enemy in enemies:
+            #     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
+            #         enemy.health -= projectile.damage
+            #         projectile.flag_removal()
+            #         collision_sound.play_sound()
+            #         has_not_hit = False
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
 
     for enemy in enemies:
         enemy_pathfinding(enemy, sprite_sheet, game_map)
-        enemy.y += pixel_per_frame * enemy.speed * enemy.y_weight
-        enemy.x += pixel_per_frame * enemy.speed * enemy.x_weight
+        y_dist = pixel_per_frame * enemy.speed * enemy.y_weight
+        x_dist = pixel_per_frame * enemy.speed * enemy.x_weight
+        enemy.y += y_dist
+        enemy.x += x_dist
+        if enemy.y > 0 and enemy.x > 0:
+            enemy.total_dist_traveled += abs(x_dist) + abs(y_dist)
+
         enemy.rect.x = enemy.x
         enemy.rect.y = enemy.y
 

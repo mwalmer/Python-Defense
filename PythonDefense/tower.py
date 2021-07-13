@@ -69,6 +69,7 @@ class Tower:
         self.ticks = ticks
         self.level = 1
         self.projectile_speed = projectile_speed
+        self.target_mode = 0  # 0 - furthest, 1 - last enemy
 
     # returns a new copy of its projectile, if it didn't the tower could only shoot once
     def fire_projectile(self, closest):
@@ -78,11 +79,39 @@ class Tower:
     def cords(self):
         return self.x, self.y
 
-    def any_within_range(self, enemies):
-        for i in range(len(enemies)):
-            if self.within_range(enemies[i].x, enemies[i].y):
-                return i
-        return -1
+    def get_enemy(self, enemies):
+        if self.target_mode == 0:
+            return self.get_first_enemy(enemies)
+        else:
+            return self.get_last_enemy(enemies)
+
+    # gets the enemy which has traveled the furthest and is within turret range
+    def get_first_enemy(self, enemies):
+        enemies_in_range = []
+        for enemy in enemies:
+            if self.within_range(enemy.x, enemy.y):
+                enemies_in_range.append(enemy)
+
+        furthest_enemy = None
+        for enemy in enemies_in_range:
+            temp_enemy = enemy
+            if furthest_enemy is None or temp_enemy.total_dist_traveled > furthest_enemy.total_dist_traveled:
+                furthest_enemy = temp_enemy
+        return furthest_enemy
+
+    # gets the enemy last in line
+    def get_last_enemy(self, enemies):
+        enemies_in_range = []
+        for enemy in enemies:
+            if self.within_range(enemy.x, enemy.y):
+                enemies_in_range.append(enemy)
+
+        last_enemy = None
+        for enemy in enemies_in_range:
+            temp_enemy = enemy
+            if last_enemy is None or temp_enemy.total_dist_traveled < last_enemy.total_dist_traveled:
+                last_enemy = temp_enemy
+        return last_enemy
 
     def within_range(self, enemy_x, enemy_y):
         if math.sqrt((enemy_x - self.x) ** 2 + (enemy_y - self.y) ** 2) <= self.range:

@@ -17,6 +17,7 @@ class Enemy:
         self.sprite = sprite
         Enemy.enemy_count += 1
         self.remove = False
+        self.total_dist_traveled = 0
 
     def face(self, deg):
         self.sprite = pygame.transform.rotate(self._sprite, deg)

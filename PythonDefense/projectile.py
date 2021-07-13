@@ -13,7 +13,7 @@ class Projectile:
         self._sprite = sprite
         self.sprite = sprite
         self.remove = False
-        self.closest = -1
+        self.closest = None
         self.movement_function = movement_function
         self.sin_val = math.pi/64
         self.flip = False
