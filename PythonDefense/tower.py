@@ -1,11 +1,12 @@
 from PythonDefense.projectile import Projectile
 import copy
 import math
-from helper_functions import scale
 import sprite_sets
 
 
-def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect, sprite_set):
+def get_tower_presets():
+    sprite_set = sprite_sets.SpriteSets()
+
     tower_presets = {
         "python": ["python_tower", 1, 1, 500, sprite_set.PYTHON_TOWER_SPRITE,
                    "python_projectile", sprite_set.ICE_PROJECTILE_SPRITE, 10, Projectile.snake_shot],
@@ -19,6 +20,11 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect, sprite
                    "lisp_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.arc_motion],
     }
 
+    return tower_presets
+
+
+def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
+    tower_presets = get_tower_presets()
     tp = tower_presets[tower_name]
     name = tp[0]
     damage = tp[1]

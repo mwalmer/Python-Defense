@@ -4,7 +4,7 @@ import pygame
 import os
 
 from PythonDefense.enemy import Enemy
-from PythonDefense.tower import Tower, get_tower_from_preset
+from PythonDefense.tower import Tower, get_tower_from_preset, get_tower_presets
 from PythonDefense.player import Player
 from PythonDefense.round import Rounds
 from PythonDefense.sound import Sound
@@ -175,7 +175,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
 
 
-def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower, sprite_sheet, game_map):
+def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map):
     # draws map
     for x, row in enumerate(game_map.Map):
         tile = sprite_sheet.GRASS_TILE
@@ -237,10 +237,11 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     # highlight and show range for selected tower
     if selected_tower is not None:
         WIN.blit(sprite_sheet.HILITE_TILE, selected_tower.cords())
+
+        # draws tower range indicator
         surf = pygame.Surface((selected_tower.range * 2, selected_tower.range * 2), pygame.SRCALPHA).convert_alpha()
         radius_indicator_color = pygame.Color(0, 0, 0, 100)
         pygame.draw.circle(surf, radius_indicator_color, (selected_tower.range, selected_tower.range), selected_tower.range)
-
         # centers circle on tower
         x, y = selected_tower.cords()
         shifted_x = x - selected_tower.range + scale(16)
@@ -251,8 +252,22 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         WIN.blit(projectile.sprite, projectile.cords())
 
     # draws current tower/selected shop tower by mouse
-    if current_tower is not None:
-        WIN.blit(current_tower, mouse_cords)
+    if current_tower_info is not None:
+        x, y = mouse_cords
+        x, y = x - scale(16), y - scale(16)
+        WIN.blit(current_tower_info[0], (x, y))
+        tower_range = current_tower_info[1]
+
+        # draws tower range indicator
+        surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
+        radius_indicator_color = pygame.Color(0, 0, 0, 100)
+        pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
+                           tower_range)
+        # centers circle on tower
+        shifted_x = x - tower_range + scale(16)
+        shifted_y = y - tower_range + scale(16)
+        WIN.blit(surf, (shifted_x, shifted_y))
+
 
 
     # Draw Menu Buttons
@@ -298,6 +313,7 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 def game_loop(sprite_sheet, game_map):
     # TODO: enemy path finding
+    tower_presets = get_tower_presets()
     selected_preset = None
     player_health = 10
     player_money = 50
@@ -320,8 +336,8 @@ def game_loop(sprite_sheet, game_map):
     towers = []
     projectiles = []
 
-    # current_tower used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
-    current_tower = None  # Maybe add a highlight to the menu for this?
+    # current_tower_info used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
+    current_tower_info = None  # Maybe add a highlight to the menu for this?
     has_placed = True
     selected_tower = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
     any_highlight = False
@@ -353,8 +369,7 @@ def game_loop(sprite_sheet, game_map):
                         if not any_highlight:
                             tower_placement_sound.play_sound()
                             # print(game_map.Map)
-                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect,
-                                                              sprite_sheet)
+                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect)
                             towers.append(new_tower)
                             tower_count += 1
                             main_player.money = player_money - 15
@@ -362,15 +377,15 @@ def game_loop(sprite_sheet, game_map):
                             has_placed = True
                             selected_preset = None
                             selected_tower = new_tower
-                            current_tower = None
+                            current_tower_info = None
                             any_highlight = True
                     selected_preset = None
-                    current_tower = None
+                    current_tower_info = None
                     # added so that the tower would be removed upon not having enough money to place
                 # Checks if click was over a tower and then proceeds with upgrading tower
                 elif game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
                     temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
-                    current_tower = None
+                    current_tower_info = None
                     # Finds which tower was clicked
                     for tower in towers:
                         if tower.cords() == (temp_x, temp_y):
@@ -383,7 +398,7 @@ def game_loop(sprite_sheet, game_map):
                 elif 0 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] < 2 or 9 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] <= \
                         11:
                     # should occur on 0,1,9,10,11, TODO: Fix not deselecting on grass 0
-                    current_tower = None
+                    current_tower_info = None
                     selected_tower = None
                     any_highlight = False
                 # MAJOR TODO: CHANGE ALL THESE IF's TO ELIFS for PREFORMANce
@@ -401,7 +416,7 @@ def game_loop(sprite_sheet, game_map):
                                     # don't have to reset selected_tower after upgrade
                                     # selected_tower = None
                                     selected_tower = selected_tower
-                                    current_tower = None
+                                    current_tower_info = None
                                     any_highlight = True
 
                 # Checks if start button was clicked
@@ -420,36 +435,37 @@ def game_loop(sprite_sheet, game_map):
                                                 sprite_sheet.FIRE_PROJECTILE_SIZE)
                     if num == 4:
                         selected_preset = "python"
-                        current_tower = sprite_sheet.PYTHON_TOWER_SPRITE
+                        current_tower_info = [sprite_sheet.PYTHON_TOWER_SPRITE, tower_presets[selected_preset][3]]
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 5:
                         selected_preset = "java"
-                        current_tower = sprite_sheet.JAVA_TOWER_SPRITE
+                        current_tower_info = [sprite_sheet.JAVA_TOWER_SPRITE, tower_presets[selected_preset][3]]
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 6:
                         selected_preset = "cpp"
-                        current_tower = sprite_sheet.CPP_TOWER_SPRITE
+                        current_tower_info = [sprite_sheet.CPP_TOWER_SPRITE, tower_presets[selected_preset][3]]
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 7:
                         selected_preset = "javascript"
-                        current_tower = sprite_sheet.JAVASCRIPT_TOWER_SPRITE
+                        current_tower_info = [sprite_sheet.JAVASCRIPT_TOWER_SPRITE, tower_presets[selected_preset][3]]
                         tower_grab_sound.play_sound()
                         has_placed = False
 
                     elif num == 8:
                         selected_preset = "lisp"
-                        current_tower = sprite_sheet.LISP_TOWER_SPRITE
+                        current_tower_info = [sprite_sheet.LISP_TOWER_SPRITE, tower_presets[selected_preset][3]]
                         tower_grab_sound.play_sound()
                         has_placed = False
                     any_highlight = False
+                    selected_tower = None
 
-        if current_tower is not None:
+        if current_tower_info is not None:
             mouse_cords = pygame.mouse.get_pos()
         else:
             mouse_cords = None
@@ -467,7 +483,7 @@ def game_loop(sprite_sheet, game_map):
             start_round = False
             projectiles[:] = []
         # refresh/redraw display
-        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower, sprite_sheet, game_map)
+        draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map)
         if Enemy.enemy_count == 0 and rounds.last_round():
             won = True
 
