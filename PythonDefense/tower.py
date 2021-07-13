@@ -7,6 +7,14 @@ import sprite_sets
 def get_tower_presets():
     sprite_set = sprite_sets.SpriteSets()
 
+    '''
+    python - basic tower
+    java - might add water tiles to map, this could be a water tower
+    cpp - high damage, high attack-speed but has to be compiled/built at start of each round. The more upgrades
+        the longer it takes to build
+    javascript - slow attack speed, slows enemies
+    lisp - projectile doesn't break and follows set path
+    '''
     tower_presets = {
         "python": ["python_tower", 1, 1, 500, sprite_set.PYTHON_TOWER_SPRITE,
                    "python_projectile", sprite_set.ICE_PROJECTILE_SPRITE, 10, Projectile.snake_shot],
