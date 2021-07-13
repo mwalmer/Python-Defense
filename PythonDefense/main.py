@@ -260,7 +260,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     # highlight and show range for selected tower
     if selected_tower is not None:
         WIN.blit(sprite_sheet.HILITE_TILE, selected_tower.cords())
-        draw_range_indicator(selected_tower.range, selected_tower.cords())
+        draw_range_indicator(selected_tower.range, selected_tower.cords(), selected_tower)
 
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
@@ -271,7 +271,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         x, y = x - scale(16), y - scale(16)
         WIN.blit(current_tower_info[0], (x, y))
         tower_range = current_tower_info[1]
-        draw_range_indicator(tower_range, (x, y))
+        draw_range_indicator(tower_range, (x, y), None, current_tower_info[2])
 
     # Draw Menu Buttons
     WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
@@ -290,11 +290,19 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     pygame.display.update()
 
 
-def draw_range_indicator(tower_range, cords):
-    surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
-    radius_indicator_color = pygame.Color(0, 0, 0, 100)
-    pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
-                       tower_range)
+def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
+    surf = None
+    if tower is not None:
+        if tower.range_surf is None:
+            surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
+            radius_indicator_color = pygame.Color(0, 0, 0, 100)
+            pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
+                               tower_range)
+            tower.range_surf = surf
+        else:
+            surf = tower.range_surf
+    else:
+        surf = temp_surf
     # centers circle on tower
     x, y = cords
     shifted_x = x - tower_range + scale(16)
@@ -478,6 +486,14 @@ def game_loop(sprite_sheet, game_map):
                         current_tower_info = [sprite_sheet.LISP_TOWER_SPRITE, tower_presets[selected_preset][3]]
                         tower_grab_sound.play_sound()
                         has_placed = False
+
+                    if selected_preset is not None:
+                        tower_range = tower_presets[selected_preset][3]
+                        surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
+                        radius_indicator_color = pygame.Color(0, 0, 0, 100)
+                        pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
+                                           tower_range)
+                        current_tower_info.append(surf)
                     any_highlight = False
                     selected_tower = None
 

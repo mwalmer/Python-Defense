@@ -70,6 +70,7 @@ class Tower:
         self.level = 1
         self.projectile_speed = projectile_speed
         self.target_mode = 0  # 0 - furthest, 1 - last enemy
+        self.range_surf = None
 
     # returns a new copy of its projectile, if it didn't the tower could only shoot once
     def fire_projectile(self, closest):
@@ -128,6 +129,7 @@ class Tower:
         self.range += range
         if self.level < 5:
             self.level = self.level + 1
+        self.range_surf = None
 
     # Checks if you can level up tower (MAX LEVEL 5)
     def level_up(self):
