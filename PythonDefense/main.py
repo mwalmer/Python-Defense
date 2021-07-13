@@ -336,7 +336,7 @@ def game_loop(sprite_sheet, game_map):
                         if not any_highlight:
                             tower_placement_sound.play_sound()
                             # print(game_map.Map)
-                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect)
+                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect, sprite_sheet)
                             towers.append(new_tower)
                             tower_count += 1
                             main_player.money = player_money - 15

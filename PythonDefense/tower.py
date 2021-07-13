@@ -4,8 +4,7 @@ import math
 import sprite_sets
 
 
-def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
-    sprite_set = sprite_sets.SpriteSets()
+def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect, sprite_set):
     tower_presets = {
         "python": ["python_tower", 1, 1, 500, sprite_set.TOWER1_SPRITE,
                    "python_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
