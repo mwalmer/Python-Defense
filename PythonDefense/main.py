@@ -2,6 +2,7 @@ from math import floor
 
 import pygame
 import os
+import asyncio
 
 from PythonDefense.enemy import Enemy
 from PythonDefense.tower import Tower, get_tower_from_preset, get_tower_presets
@@ -127,23 +128,10 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
                 tower.can_shoot = False
 
     #   might want to optimize later on
-    for projectile in projectiles:
-        if projectile.closest is not None:
-            x, y = projectile.closest.cords()
-            projectile.movement_function(projectile(), x, y)
-            if projectile.rect.colliderect(projectile.closest.rect):
-                projectile.closest.health -= projectile.damage
-                projectile.flag_removal()
-                collision_sound.play_sound()
-        else:
-            projectile.flag_removal()
-            # this can be modified for aoe projectiles
-            # for enemy in enemies:
-            #     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
-            #         enemy.health -= projectile.damage
-            #         projectile.flag_removal()
-            #         collision_sound.play_sound()
-            #         has_not_hit = False
+
+        # Might be optimized? Hard to tell because of weird errors/unfamiliarity with concurrency. I think this is better?
+        # But may want to use timeit function to test it, I'll do that soon - Benny
+        asyncio.run(all_projectile_movement(projectiles, enemies))
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
@@ -180,6 +168,34 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
     # sets list equal to remaining enemies
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
 
+
+async def projectile_movement(projectile, enemies):
+        if projectile.closest is not None:
+            x, y = projectile.closest.cords()
+            projectile.movement_function(projectile(), x, y)
+            if projectile.rect.colliderect(projectile.closest.rect):
+                projectile.closest.health -= projectile.damage
+                projectile.flag_removal()
+                collision_sound.play_sound()
+        else:
+            projectile.flag_removal()
+            # this can be modified for aoe projectiles
+            # for enemy in enemies:
+            #     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
+            #         enemy.health -= projectile.damage
+            #         projectile.flag_removal()
+            #         collision_sound.play_sound()
+            #         has_not_hit = False
+
+
+async def all_projectile_movement(projectiles, enemies):
+    tasks = []
+    for projectile in projectiles:
+        tasks.append(projectile_movement(projectile, enemies))
+        try:
+            await asyncio.gather(*tasks)
+        except RuntimeError:  # This seems like a bad solution, look for other ways of concurrency here
+            pass
 
 def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map):
     # draws map
