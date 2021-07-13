@@ -171,7 +171,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
 
 
-def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower, sprite_sheet, game_map):
+def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower, sprite_sheet, game_map):
     # draws map
     for x, row in enumerate(game_map.Map):
         tile = sprite_sheet.GRASS_TILE
@@ -230,8 +230,18 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
         elif tower.level == 5:
             WIN.blit(sprite_sheet.LEVEL5_TILE, tower.cords())
 
-    if hilite is not None:
-        WIN.blit(sprite_sheet.HILITE_TILE, hilite.cords())
+    # highlight and show range for selected tower
+    if selected_tower is not None:
+        WIN.blit(sprite_sheet.HILITE_TILE, selected_tower.cords())
+        surf = pygame.Surface((selected_tower.range * 2, selected_tower.range * 2), pygame.SRCALPHA).convert_alpha()
+        radius_indicator_color = pygame.Color(0, 0, 0, 100)
+        pygame.draw.circle(surf, radius_indicator_color, (selected_tower.range, selected_tower.range), selected_tower.range)
+
+        # centers circle on tower
+        x, y = selected_tower.cords()
+        shifted_x = x - selected_tower.range + scale(16)
+        shifted_y = y - selected_tower.range + scale(16)
+        WIN.blit(surf, (shifted_x, shifted_y))
 
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
@@ -239,6 +249,7 @@ def draw_window(enemies, towers, projectiles, hilite, mouse_cords, current_tower
     # draws current tower/selected shop tower by mouse
     if current_tower is not None:
         WIN.blit(current_tower, mouse_cords)
+
 
     # Draw Menu Buttons
     WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
