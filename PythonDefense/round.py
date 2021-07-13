@@ -57,13 +57,24 @@ class Rounds:
         elif self.round == 7:
             enemies1 = self.scoutEn(5)
             enemies = enemies1
+        elif self.round == 8:
+            enemies1 = self.weakEn(20)
+            enemies = enemies1
+        elif self.round == 9:
+            enemies1 = self.SoldierEn(10)
+            enemies2 = self.scoutEn(4)
+            enemies = enemies1 + enemies2
+        elif self.round == 10:
+            enemies1 = self.tankEn(6)
+            enemies2 = self.scoutEn(6)
+            enemies = enemies1 + enemies2
         return enemies
 
     def next_round(self):
         self.round += 1
 
     def last_round(self):
-        return self.round == 7
+        return self.round == 10
 
     #slow and tanky
     def tankEn(self, num):
