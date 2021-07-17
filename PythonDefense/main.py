@@ -131,7 +131,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
         # Might be optimized? Hard to tell because of weird errors/unfamiliarity with concurrency. I think this is better?
         # But may want to use timeit function to test it, I'll do that soon - Benny
-        asyncio.run(all_projectile_movement(projectiles, enemies))
+    asyncio.run(all_projectile_movement(projectiles, enemies))
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
@@ -336,7 +336,6 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 
 def game_loop(sprite_sheet, game_map):
-    # TODO: enemy path finding
     tower_presets = get_tower_presets()
     selected_preset = None
     player_health = 10
