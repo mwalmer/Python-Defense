@@ -143,12 +143,14 @@ class Tower:
         if damage_level < 5:
             self.damage += damage
             self.attr_levels_dict['damage'] = damage_level + 1
+            print('damage upgraded! New level: ', self.attr_levels_dict['damage'])
 
     def upgrade_attack_speed(self, attack_speed):
         attack_speed_level = self.attr_levels_dict['attack_speed']
         if attack_speed_level < 5:
-            self.attack_speed += attack_speed
+            self.attack_speed -= 1000 / (attack_speed * 2)
             self.attr_levels_dict['attack_speed'] = attack_speed_level + 1
+            print('attack speed upgraded! New level: ', self.attr_levels_dict['attack_speed'])
         
     def upgrade_projectile_speed(self, projectile_speed):
         projectile_speed_level = self.attr_levels_dict['projectile_speed']
@@ -157,10 +159,18 @@ class Tower:
             self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
                                         self.projectile.sprite, self.projectile_motion_function)
             self.attr_levels_dict['projectile_speed'] = projectile_speed_level + 1
-        
+            print('projectile speed upgraded! New level: ', self.attr_levels_dict['projectile_speed'])
+
     def upgrade_range(self, range):
         range_level = self.attr_levels_dict['range']
         if range_level < 5:
             self.range += range
             self.attr_levels_dict['range'] = range_level + 1
-        
+            print('range upgraded! New level: ', self.attr_levels_dict['range'])
+
+    def check_attr_dict(self, attr_string):
+        level = self.attr_levels_dict[attr_string]
+        if level < 5:
+            return True
+        else:
+            return False

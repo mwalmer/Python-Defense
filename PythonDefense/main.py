@@ -425,6 +425,7 @@ def game_loop(sprite_sheet, game_map):
                     current_tower_info = None
                     selected_tower = None
                     any_highlight = False
+
                 # MAJOR TODO: CHANGE ALL THESE IF's TO ELIFS for PREFORMANce
                 # Checks if upgrade button was clicked
                 elif sprite_sheet.TILE_SIZE * 17 <= mouse_y <= sprite_sheet.TILE_SIZE * 17 + sprite_sheet.TILE_SIZE:
@@ -442,6 +443,59 @@ def game_loop(sprite_sheet, game_map):
                                     selected_tower = selected_tower
                                     current_tower_info = None
                                     any_highlight = True
+
+                # Checks if damage upgrade button was clicked
+                elif sprite_sheet.TILE_SIZE * 18.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 18.5 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE:
+                        if selected_tower is not None and has_placed is not False:
+                            if player_money >= 5:
+                                if selected_tower.check_attr_dict('damage') < 5:
+                                    selected_tower.upgrade_damage(5)
+                                    main_player.money = player_money - 5
+                                    upgrade_button_sound.play_sound()
+                                    money_string = "Money: " + str(main_player.money)
+
+                                    # don't have to reset selected_tower after upgrade
+                                    # selected_tower = None
+                                    selected_tower = selected_tower
+                                    current_tower_info = None
+                                    any_highlight = True
+
+                # Checks if attack speed upgrade button was clicked
+                elif sprite_sheet.TILE_SIZE * 18.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 18.5 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 22 <= mouse_x <= sprite_sheet.TILE_SIZE * 22 + sprite_sheet.TILE_SIZE:
+                        if selected_tower is not None and has_placed is not False:
+                            if player_money >= 5:
+                                if selected_tower.check_attr_dict('attack_speed') < 5:
+                                    selected_tower.upgrade_attack_speed(5)
+                                    main_player.money = player_money - 5
+                                    upgrade_button_sound.play_sound()
+                                    money_string = "Money: " + str(main_player.money)
+
+                                    # don't have to reset selected_tower after upgrade
+                                    # selected_tower = None
+                                    selected_tower = selected_tower
+                                    current_tower_info = None
+                                    any_highlight = True
+
+                # Checks if range upgrade button was clicked
+                elif sprite_sheet.TILE_SIZE * 18.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 18.5 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 23.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 23.5 + sprite_sheet.TILE_SIZE:
+                        if selected_tower is not None and has_placed is not False:
+                            if player_money >= 5:
+                                if selected_tower.check_attr_dict('damage') < 5:
+                                    selected_tower.upgrade_range(50)
+                                    main_player.money = player_money - 5
+                                    upgrade_button_sound.play_sound()
+                                    money_string = "Money: " + str(main_player.money)
+
+                                    # don't have to reset selected_tower after upgrade
+                                    # selected_tower = None
+                                    selected_tower = selected_tower
+                                    current_tower_info = None
+                                    any_highlight = True
+
+                                    
 
                 # Checks if start button was clicked
                 elif sprite_sheet.TILE_SIZE * 15 <= mouse_y <= sprite_sheet.TILE_SIZE * 15 + sprite_sheet.TILE_SIZE:
