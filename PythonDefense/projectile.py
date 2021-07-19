@@ -3,15 +3,19 @@ import math
 
 
 class Projectile:
-    def __init__(self, name, damage, projectile_speed, rect, sprite, movement_function):
+    def __init__(self, name, damage, projectile_speed, rect, sprites, movement_function):
         self.name = name
         self.damage = damage
         self.projectile_speed = projectile_speed
         self.rect = rect
         self.x = rect.x
         self.y = rect.y
-        self._sprite = sprite
-        self.sprite = sprite
+        self._sprite = sprites[0]
+        self.sprite = sprites[0]
+        self.sprites = sprites
+        self.cur_sprite_num = 0
+        self.sprite_count = len(self.sprites)
+        self.anim_num = 0
         self.remove = False
         self.closest = None
         self.movement_function = movement_function
@@ -35,6 +39,14 @@ class Projectile:
         self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
         self.rect.x = self.x
         self.rect.y = self.y
+        if self.anim_num % 16 == 0:
+            if self.cur_sprite_num < self.sprite_count - 1:
+                self.cur_sprite_num += 1
+            else:
+                self.cur_sprite_num = 0
+            self.sprite = self.sprites[self.cur_sprite_num]
+        else:
+            self.anim_num += 1
 
     def arc_motion(self, change_x, change_y):
         x_component = change_x - self.x

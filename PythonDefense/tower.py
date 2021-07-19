@@ -17,15 +17,15 @@ def get_tower_presets():
     '''
     tower_presets = {
         "python": ["python_tower", 1, 1, scale(250), sprite_set.PYTHON_TOWER_SPRITE,
-                   "python_projectile", sprite_set.ICE_PROJECTILE_SPRITE, 10, Projectile.snake_shot],
+                   "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot],
         "java": ["java_tower", 1, 1, scale(250), sprite_set.JAVA_TOWER_SPRITE,
-                    "java_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+                    "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.motion],
         "cpp": ["cpp_tower", 1, 1, scale(250), sprite_set.CPP_TOWER_SPRITE,
-                   "cpp_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+                   "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion],
         "javascript": ["javascript_tower", 1, 1, scale(250), sprite_set.JAVASCRIPT_TOWER_SPRITE,
-                   "javascript_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.motion],
+                   "javascript_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion],
         "lisp": ["lisp_tower", 1, 1, scale(250), sprite_set.LISP_TOWER_SPRITE,
-                   "lisp_projectile", sprite_set.FIRE_PROJECTILE_SPRITE, 10, Projectile.arc_motion],
+                   "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.arc_motion],
     }
 
     return tower_presets
