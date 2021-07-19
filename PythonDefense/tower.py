@@ -71,6 +71,7 @@ class Tower:
         self.projectile_speed = projectile_speed
         self.target_mode = 0  # 0 - furthest, 1 - last enemy
         self.range_surf = None
+        self.attr_levels_dict = {'damage' : 1, 'attack_speed' : 1, 'projectile_speed' : 1, 'range' : 1}
 
     # returns a new copy of its projectile, if it didn't the tower could only shoot once
     def fire_projectile(self, closest):
@@ -138,19 +139,28 @@ class Tower:
         return False
 
     def upgrade_damage(self, damage):
-        self.damage += damage
-        #TODO figure out new leveling up system
+        damage_level = self.attr_levels_dict['damage']
+        if damage_level < 5:
+            self.damage += damage
+            self.attr_levels_dict['damage'] = damage_level + 1
 
     def upgrade_attack_speed(self, attack_speed):
-        self.attack_speed += attack_speed
-        #TODO figure out new leveling up system
-
+        attack_speed_level = self.attr_levels_dict['attack_speed']
+        if attack_speed_level < 5:
+            self.attack_speed += attack_speed
+            self.attr_levels_dict['attack_speed'] = attack_speed_level + 1
+        
     def upgrade_projectile_speed(self, projectile_speed):
-        self.projectile_speed += projectile_speed
-        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
-                                     self.projectile.sprite, self.projectile_motion_function)
-        #TODO figure out new leveling up system
-
+        projectile_speed_level = self.attr_levels_dict['projectile_speed']
+        if projectile_speed_level < 5:     
+            self.projectile_speed += projectile_speed
+            self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
+                                        self.projectile.sprite, self.projectile_motion_function)
+            self.attr_levels_dict['projectile_speed'] = projectile_speed_level + 1
+        
     def upgrade_range(self, range):
-        self.range += range
-        #TODO figure out new leveling up system
+        range_level = self.attr_levels_dict['range']
+        if range_level < 5:
+            self.range += range
+            self.attr_levels_dict['range'] = range_level + 1
+        
