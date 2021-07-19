@@ -126,7 +126,7 @@ class Tower:
         self.attack_speed -= 1000 / (attack_speed * 2)
         self.projectile_speed += projectile_speed
         self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
-                                     self.projectile.sprite, self.projectile_motion_function)
+                                     self.projectile.sprites, self.projectile_motion_function)
         self.range += range
         if self.level < 5:
             self.level = self.level + 1
@@ -154,10 +154,10 @@ class Tower:
         
     def upgrade_projectile_speed(self, projectile_speed):
         projectile_speed_level = self.attr_levels_dict['projectile_speed']
-        if projectile_speed_level < 5:     
+        if projectile_speed_level < 5:
             self.projectile_speed += projectile_speed
             self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
-                                        self.projectile.sprite, self.projectile_motion_function)
+                                        self.projectile.sprites, self.projectile_motion_function)
             self.attr_levels_dict['projectile_speed'] = projectile_speed_level + 1
             print('projectile speed upgraded! New level: ', self.attr_levels_dict['projectile_speed'])
 

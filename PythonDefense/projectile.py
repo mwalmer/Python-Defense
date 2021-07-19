@@ -40,14 +40,12 @@ class Projectile:
         self.rect.x = self.x
         self.rect.y = self.y
         if self.anim_num % 8 == 0:
-            if self.cur_sprite_num < self.sprite_count - 1:
-                self.cur_sprite_num += 1
-            else:
+            if self.cur_sprite_num >= self.sprite_count - 1:
                 self.cur_sprite_num = 0
+            else:
+                self.cur_sprite_num += 1
             self.sprite = self.sprites[self.cur_sprite_num]
-            self.anim_num += 1
-        else:
-            self.anim_num += 1
+        self.anim_num += 1
 
     def arc_motion(self, change_x, change_y):
         x_component = change_x - self.x
