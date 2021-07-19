@@ -288,6 +288,11 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     text2 = font.render(money_string, True, BLACK)
     WIN.blit(text1, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
     WIN.blit(text2, (21 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE))
+
+    # shop text box
+    if current_tower_info is not None:
+        display_shop_tower_info(current_tower_info)
+
     pygame.display.update()
 
 
@@ -309,6 +314,17 @@ def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
     shifted_x = x - tower_range + scale(16)
     shifted_y = y - tower_range + scale(16)
     WIN.blit(surf, (shifted_x, shifted_y))
+
+
+# TODO add word wrap or something
+def display_shop_tower_info(current_tower_info):
+    font = pygame.font.SysFont('Arial', scale(12))
+    tower_name = font.render(current_tower_info[3], False, (0, 0, 0))
+    tower_cost = font.render(current_tower_info[4], False, (0, 0, 0))
+    tower_desc = font.render(current_tower_info[5], False, (0, 0, 0))
+    WIN.blit(tower_name, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE))
+    WIN.blit(tower_cost, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + scale(13)))
+    WIN.blit(tower_desc, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + scale(26)))
 
 
 def enemy_pathfinding(enemy, sprite_sheet, game_map):
@@ -548,8 +564,15 @@ def game_loop(sprite_sheet, game_map):
                         pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
                                            tower_range)
                         current_tower_info.append(surf)
+                        current_tower_info.append(tower_presets[selected_preset][9])
+                        current_tower_info.append(tower_presets[selected_preset][10])
+                        current_tower_info.append(tower_presets[selected_preset][11])
                     any_highlight = False
                     selected_tower = None
+            # when you right click it deselects the shop tower
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                selected_preset = None
+                current_tower_info = None
 
         if current_tower_info is not None:
             mouse_cords = pygame.mouse.get_pos()
