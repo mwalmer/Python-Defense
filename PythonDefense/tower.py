@@ -136,3 +136,21 @@ class Tower:
         if self.level < 5:
             return True
         return False
+
+    def upgrade_damage(self, damage):
+        self.damage += damage
+        #TODO figure out new leveling up system
+
+    def upgrade_attack_speed(self, attack_speed):
+        self.attack_speed += attack_speed
+        #TODO figure out new leveling up system
+
+    def upgrade_projectile_speed(self, projectile_speed):
+        self.projectile_speed += projectile_speed
+        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
+                                     self.projectile.sprite, self.projectile_motion_function)
+        #TODO figure out new leveling up system
+
+    def upgrade_range(self, range):
+        self.range += range
+        #TODO figure out new leveling up system
