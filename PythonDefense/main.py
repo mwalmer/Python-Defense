@@ -194,7 +194,6 @@ async def all_projectile_movement(projectiles, enemies):
         tasks.append(projectile_movement(projectile, enemies))
         try:
             await asyncio.gather(*tasks)
-            await asyncio.sleep(.0001, len(projectiles)) # TODO -- BAD TEMP SOLUTION, research/ask why projectileSpeed is getting faster when more towers are placesd
         except RuntimeError:  # This seems like a bad solution, look for other ways of concurrency here
             pass
 

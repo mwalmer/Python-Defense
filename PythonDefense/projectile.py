@@ -39,13 +39,7 @@ class Projectile:
         self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
         self.rect.x = self.x
         self.rect.y = self.y
-        if self.anim_num % 8 == 0:
-            if self.cur_sprite_num >= self.sprite_count - 1:
-                self.cur_sprite_num = 0
-            else:
-                self.cur_sprite_num += 1
-            self.sprite = self.sprites[self.cur_sprite_num]
-        self.anim_num += 1
+        Projectile.animation_update(self, 8)
 
     def arc_motion(self, change_x, change_y):
         x_component = change_x - self.x
@@ -58,6 +52,7 @@ class Projectile:
         self.y = (self.y + y_direction * scale(1) * self.projectile_speed) + x_direction * scale(1)
         self.rect.x = self.x
         self.rect.y = self.y
+        self.animation_update(self, 8)
 
     def snake_shot(self, change_x, change_y):
         x_component = change_x - self.x
@@ -71,6 +66,16 @@ class Projectile:
         self.sin_val += math.pi/64
         self.rect.x = self.x
         self.rect.y = self.y
+        self.animation_update(self, 8)
+
+    def animation_update(self, update_num):
+        if self.anim_num % update_num == 0:
+            if self.cur_sprite_num >= self.sprite_count - 1:
+                self.cur_sprite_num = 0
+            else:
+                self.cur_sprite_num += 1
+            self.sprite = self.sprites[self.cur_sprite_num]
+        self.anim_num += 1
 
     def absolute_position(self, new_x, new_y):
         self.x = new_x

@@ -23,10 +23,10 @@ def get_tower_presets():
                     "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.motion,
                  "java tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
         "cpp": ["cpp_tower", 1, 1, scale(250), sprite_set.CPP_TOWER_SPRITE,
-                   "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
+                   "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE], 10, Projectile.motion,
                 "c++ tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
         "javascript": ["javascript_tower", 1, 1, scale(250), sprite_set.JAVASCRIPT_TOWER_SPRITE,
-                   "javascript_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
+                   "javascript_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10, Projectile.motion,
                        "javascript tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
         "lisp": ["lisp_tower", 1, 1, scale(250), sprite_set.LISP_TOWER_SPRITE,
                    "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.arc_motion,
