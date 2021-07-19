@@ -39,12 +39,13 @@ class Projectile:
         self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
         self.rect.x = self.x
         self.rect.y = self.y
-        if self.anim_num % 16 == 0:
+        if self.anim_num % 8 == 0:
             if self.cur_sprite_num < self.sprite_count - 1:
                 self.cur_sprite_num += 1
             else:
                 self.cur_sprite_num = 0
             self.sprite = self.sprites[self.cur_sprite_num]
+            self.anim_num += 1
         else:
             self.anim_num += 1
 
