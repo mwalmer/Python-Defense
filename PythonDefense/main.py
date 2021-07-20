@@ -131,6 +131,12 @@ def clear(enemies, projectiles):
 def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, game_map):
     pixel_per_frame = scale(1)
 
+    # makes a list of on screen enemies which reduces the
+    enemies_on_screen = []
+    for enemy in enemies:
+        if enemy.x > 0 and enemy.y > 0:
+            enemies_on_screen.append(enemy)
+
     for tower in towers:
         # checks the towers attack speed before firing
         tower.ticks += ticks
@@ -139,10 +145,10 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             tower.can_shoot = True
         # only runs when tower can shoot, reduces number of calls to get_enemy and within_range
         # which is good for performance, can be optimized more if needed
-        if enemies is not None and tower.can_shoot:
+        if enemies_on_screen is not None and tower.can_shoot:
             # If you change name closest_enemy_index then you need to update it later
             # in fire_projectile stat declaration
-            closest_enemy = tower.get_enemy(enemies)
+            closest_enemy = tower.get_enemy(enemies_on_screen)
             if closest_enemy is not None:  # TODO - refactor
                 if tower.name == "cpp_tower":
                     if tower.cur_sprite_num == tower.sprite_count - 1:
@@ -404,8 +410,8 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 def game_loop(sprite_sheet, game_map):
     tower_presets = get_tower_presets()
     selected_preset = None
-    player_health = 10
-    player_money = 50
+    player_health = 10000
+    player_money = 500000
     won = False
     # So these get properly updated instead of just on hit/change
     global lives_string
