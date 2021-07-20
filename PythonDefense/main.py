@@ -98,6 +98,8 @@ font = pygame.font.SysFont('Arial', scale(12))
 tut = [font.render('- Click a tower for more info', False, (0, 0, 0)).convert(),
        font.render('- Right click to deselect', False, (0, 0, 0)).convert()]
 
+cached_tower_stats_text = []
+
 lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
 money_text = font.render(money_string, False, (0, 0, 0)).convert()
 
@@ -304,15 +306,18 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     # shop text box
     if current_tower_info is not None:
         display_shop_tower_info(current_tower_info)
+    elif selected_tower is not None:
+        display_stats(selected_tower)
     else:
         display_tutorial()
+        cached_tower_stats_text[:] = []
 
     pygame.display.update()
 
 
 def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
-    surf = None
     if tower is not None:
+        # if surf is none it caches the surface. Avoids calling convert alpha every frame
         if tower.range_surf is None:
             surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
             radius_indicator_color = pygame.Color(0, 0, 0, 100)
@@ -336,10 +341,25 @@ def display_shop_tower_info(current_tower_info):
         WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
 
 
-# pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :)
+# pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :^)
 def display_tutorial():
     for i, text in enumerate(tut):
         WIN.blit(text, (21 * TILE_SIZE - scale(20), 9 * TILE_SIZE + i * scale(13)))
+
+
+# pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :^C
+# TODO: add upgrade level
+def display_stats(selected_tower):
+    if not cached_tower_stats_text:
+        att_damage = font.render('Attack damage: ' + str(selected_tower.damage), False, (0, 0, 0)).convert()
+        att_speed = font.render('Attack speed: ' + str(1000 / selected_tower.attack_speed)[:4], False, (0, 0, 0)).convert()
+        att_range = font.render('Attack range: ' + str(selected_tower.range), False, (0, 0, 0)).convert()
+        cached_tower_stats_text.append(att_damage)
+        cached_tower_stats_text.append(att_speed)
+        cached_tower_stats_text.append(att_range)
+
+    for i, text in enumerate(cached_tower_stats_text):
+        WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
 
 
 def enemy_pathfinding(enemy, sprite_sheet, game_map):
@@ -421,7 +441,7 @@ def game_loop(sprite_sheet, game_map):
                         projectile_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
                                                       sprite_sheet.FIRE_PROJECTILE_SIZE)
 
-                        # TODO: selected tower is initialized with menu sprite/cords, this is just a temp solution
+                        # places tower from preset
                         if not any_highlight:
                             tower_placement_sound.play_sound()
                             # print(game_map.Map)
@@ -471,10 +491,12 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 15
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+
+                                    # this updates the money text and selected tower stats text, helps with optimization
                                     re_render_text()
+                                    cached_tower_stats_text[:] = []
 
                                     # don't have to reset selected_tower after upgrade
-                                    # selected_tower = None
                                     selected_tower = selected_tower
                                     current_tower_info = None
                                     any_highlight = True
@@ -489,10 +511,12 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 5
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+
+                                    # this updates the money text and selected tower stats text, helps with optimization
                                     re_render_text()
+                                    cached_tower_stats_text[:] = []
 
                                     # don't have to reset selected_tower after upgrade
-                                    # selected_tower = None
                                     selected_tower = selected_tower
                                     current_tower_info = None
                                     any_highlight = True
@@ -507,10 +531,12 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 5
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+
+                                    # this updates the money text and selected tower stats text, helps with optimization
                                     re_render_text()
+                                    cached_tower_stats_text[:] = []
 
                                     # don't have to reset selected_tower after upgrade
-                                    # selected_tower = None
                                     selected_tower = selected_tower
                                     current_tower_info = None
                                     any_highlight = True
@@ -525,15 +551,15 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 5
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+
+                                    # this updates the money text and selected tower stats text, helps with optimization
                                     re_render_text()
+                                    cached_tower_stats_text[:] = []
 
                                     # don't have to reset selected_tower after upgrade
-                                    # selected_tower = None
                                     selected_tower = selected_tower
                                     current_tower_info = None
                                     any_highlight = True
-
-                                    
 
                 # Checks if start button was clicked
                 elif sprite_sheet.TILE_SIZE * 15 <= mouse_y <= sprite_sheet.TILE_SIZE * 15 + sprite_sheet.TILE_SIZE:
@@ -545,46 +571,31 @@ def game_loop(sprite_sheet, game_map):
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
                 elif 4 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] <= 8:
                     num = game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)]
-                    temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
-                    tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
-                    fireball_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
-                                                sprite_sheet.FIRE_PROJECTILE_SIZE)
+
                     if num == 4:
                         selected_preset = "python"
                         current_tower_info = [sprite_sheet.PYTHON_TOWER_SPRITE, tower_presets[selected_preset][3]]
-                        tower_grab_sound.play_sound()
-                        has_placed = False
-
                     elif num == 5:
                         selected_preset = "java"
                         current_tower_info = [sprite_sheet.JAVA_TOWER_SPRITE, tower_presets[selected_preset][3]]
-                        tower_grab_sound.play_sound()
-                        has_placed = False
-
                     elif num == 6:
                         selected_preset = "cpp"
                         current_tower_info = [sprite_sheet.CPP_TOWER_SPRITE, tower_presets[selected_preset][3]]
-                        tower_grab_sound.play_sound()
-                        has_placed = False
-
                     elif num == 7:
                         selected_preset = "javascript"
                         current_tower_info = [sprite_sheet.JAVASCRIPT_TOWER_SPRITE, tower_presets[selected_preset][3]]
-                        tower_grab_sound.play_sound()
-                        has_placed = False
-
                     elif num == 8:
                         selected_preset = "lisp"
                         current_tower_info = [sprite_sheet.LISP_TOWER_SPRITE, tower_presets[selected_preset][3]]
-                        tower_grab_sound.play_sound()
-                        has_placed = False
 
                     if selected_preset is not None:
+                        tower_grab_sound.play_sound()
+                        has_placed = False
                         tower_range = tower_presets[selected_preset][3]
+                        # TODO: cache the surf
                         surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
                         radius_indicator_color = pygame.Color(0, 0, 0, 100)
-                        pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
-                                           tower_range)
+                        pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range), tower_range)
                         current_tower_info.append(surf)
 
                         # adds every line of text to current tower info
