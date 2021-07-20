@@ -3,9 +3,12 @@ import copy
 import math
 import sprite_sets
 from helper_functions import scale
+import pygame
+
 
 def get_tower_presets():
     sprite_set = sprite_sets.SpriteSets()
+    font = pygame.font.SysFont('Arial', scale(14))
 
     '''
     python - basic tower
@@ -16,21 +19,35 @@ def get_tower_presets():
     lisp - projectile doesn't break and follows set path
     '''
     tower_presets = {
-        "python": ["python_tower", 1, 1, scale(250), sprite_set.PYTHON_TOWER_SPRITE,
-                   "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,
-                   "python tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
+        "python": ["python_tower", 1, 1, scale(250), sprite_set.PYTHON_TOWER_SPRITE,                    # tower
+                   "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
+                   font.render("python tower", False, (0, 0, 0)).convert(),                             # text name
+                   font.render("cost 25", False, (0, 0, 0)).convert(),                                  # text cost
+                   font.render("a description for the tower", False, (0, 0, 0)).convert()],             # text description
+
         "java": ["java_tower", 1, 1, scale(250), sprite_set.JAVA_TOWER_SPRITE,
-                    "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.motion,
-                 "java tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
+                 "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.motion,
+                 font.render("java tower", False, (0, 0, 0)).convert(),
+                 font.render("cost 25", False, (0, 0, 0)).convert(),
+                 font.render("a description for the tower", False, (0, 0, 0)).convert()],
+
         "cpp": ["cpp_tower", 1, 1, scale(250), sprite_set.CPP_TOWER_SPRITE,
-                   "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
-                "c++ tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
+                "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
+                font.render("c++ tower", False, (0, 0, 0)).convert(),
+                font.render("cost 25", False, (0, 0, 0)).convert(),
+                font.render("a description for the tower", False, (0, 0, 0)).convert()],
+
         "javascript": ["javascript_tower", 1, 1, scale(250), sprite_set.JAVASCRIPT_TOWER_SPRITE,
-                   "javascript_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
-                       "javascript tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
+                       "javascript_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
+                       font.render("javascript tower", False, (0, 0, 0)).convert(),
+                       font.render("cost 25", False, (0, 0, 0)).convert(),
+                       font.render("a description for the tower", False, (0, 0, 0)).convert()],
+
         "lisp": ["lisp_tower", 1, 1, scale(250), sprite_set.LISP_TOWER_SPRITE,
-                   "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.arc_motion,
-                 "lisp tower", "cost 25", "a description for the tower"],  # tower info - tower name, cost, desc
+                 "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.arc_motion,
+                 font.render("lisp tower", False, (0, 0, 0)).convert(),
+                 font.render("cost 25", False, (0, 0, 0)).convert(),
+                 font.render("a description for the tower", False, (0, 0, 0)).convert()]
     }
 
     return tower_presets

@@ -92,6 +92,22 @@ lose_life_odd_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 's
 
 lives = 25
 
+# text, is up here so it doesn't have to be render/converted every frame
+font = pygame.font.SysFont('Arial', scale(12))
+
+tut = [font.render('- Click a tower for more info', False, (0, 0, 0)).convert(),
+       font.render('- Right click to deselect', False, (0, 0, 0)).convert()]
+
+lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
+money_text = font.render(money_string, False, (0, 0, 0)).convert()
+
+
+def re_render_text():
+    global lives_text, money_text
+    global lives_string, money_string
+    lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
+    money_text = font.render(money_string, False, (0, 0, 0)).convert()
+
 
 # Only finds starting x cord, fine for now
 # y is set to 0
@@ -153,6 +169,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             # print('Money ' + str(player.get_money()))
             global money_string
             money_string = "Money: " + str(player.get_money())
+            re_render_text()
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
             if player.get_health() % 2 == 0:
@@ -162,6 +179,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             player.take_damage()
             global lives_string
             lives_string = "Lives: " + str(player.get_health())
+            re_render_text()
             # print('health ' + str(player.get_health()))
             enemy.flag_removal()
 
@@ -280,18 +298,15 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.UPGRADE_RANGE_SPRITE, (22 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (23.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
-    BLACK = (0, 0, 0)
-    font = pygame.font.SysFont('Arial', int(sprite_sheet.TILE_SIZE / 2))
-    global lives_string
-    global money_string
-    text1 = font.render(lives_string, True, BLACK)
-    text2 = font.render(money_string, True, BLACK)
-    WIN.blit(text1, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
-    WIN.blit(text2, (21 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE))
+
+    WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
+    WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE))
 
     # shop text box
     if current_tower_info is not None:
         display_shop_tower_info(current_tower_info)
+    else:
+        display_tutorial()
 
     pygame.display.update()
 
@@ -316,15 +331,16 @@ def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
     WIN.blit(surf, (shifted_x, shifted_y))
 
 
-# TODO add word wrap or something
+# pygame doesn't have word wrap and can't use newline characters, so each line in put in manually :)
 def display_shop_tower_info(current_tower_info):
-    font = pygame.font.SysFont('Arial', scale(12))
-    tower_name = font.render(current_tower_info[3], False, (0, 0, 0))
-    tower_cost = font.render(current_tower_info[4], False, (0, 0, 0))
-    tower_desc = font.render(current_tower_info[5], False, (0, 0, 0))
-    WIN.blit(tower_name, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE))
-    WIN.blit(tower_cost, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + scale(13)))
-    WIN.blit(tower_desc, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + scale(26)))
+    for i, text in enumerate(current_tower_info[3]):
+        WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
+
+
+# pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :)
+def display_tutorial():
+    for i, text in enumerate(tut):
+        WIN.blit(text, (21 * TILE_SIZE - scale(20), 9 * TILE_SIZE + i * scale(13)))
 
 
 def enemy_pathfinding(enemy, sprite_sheet, game_map):
@@ -339,6 +355,7 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
     elif enemy_tile_y >= 20 or enemy_tile_x >= 25:
         global lives
         lives = lives - 1  # Duplicate code? This may have been rewritten in update
+        re_render_text()
         # if removed, update conditions to keep from out-of-bounds error
     elif game_map.Map[enemy_tile_y][enemy_tile_x] == 9:
         enemy.face(LEFT)
@@ -363,6 +380,7 @@ def game_loop(sprite_sheet, game_map):
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
     global money_string
     money_string = "Money: " + str(player_money)
+    re_render_text()
 
     main_player = Player(player_health, player_money)
 
@@ -413,6 +431,7 @@ def game_loop(sprite_sheet, game_map):
                             tower_count += 1
                             main_player.money = player_money - 15
                             money_string = "Money: " + str(main_player.money)
+                            re_render_text()
                             has_placed = True
                             selected_preset = None
                             selected_tower = new_tower
@@ -453,6 +472,7 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 15
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+                                    re_render_text()
 
                                     # don't have to reset selected_tower after upgrade
                                     # selected_tower = None
@@ -470,6 +490,7 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 5
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+                                    re_render_text()
 
                                     # don't have to reset selected_tower after upgrade
                                     # selected_tower = None
@@ -487,6 +508,7 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 5
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+                                    re_render_text()
 
                                     # don't have to reset selected_tower after upgrade
                                     # selected_tower = None
@@ -504,6 +526,7 @@ def game_loop(sprite_sheet, game_map):
                                     main_player.money = player_money - 5
                                     upgrade_button_sound.play_sound()
                                     money_string = "Money: " + str(main_player.money)
+                                    re_render_text()
 
                                     # don't have to reset selected_tower after upgrade
                                     # selected_tower = None
@@ -564,13 +587,19 @@ def game_loop(sprite_sheet, game_map):
                         pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
                                            tower_range)
                         current_tower_info.append(surf)
-                        current_tower_info.append(tower_presets[selected_preset][9])
-                        current_tower_info.append(tower_presets[selected_preset][10])
-                        current_tower_info.append(tower_presets[selected_preset][11])
+
+                        # adds every line of text to current tower info
+                        text_box = []
+                        for i, _ in enumerate(tower_presets[selected_preset]):
+                            if i > 8:
+                                text_box.append(tower_presets[selected_preset][i])
+                        current_tower_info.append(text_box)
+
                     any_highlight = False
                     selected_tower = None
-            # when you right click it deselects the shop tower
+            # right click deselects towers and tower placement indicator
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                selected_tower = None
                 selected_preset = None
                 current_tower_info = None
 
