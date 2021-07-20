@@ -481,6 +481,7 @@ def game_loop(sprite_sheet, game_map):
                             selected_tower = tower
                             has_placed = True
                             any_highlight = True
+                            cached_tower_stats_text[:] = []
                             # tower.basic_upgrade(5, 5, 1)
                 # clears selected tower when clicking on grass/path
                 elif 0 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] < 2 or 9 <= \
