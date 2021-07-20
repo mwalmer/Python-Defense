@@ -1,5 +1,13 @@
 from PythonDefense.helper_functions import scale
 import math
+from ctypes import *
+
+
+def load_c_lib():
+    lib = cdll.LoadLibrary("./c_src.dll")
+    lib.modulo_zero.restype = c_bool
+    lib.modulo_zero.argtypes = [c_int, c_int]
+    return lib
 
 
 class Projectile:
@@ -69,13 +77,23 @@ class Projectile:
         self.animation_update(self, 8)
 
     def animation_update(self, update_num):
-        if self.anim_num % update_num == 0:
-            if self.cur_sprite_num >= self.sprite_count - 1:
-                self.cur_sprite_num = 0
-            else:
-                self.cur_sprite_num += 1
-            self.sprite = self.sprites[self.cur_sprite_num]
-        self.anim_num += 1
+        try:
+            lib = load_c_lib()
+            if lib.modulo_zero(self.anim_num, update_num):
+                if self.cur_sprite_num >= self.sprite_count - 1:
+                    self.cur_sprite_num = 0
+                else:
+                    self.cur_sprite_num += 1
+                self.sprite = self.sprites[self.cur_sprite_num]
+        except Exception:
+            if self.anim_num % update_num == 0:
+                if self.cur_sprite_num >= self.sprite_count - 1:
+                    self.cur_sprite_num = 0
+                else:
+                    self.cur_sprite_num += 1
+                self.sprite = self.sprites[self.cur_sprite_num]
+
+
 
     def absolute_position(self, new_x, new_y):
         self.x = new_x
