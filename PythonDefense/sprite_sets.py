@@ -49,6 +49,10 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball.png')).convert()
         self.FIRE_PROJECTILE_SPRITE_2 = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball_2.png')).convert()
+        self.FIRE_PROJECTILE_SPRITE_3 = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball_3.png')).convert()
+        self.FIRE_PROJECTILE_SPRITE_BIG = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball_big.png')).convert()
         self.ICE_PROJECTILE_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'iceball.png')).convert()
         self.UPGRADE_SPRITE = pygame.image.load(
