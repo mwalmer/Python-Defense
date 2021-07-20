@@ -248,6 +248,7 @@ async def all_projectile_movement(projectiles, enemies):
 
 
 def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map):
+    # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
     hovered_tile = get_tile_hovered(mouse_cords)
     shop_tiles = [4, 5, 6, 7, 8]
     show_hover_effect = False
@@ -295,6 +296,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
                 tile = sprite_sheet.DIRT_TILE
 
             WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+
+            # hover highlight on shop towers
             if cord == hovered_tile and show_hover_effect:
                 WIN.blit(sprite_sheet.HILITE_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
