@@ -4,7 +4,7 @@ import pygame.transform
 class Enemy:
     enemy_count = 0  # static variable, used to track number of enemies
 
-    def __init__(self, name, health, speed, rect, sprite):
+    def __init__(self, name, health, speed, rect, sprite, value):
         self.name = name
         self.health = health
         self.speed = speed
@@ -15,6 +15,7 @@ class Enemy:
         self.y_weight = 1
         self._sprite = sprite
         self.sprite = sprite
+        self.value = value
         Enemy.enemy_count += 1
         self.remove = False
         self.total_dist_traveled = 0

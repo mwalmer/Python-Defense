@@ -20,11 +20,11 @@ class Rounds:
         self.x, self.y = start_cords
         self.round = round
 
-    def spawn(self, num_enemies, enemy_Sep, health, speed, enemy_size, enemy_sprite):
+    def spawn(self, num_enemies, enemy_Sep, health, speed, enemy_size, enemy_sprite, value):
         enemies = []
         for count in range(0, num_enemies):
             enemy_rect = pygame.Rect(0, 0, enemy_size, enemy_size)
-            enemy = Enemy(f'enemy_{count}', health, speed, enemy_rect, enemy_sprite)
+            enemy = Enemy(f'enemy_{count}', health, speed, enemy_rect, enemy_sprite, value)
             enemy.face(DOWN)
             enemy.y = Enemy.enemy_count * scale(enemy_Sep)  # separates enemies when they spawn
             #default is -32
@@ -79,16 +79,16 @@ class Rounds:
 
     #slow and tanky
     def tankEn(self, num, sep):
-        return self.spawn(num, sep,15, 1, self.enemy_size, self.enemy_sprite4)
+        return self.spawn(num, sep,15, 1, self.enemy_size, self.enemy_sprite4, 4)
 
     #fast and weak
     def scoutEn(self, num,sep):
-        return self.spawn(num,sep, 5, 6, self.enemy_size, self.enemy_sprite3)
+        return self.spawn(num,sep, 5, 6, self.enemy_size, self.enemy_sprite3,3)
 
     #generalist
     def SoldierEn(self,num,sep):
-        return self.spawn(num,sep, 4, 3, self.enemy_size, self.enemy_sprite)
+        return self.spawn(num,sep, 4, 3, self.enemy_size, self.enemy_sprite,2)
 
     #these guys suck
     def weakEn(self,num,sep):
-        return self.spawn(num,sep, 2, 2, self.enemy_size, self.enemy_sprite6)
+        return self.spawn(num,sep, 2, 2, self.enemy_size, self.enemy_sprite6,1)

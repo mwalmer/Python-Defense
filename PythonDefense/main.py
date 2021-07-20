@@ -181,7 +181,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         enemy.rect.y = enemy.y
 
         if enemy.check_health():
-            player.add_money()
+            player.add_money(enemy.value)
             # print('Money ' + str(player.get_money()))
             global money_string
             money_string = "Money: " + str(player.get_money())
