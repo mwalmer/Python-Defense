@@ -187,7 +187,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         enemy.rect.y = enemy.y
 
         if enemy.check_health():
-            player.add_money()
+            player.add_money(enemy.value)
             # print('Money ' + str(player.get_money()))
             global money_string
             money_string = "Money: " + str(player.get_money())
@@ -198,7 +198,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
                 lose_life_even_sound.play_sound()
             else:
                 lose_life_odd_sound.play_sound()
-            player.take_damage()
+            player.take_damage(enemy.health)
             global lives_string
             lives_string = "Lives: " + str(player.get_health())
             re_render_text()
