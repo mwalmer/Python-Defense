@@ -60,7 +60,7 @@ class Projectile:
         self.y = (self.y + y_direction * scale(1) * self.projectile_speed) + x_direction * scale(1)
         self.rect.x = self.x
         self.rect.y = self.y
-        self.animation_update(self, 8)
+        Projectile.animation_update(self, 8)
 
     def snake_shot(self, change_x, change_y):
         x_component = change_x - self.x
@@ -74,7 +74,7 @@ class Projectile:
         self.sin_val += math.pi/64
         self.rect.x = self.x
         self.rect.y = self.y
-        self.animation_update(self, 8)
+        Projectile.animation_update(self, 8)
 
     def animation_update(self, update_num):
         try:

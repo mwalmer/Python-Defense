@@ -90,7 +90,6 @@ lose_life_odd_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 's
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 
 lives = 25
-temp_map = Map().Map
 
 # text, is up here so it doesn't have to be render/converted every frame
 font = pygame.font.SysFont('Arial', scale(12))
@@ -150,6 +149,12 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if tower.ticks >= tower.attack_speed:
             tower.ticks = 0
             tower.can_shoot = True
+        else:
+            if tower.name == "python_tower":
+                if tower.ticks >= tower.attack_speed/4:
+                    tower.ticks = 0
+                    tower.can_shoot = True
+
         # only runs when tower can shoot, reduces number of calls to get_enemy and within_range
         # which is good for performance, can be optimized more if needed
         if enemies_on_screen is not None and tower.can_shoot:
@@ -249,7 +254,7 @@ async def all_projectile_movement(projectiles, enemies):
 
 def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map, hovered_tower_info):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
-    hovered_tile = get_tile(mouse_cords)
+    hovered_tile = get_tile(mouse_cords, game_map)
     tiles_to_hover = [4, 5, 6, 7, 8]
     show_hover_effect = False
     if hovered_tile in tiles_to_hover:
@@ -405,8 +410,8 @@ def display_stats(selected_tower):
         WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
 
 
-def get_tile(mouse_cords):
-    return temp_map[mouse_cords[1] // scale(32)][mouse_cords[0] // scale(32)]
+def get_tile(mouse_cords, game_map):
+    return game_map.Map[mouse_cords[1] // scale(32)][mouse_cords[0] // scale(32)]
 
 
 def enemy_pathfinding(enemy, sprite_sheet, game_map):
@@ -479,10 +484,10 @@ def game_loop(sprite_sheet, game_map):
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                print(get_tile(mouse_cords))
+                print(get_tile(mouse_cords, game_map))
                 #  TODO: reformat
                 player_money = main_player.get_money()
-                if get_tile(mouse_cords) == 0 and selected_preset is not None:
+                if get_tile(mouse_cords, game_map) == 0 and selected_preset is not None:
                     # moved selected preset to ^^ condition from vv condition to allow for deselection on grass
                     if player_money >= 15:
                         game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] = 3
@@ -664,8 +669,8 @@ def game_loop(sprite_sheet, game_map):
                 selected_preset = None
                 current_tower_info = None
 
-        if get_tile(mouse_cords) in shop_towers.keys():
-            temp = shop_towers[get_tile(mouse_cords)]
+        if get_tile(mouse_cords, game_map) in shop_towers.keys():
+            temp = shop_towers[get_tile(mouse_cords, game_map)]
             text_box = []
             for i, _ in enumerate(tower_presets[temp]):
                 if i > 8:

@@ -27,7 +27,7 @@ def get_tower_presets():
     lisp - projectile doesn't break and follows set path
     '''
     tower_presets = {
-        "python": ["python_tower", 1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE],  # tower
+        "python": ["python_tower", .1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    font.render("python tower", False, (0, 0, 0)).convert(),  # text name
                    font.render("cost 25", False, (0, 0, 0)).convert(),  # text cost
@@ -84,7 +84,7 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
     projectile_sprite = tp[6]
     ticks = ticks
     projectile_speed = tp[7]
-    projectile_motion = Projectile.motion
+    projectile_motion = tp[8]
 
     return Tower(name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
                  projectile_sprite, ticks, projectile_speed, projectile_motion)
