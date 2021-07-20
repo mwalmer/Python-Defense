@@ -20,13 +20,14 @@ class Rounds:
         self.x, self.y = start_cords
         self.round = round
 
-    def spawn(self, num_enemies, health, speed, enemy_size, enemy_sprite):
+    def spawn(self, num_enemies, enemy_Sep, health, speed, enemy_size, enemy_sprite):
         enemies = []
         for count in range(0, num_enemies):
             enemy_rect = pygame.Rect(0, 0, enemy_size, enemy_size)
             enemy = Enemy(f'enemy_{count}', health, speed, enemy_rect, enemy_sprite)
             enemy.face(DOWN)
-            enemy.y = Enemy.enemy_count * scale(-32)  # separates enemies when they spawn
+            enemy.y = Enemy.enemy_count * scale(enemy_Sep)  # separates enemies when they spawn
+            #default is -32
             enemy.x = self.x
             enemies.append(enemy)
         return enemies
@@ -34,39 +35,39 @@ class Rounds:
     def level(self):
         enemies = []
         if self.round == 1:
-            enemies1 = self.weakEn(4)
+            enemies1 = self.weakEn(4,-32)
             enemies = enemies1
         elif self.round == 2:
-            enemies1 = self.weakEn(10)
+            enemies1 = self.weakEn(10,-24)
             enemies = enemies1
         elif self.round == 3:
-            enemies1 = self.weakEn(6)
-            enemies2 = self.SoldierEn(2)
+            enemies1 = self.weakEn(6,-32)
+            enemies2 = self.SoldierEn(2,-32)
             enemies = enemies1 + enemies2
         elif self.round == 4:
-            enemies1 = self.weakEn(10)
-            enemies2 = self.SoldierEn(4)
+            enemies1 = self.weakEn(10,-32)
+            enemies2 = self.SoldierEn(4,-32)
             enemies = enemies1 + enemies2
         elif self.round == 5:
-            enemies1 = self.tankEn(4)
+            enemies1 = self.tankEn(4,-32)
             enemies = enemies1
         elif self.round == 6:
-            enemies1 = self.tankEn(2)
-            enemies2 = self.SoldierEn(6)
+            enemies1 = self.tankEn(2,-32)
+            enemies2 = self.SoldierEn(6,-32)
             enemies = enemies1 + enemies2
         elif self.round == 7:
-            enemies1 = self.scoutEn(5)
+            enemies1 = self.scoutEn(5,-32)
             enemies = enemies1
         elif self.round == 8:
-            enemies1 = self.weakEn(20)
+            enemies1 = self.weakEn(20,-32)
             enemies = enemies1
         elif self.round == 9:
-            enemies1 = self.SoldierEn(10)
-            enemies2 = self.scoutEn(4)
+            enemies1 = self.SoldierEn(10,-32)
+            enemies2 = self.scoutEn(4,-32)
             enemies = enemies1 + enemies2
         elif self.round == 10:
-            enemies1 = self.tankEn(6)
-            enemies2 = self.scoutEn(6)
+            enemies1 = self.tankEn(6,-32)
+            enemies2 = self.scoutEn(6,-32)
             enemies = enemies1 + enemies2
         return enemies
 
@@ -77,17 +78,17 @@ class Rounds:
         return self.round == 10
 
     #slow and tanky
-    def tankEn(self, num):
-        return self.spawn(num, 15, 1, self.enemy_size, self.enemy_sprite4)
+    def tankEn(self, num, sep):
+        return self.spawn(num, sep,15, 1, self.enemy_size, self.enemy_sprite4)
 
     #fast and weak
-    def scoutEn(self, num):
-        return self.spawn(num, 5, 6, self.enemy_size, self.enemy_sprite3)
+    def scoutEn(self, num,sep):
+        return self.spawn(num,sep, 5, 6, self.enemy_size, self.enemy_sprite3)
 
     #generalist
-    def SoldierEn(self,num):
-        return self.spawn(num, 4, 3, self.enemy_size, self.enemy_sprite)
+    def SoldierEn(self,num,sep):
+        return self.spawn(num,sep, 4, 3, self.enemy_size, self.enemy_sprite)
 
     #these guys suck
-    def weakEn(self,num):
-        return self.spawn(num, 2, 2, self.enemy_size, self.enemy_sprite6)
+    def weakEn(self,num,sep):
+        return self.spawn(num,sep, 2, 2, self.enemy_size, self.enemy_sprite6)
