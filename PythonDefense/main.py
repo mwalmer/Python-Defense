@@ -140,10 +140,18 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if enemies is not None:
             # If you change name closest_enemy_index then you need to update it later in fire_projectile stat declaration
             closest_enemy = tower.get_enemy(enemies)
-            if closest_enemy is not None and tower.can_shoot:
-                projectiles.append(tower.fire_projectile(closest_enemy))
-                tower.ticks = 0
-                tower.can_shoot = False
+            if closest_enemy is not None and tower.can_shoot: #TODO - refactor
+                if tower.name == "cpp_tower":
+                    if tower.cur_sprite_num == tower.sprite_count - 1:
+                        projectiles.append(tower.fire_projectile(closest_enemy))
+                        tower.ticks = 0
+                        tower.can_shoot = False
+                    else:
+                        pass
+                else:
+                    projectiles.append(tower.fire_projectile(closest_enemy))
+                    tower.ticks = 0
+                    tower.can_shoot = False
 
         #   might want to optimize later on
 
@@ -152,7 +160,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
     asyncio.run(all_projectile_movement(projectiles, enemies))
     for tower in towers:
         if tower.sprite_count != 0:
-            tower.animation_update(4)
+            tower.multiple_animations(tower.attack_speed/100, enemies)
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
