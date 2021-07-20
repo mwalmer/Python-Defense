@@ -24,10 +24,9 @@ print(height)
 
 # Scaling pixels to fixed ratio
 # adjust this to change window size
-global lives_string
 lives_string = "Lives: 100"
-global money_string
 money_string = "Money: 150"
+score = 0
 NUM_TILES_X, NUM_TILES_Y = 25, 20
 
 # test colors/cords for text
@@ -99,6 +98,8 @@ tut = [font.render('- Click a tower for more info', False, (0, 0, 0)).convert(),
        font.render('- Right click to deselect', False, (0, 0, 0)).convert()]
 
 cached_tower_stats_text = []
+global score_text
+score_text = font.render("score: " + str(score), False, (0, 0, 0)).convert()
 
 lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
 money_text = font.render(money_string, False, (0, 0, 0)).convert()
@@ -109,6 +110,11 @@ def re_render_text():
     global lives_string, money_string
     lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
     money_text = font.render(money_string, False, (0, 0, 0)).convert()
+
+
+def re_render_score():
+    global score_text
+    score_text = font.render("score: " + str(score), False, (0, 0, 0)).convert()
 
 
 # Only finds starting x cord, fine for now
@@ -189,8 +195,10 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if enemy.check_health():
             player.add_money(enemy.value)
             # print('Money ' + str(player.get_money()))
-            global money_string
+            global money_string, score
             money_string = "Money: " + str(player.get_money())
+            score += enemy.base_health
+            re_render_score()
             re_render_text()
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
@@ -321,7 +329,9 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
 
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
-    WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE))
+    WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(13)))
+    WIN.blit(score_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(26)))
+
 
     # shop text box
     if current_tower_info is not None:
