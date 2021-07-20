@@ -53,7 +53,7 @@ class Rounds:
             enemies = enemies1
         elif self.round == 6:
             enemies1 = self.tankEn(2,-32)
-            enemies2 = self.SoldierEn(6,-32)
+            enemies2 = self.SoldierEn(6,-22)
             enemies = enemies1 + enemies2
         elif self.round == 7:
             enemies1 = self.scoutEn(5,-32)
