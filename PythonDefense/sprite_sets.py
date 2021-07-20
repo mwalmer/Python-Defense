@@ -137,6 +137,13 @@ class SpriteSets:
 
         self.FIRE_PROJECTILE_SPRITE = pygame.transform.scale(self.FIRE_PROJECTILE_SPRITE,
                                                              (self.FIRE_PROJECTILE_SIZE, self.FIRE_PROJECTILE_SIZE))
+        # More Visually distinct
+        # self.FIRE_PROJECTILE_SPRITE_2 = pygame.transform.scale(self.FIRE_PROJECTILE_SPRITE_2,
+        #                                                     (self.FIRE_PROJECTILE_SIZE, self.FIRE_PROJECTILE_SIZE))
+        self.FIRE_PROJECTILE_SPRITE_3 = pygame.transform.scale(self.FIRE_PROJECTILE_SPRITE_3,
+                                                             (self.FIRE_PROJECTILE_SIZE, self.FIRE_PROJECTILE_SIZE))
+        self.FIRE_PROJECTILE_SPRITE_BIG = pygame.transform.scale(self.FIRE_PROJECTILE_SPRITE_BIG,
+                                                             (scale(24), scale(24)))
         self.ICE_PROJECTILE_SPRITE = pygame.transform.scale(self.ICE_PROJECTILE_SPRITE,
                                                             (self.ICE_PROJECTILE_SIZE, self.ICE_PROJECTILE_SIZE))
         self.UPGRADE_SPRITE = pygame.transform.scale(self.UPGRADE_SPRITE, (self.TILE_SIZE * 2, self.TILE_SIZE))
