@@ -94,11 +94,11 @@ lives = 25
 # text, is up here so it doesn't have to be render/converted every frame
 font = pygame.font.SysFont('Arial', scale(12))
 
+tower_sect_text = font.render("Towers", False, (0, 0, 0)).convert()
 tut = [font.render('- Click a tower for more info', False, (0, 0, 0)).convert(),
        font.render('- Right click to deselect', False, (0, 0, 0)).convert()]
 
 cached_tower_stats_text = []
-global score_text
 score_text = font.render("score: " + str(score), False, (0, 0, 0)).convert()
 
 lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
@@ -313,14 +313,6 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
 
-    # draws current tower/selected shop tower on mouse with range indicator
-    if current_tower_info is not None:
-        x, y = mouse_cords
-        x, y = x - scale(16), y - scale(16)
-        WIN.blit(current_tower_info[0], (x, y))
-        tower_range = current_tower_info[1]
-        draw_range_indicator(tower_range, (x, y), None, current_tower_info[2])
-
     # Draw Menu Buttons
     WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
@@ -328,10 +320,10 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (23.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
 
+    WIN.blit(tower_sect_text, (22 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE + scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
     WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(13)))
     WIN.blit(score_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(26)))
-
 
     # shop text box
     if current_tower_info is not None:
@@ -341,6 +333,14 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     else:
         display_tutorial()
         cached_tower_stats_text[:] = []
+
+    # draws current tower/selected shop tower on mouse with range indicator
+    if current_tower_info is not None:
+        x, y = mouse_cords
+        x, y = x - scale(16), y - scale(16)
+        WIN.blit(current_tower_info[0], (x, y))
+        tower_range = current_tower_info[1]
+        draw_range_indicator(tower_range, (x, y), None, current_tower_info[2])
 
     pygame.display.update()
 
