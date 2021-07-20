@@ -132,15 +132,18 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
     pixel_per_frame = scale(1)
 
     for tower in towers:
-        #  checks the towers attack speed before firing
+        # checks the towers attack speed before firing
         tower.ticks += ticks
         if tower.ticks >= tower.attack_speed:
             tower.ticks = 0
             tower.can_shoot = True
-        if enemies is not None:
-            # If you change name closest_enemy_index then you need to update it later in fire_projectile stat declaration
+        # only runs when tower can shoot, reduces number of calls to get_enemy and within_range
+        # which is good for performance, can be optimized more if needed
+        if enemies is not None and tower.can_shoot:
+            # If you change name closest_enemy_index then you need to update it later
+            # in fire_projectile stat declaration
             closest_enemy = tower.get_enemy(enemies)
-            if closest_enemy is not None and tower.can_shoot: #TODO - refactor
+            if closest_enemy is not None:  # TODO - refactor
                 if tower.name == "cpp_tower":
                     if tower.cur_sprite_num == tower.sprite_count - 1:
                         projectiles.append(tower.fire_projectile(closest_enemy))
