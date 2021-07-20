@@ -90,6 +90,7 @@ lose_life_odd_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 's
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 
 lives = 25
+temp_map = Map().Map
 
 # text, is up here so it doesn't have to be render/converted every frame
 font = pygame.font.SysFont('Arial', scale(12))
@@ -247,6 +248,13 @@ async def all_projectile_movement(projectiles, enemies):
 
 
 def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map):
+    hovered_tile = get_tile_hovered(mouse_cords)
+    shop_tiles = [4, 5, 6, 7, 8]
+    show_hover_effect = False
+    if hovered_tile in shop_tiles:
+        show_hover_effect = True
+
+
     # draws map
     for x, row in enumerate(game_map.Map):
         tile = sprite_sheet.GRASS_TILE
@@ -287,6 +295,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
                 tile = sprite_sheet.DIRT_TILE
 
             WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+            if cord == hovered_tile and show_hover_effect:
+                WIN.blit(sprite_sheet.HILITE_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
@@ -320,10 +330,10 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (23.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
 
-    WIN.blit(tower_sect_text, (22 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE + scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
     WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(13)))
     WIN.blit(score_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(26)))
+    WIN.blit(tower_sect_text, (22 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE + scale(13)))
 
     # shop text box
     if current_tower_info is not None:
@@ -390,6 +400,10 @@ def display_stats(selected_tower):
 
     for i, text in enumerate(cached_tower_stats_text):
         WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
+
+
+def get_tile_hovered(mouse_cords):
+    return temp_map[mouse_cords[1] // scale(32)][mouse_cords[0] // scale(32)]
 
 
 def enemy_pathfinding(enemy, sprite_sheet, game_map):
@@ -644,10 +658,7 @@ def game_loop(sprite_sheet, game_map):
                 selected_preset = None
                 current_tower_info = None
 
-        if current_tower_info is not None:
-            mouse_cords = pygame.mouse.get_pos()
-        else:
-            mouse_cords = None
+        mouse_cords = pygame.mouse.get_pos()
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
