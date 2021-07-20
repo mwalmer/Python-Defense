@@ -150,6 +150,9 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         # Might be optimized? Hard to tell because of weird errors/unfamiliarity with concurrency. I think this is better?
         # But may want to use timeit function to test it, I'll do that soon - Benny
     asyncio.run(all_projectile_movement(projectiles, enemies))
+    for tower in towers:
+        if tower.sprite_count != 0:
+            tower.animation_update(4)
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]

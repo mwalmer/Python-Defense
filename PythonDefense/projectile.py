@@ -92,6 +92,7 @@ class Projectile:
                 else:
                     self.cur_sprite_num += 1
                 self.sprite = self.sprites[self.cur_sprite_num]
+        self.anim_num += 1
 
 
 

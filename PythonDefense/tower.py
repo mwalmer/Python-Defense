@@ -4,7 +4,13 @@ import math
 import sprite_sets
 from helper_functions import scale
 import pygame
+from ctypes import *
 
+def load_c_lib():
+    lib = cdll.LoadLibrary("./c_src.dll")
+    lib.modulo_zero.restype = c_bool
+    lib.modulo_zero.argtypes = [c_int, c_int]
+    return lib
 
 def get_tower_presets():
     sprite_set = sprite_sets.SpriteSets()
@@ -19,31 +25,35 @@ def get_tower_presets():
     lisp - projectile doesn't break and follows set path
     '''
     tower_presets = {
-        "python": ["python_tower", 1, 1, scale(250), sprite_set.PYTHON_TOWER_SPRITE,                    # tower
+        "python": ["python_tower", 1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE],                    # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    font.render("python tower", False, (0, 0, 0)).convert(),                             # text name
                    font.render("cost 25", False, (0, 0, 0)).convert(),                                  # text cost
                    font.render("a description for the tower", False, (0, 0, 0)).convert()],             # text description
 
-        "java": ["java_tower", 1, 1, scale(250), sprite_set.JAVA_TOWER_SPRITE,
+        "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.motion,
                  font.render("java tower", False, (0, 0, 0)).convert(),
                  font.render("cost 25", False, (0, 0, 0)).convert(),
                  font.render("a description for the tower", False, (0, 0, 0)).convert()],
 
-        "cpp": ["cpp_tower", 1, 1, scale(250), sprite_set.CPP_TOWER_SPRITE,
+        "cpp": ["cpp_tower", 1, 1, scale(250), [sprite_set.CPP_TOWER_SPRITE, sprite_set.CPP_LOADING_1_SPRITE, sprite_set.CPP_LOADING_2_SPRITE,
+                                                sprite_set.CPP_LOADING_3_SPRITE, sprite_set.CPP_LOADING_4_SPRITE, sprite_set.CPP_LOADING_5_SPRITE,
+                                                sprite_set.CPP_LOADING_6_SPRITE, sprite_set.CPP_LOADING_7_SPRITE, sprite_set.CPP_LOADING_8_SPRITE,
+                                                sprite_set.CPP_LOADING_9_SPRITE, sprite_set.CPP_LOADING_10_SPRITE, sprite_set.CPP_LOADING_11_SPRITE,
+                                                sprite_set.CPP_LOADING_12_SPRITE, sprite_set.CPP_LOADING_13_SPRITE],
                 "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
                 font.render("c++ tower", False, (0, 0, 0)).convert(),
                 font.render("cost 25", False, (0, 0, 0)).convert(),
                 font.render("a description for the tower", False, (0, 0, 0)).convert()],
 
-        "javascript": ["javascript_tower", 1, 1, scale(250), sprite_set.JAVASCRIPT_TOWER_SPRITE,
+        "javascript": ["javascript_tower", 1, 1, scale(250), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
                        "javascript_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.motion,
                        font.render("javascript tower", False, (0, 0, 0)).convert(),
                        font.render("cost 25", False, (0, 0, 0)).convert(),
                        font.render("a description for the tower", False, (0, 0, 0)).convert()],
 
-        "lisp": ["lisp_tower", 1, 1, scale(250), sprite_set.LISP_TOWER_SPRITE,
+        "lisp": ["lisp_tower", 1, 1, scale(250), [sprite_set.LISP_TOWER_SPRITE],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2], 10, Projectile.arc_motion,
                  font.render("lisp tower", False, (0, 0, 0)).convert(),
                  font.render("cost 25", False, (0, 0, 0)).convert(),
@@ -61,7 +71,7 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
     attack_speed = tp[2]
     range = tp[3]
     rect = tower_rect
-    sprite = tp[4]
+    sprites = tp[4]
     projectile_name = tp[5]
     projectile_rect = projectile_rect
     projectile_sprite = tp[6]
@@ -69,12 +79,12 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
     projectile_speed = tp[7]
     projectile_motion = Projectile.motion
 
-    return Tower(name, damage, attack_speed, range, rect, sprite, projectile_name, projectile_rect,
+    return Tower(name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
                  projectile_sprite, ticks, projectile_speed, projectile_motion)
 
 
 class Tower:
-    def __init__(self, name, damage, attack_speed, range, rect, sprite, projectile_name, projectile_rect,
+    def __init__(self, name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
                  projectile_sprite, ticks, projectile_speed, projectile_motion_function):
         self.can_shoot = True
         self.name = name
@@ -84,8 +94,12 @@ class Tower:
         self.rect = rect
         self.x = rect.x
         self.y = rect.y
-        self._sprite = sprite
-        self.sprite = sprite
+        self._sprites = sprites
+        self.sprites = sprites
+        self.sprite = sprites[0]
+        self.sprite_count = len(sprites)
+        self.cur_sprite_num = 0
+        self.anim_num = 0
         self.projectile = Projectile(projectile_name, damage, projectile_speed, projectile_rect, projectile_sprite, projectile_motion_function)
         self.projectile_motion_function = projectile_motion_function
         self.ticks = ticks
@@ -94,6 +108,24 @@ class Tower:
         self.target_mode = 0  # 0 - furthest, 1 - last enemy
         self.range_surf = None
         self.attr_levels_dict = {'damage' : 1, 'attack_speed' : 1, 'projectile_speed' : 1, 'range' : 1}
+
+    def animation_update(self, update_num):
+        try:
+            lib = load_c_lib()
+            if lib.modulo_zero(self.anim_num, update_num):
+                if self.cur_sprite_num >= self.sprite_count - 1:
+                    self.cur_sprite_num = 0
+                else:
+                    self.cur_sprite_num += 1
+                self.sprite = self.sprites[self.cur_sprite_num]
+        except Exception:
+            if self.anim_num % update_num == 0:
+                if self.cur_sprite_num >= self.sprite_count - 1:
+                    self.cur_sprite_num = 0
+                else:
+                    self.cur_sprite_num += 1
+                self.sprite = self.sprites[self.cur_sprite_num]
+        self.anim_num += 1
 
     # returns a new copy of its projectile, if it didn't the tower could only shoot once
     def fire_projectile(self, closest):
