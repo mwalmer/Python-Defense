@@ -96,7 +96,7 @@ temp_map = Map().Map
 font = pygame.font.SysFont('Arial', scale(12))
 
 tower_sect_text = font.render("Towers", False, (0, 0, 0)).convert()
-tut = [font.render('- Click a tower for more info', False, (0, 0, 0)).convert(),
+tut = [font.render('- Hover a tower for more info', False, (0, 0, 0)).convert(),
        font.render('- Right click to deselect', False, (0, 0, 0)).convert()]
 
 cached_tower_stats_text = []
@@ -247,14 +247,13 @@ async def all_projectile_movement(projectiles, enemies):
             pass
 
 
-def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map):
+def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map, hovered_tower_info):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
-    hovered_tile = get_tile_hovered(mouse_cords)
-    shop_tiles = [4, 5, 6, 7, 8]
+    hovered_tile = get_tile(mouse_cords)
+    tiles_to_hover = [4, 5, 6, 7, 8]
     show_hover_effect = False
-    if hovered_tile in shop_tiles:
+    if hovered_tile in tiles_to_hover:
         show_hover_effect = True
-
 
     # draws map
     for x, row in enumerate(game_map.Map):
@@ -339,13 +338,14 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(tower_sect_text, (22 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE + scale(13)))
 
     # shop text box
-    if current_tower_info is not None:
-        display_shop_tower_info(current_tower_info)
-    elif selected_tower is not None:
+    if selected_tower is not None:
         display_stats(selected_tower)
     else:
-        display_tutorial()
-        cached_tower_stats_text[:] = []
+        if hovered_tower_info is None:
+            display_tutorial()
+            cached_tower_stats_text[:] = []
+        else:
+            display_shop_tower_info(hovered_tower_info)
 
     # draws current tower/selected shop tower on mouse with range indicator
     if current_tower_info is not None:
@@ -380,7 +380,7 @@ def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
 
 # pygame doesn't have word wrap and can't use newline characters, so each line in put in manually :)
 def display_shop_tower_info(current_tower_info):
-    for i, text in enumerate(current_tower_info[3]):
+    for i, text in enumerate(current_tower_info):
         WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
 
 
@@ -405,7 +405,7 @@ def display_stats(selected_tower):
         WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
 
 
-def get_tile_hovered(mouse_cords):
+def get_tile(mouse_cords):
     return temp_map[mouse_cords[1] // scale(32)][mouse_cords[0] // scale(32)]
 
 
@@ -441,10 +441,9 @@ def game_loop(sprite_sheet, game_map):
     player_money = 500000
     won = False
     # So these get properly updated instead of just on hit/change
-    global lives_string
+    global lives_string, money_string
     lives_string = "Lives: " + str(player_health)
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
-    global money_string
     money_string = "Money: " + str(player_money)
     re_render_text()
 
@@ -458,6 +457,7 @@ def game_loop(sprite_sheet, game_map):
 
     towers = []
     projectiles = []
+    shop_towers = {4: "python", 5: "java", 6: "cpp", 7:"javascript", 8: "lisp"}
 
     # current_tower_info used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
     current_tower_info = None  # Maybe add a highlight to the menu for this?
@@ -467,19 +467,22 @@ def game_loop(sprite_sheet, game_map):
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
+
     start_round = False  # Changed to True when start button clicked
     while run and main_player.get_health() > 0 and not won:
         ticks = clock.tick(FPS)
+        mouse_cords = pygame.mouse.get_pos()
+        hovered_tower = None
         # TODO: limit possible event types
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                print(game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)])
+                print(get_tile(mouse_cords))
                 #  TODO: reformat
                 player_money = main_player.get_money()
-                if game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 0 and selected_preset is not None:
+                if get_tile(mouse_cords) == 0 and selected_preset is not None:
                     # moved selected preset to ^^ condition from vv condition to allow for deselection on grass
                     if player_money >= 15:
                         game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] = 3
@@ -661,7 +664,13 @@ def game_loop(sprite_sheet, game_map):
                 selected_preset = None
                 current_tower_info = None
 
-        mouse_cords = pygame.mouse.get_pos()
+        if get_tile(mouse_cords) in shop_towers.keys():
+            temp = shop_towers[get_tile(mouse_cords)]
+            text_box = []
+            for i, _ in enumerate(tower_presets[temp]):
+                if i > 8:
+                    text_box.append(tower_presets[temp][i])
+            hovered_tower = text_box
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
@@ -679,7 +688,7 @@ def game_loop(sprite_sheet, game_map):
             projectiles[:] = []
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                    game_map)
+                    game_map, hovered_tower)
 
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py
