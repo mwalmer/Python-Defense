@@ -13,6 +13,7 @@ from PythonDefense.projectile import Projectile
 from PythonDefense.helper_functions import scale, set_ratio, round_ratio
 from PythonDefense.sprite_sets import SpriteSets
 from PythonDefense.map import Map
+from PythonDefense.soundbar import SoundBar
 
 #  nt is the os.name for windows
 
@@ -70,13 +71,7 @@ UP, LEFT, DOWN, RIGHT = 0, 90, 180, 270
 
 # Sizes
 
-collision_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'Trompo collido.wav'))
-start_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'start_button.wav'))
-upgrade_button_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'upgrade_button.wav'))
-tower_placement_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_placement.wav'))
-tower_grab_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'tower_grab.wav'))
-lose_life_even_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'lose_life_even.wav'))
-lose_life_odd_sound = Sound(os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'lose_life_odd.wav'))
+sounds = Sound()
 
 # 0 = grass
 # 1 = dirt
@@ -209,9 +204,9 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
             if player.get_health() % 2 == 0:
-                lose_life_even_sound.play_sound()
+                sounds.play_sound("lose_life_even_sound")
             else:
-                lose_life_odd_sound.play_sound()
+                sounds.play_sound("lose_life_odd_sound")
             player.take_damage(enemy.health)
             global lives_string
             lives_string = "Lives: " + str(player.get_health())
@@ -230,7 +225,7 @@ async def projectile_movement(projectile, enemies):
         if projectile.rect.colliderect(projectile.closest.rect):
             projectile.closest.health -= projectile.damage
             projectile.flag_removal()
-            collision_sound.play_sound()
+            sounds.play_sound("collision_sound")
     else:
         projectile.flag_removal()
         # this can be modified for aoe projectiles
@@ -252,7 +247,7 @@ async def all_projectile_movement(projectiles, enemies):
             pass
 
 
-def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map, hovered_tower_info):
+def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map, hovered_tower_info, sound_bar):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
     hovered_tile = get_tile(mouse_cords, game_map)
     tiles_to_hover = [4, 5, 6, 7, 8]
@@ -336,6 +331,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.UPGRADE_RANGE_SPRITE, (22 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (23.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 12 * sprite_sheet.TILE_SIZE))
 
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
     WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(13)))
@@ -441,6 +437,7 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 def game_loop(sprite_sheet, game_map):
     tower_presets = get_tower_presets()
+    sound_bar = SoundBar(sprite_sheet)
     selected_preset = None
     player_health = 10000
     player_money = 500000
@@ -498,7 +495,7 @@ def game_loop(sprite_sheet, game_map):
 
                         # places tower from preset
                         if not any_highlight:
-                            tower_placement_sound.play_sound()
+                            sounds.play_sound("tower_placement_sound")
                             # print(game_map.Map)
                             new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect)
                             towers.append(new_tower)
@@ -536,6 +533,12 @@ def game_loop(sprite_sheet, game_map):
                     selected_tower = None
                     any_highlight = False
 
+                elif sprite_sheet.TILE_SIZE * 12 <= mouse_y <= sprite_sheet.TILE_SIZE * 12 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
+                        sound_bar.user_click(mouse_x, mouse_y, sprite_sheet, sounds)
+
+
+
                 # MAJOR TODO: CHANGE ALL THESE IF's TO ELIFS for PREFORMANce
                 # Checks if upgrade button was clicked
                 elif sprite_sheet.TILE_SIZE * 17 <= mouse_y <= sprite_sheet.TILE_SIZE * 17 + sprite_sheet.TILE_SIZE:
@@ -545,7 +548,7 @@ def game_loop(sprite_sheet, game_map):
                                 if player_money >= 15:
                                     selected_tower.basic_upgrade(5, 5, 1, 50)
                                     main_player.money = player_money - 15
-                                    upgrade_button_sound.play_sound()
+                                    sounds.play_sound("upgrade_button_sound")
                                     money_string = "Money: " + str(main_player.money)
 
                                     # this updates the money text and selected tower stats text, helps with optimization
@@ -565,7 +568,7 @@ def game_loop(sprite_sheet, game_map):
                                 if selected_tower.check_attr_dict('damage') < 5:
                                     selected_tower.upgrade_damage(5)
                                     main_player.money = player_money - 5
-                                    upgrade_button_sound.play_sound()
+                                    sounds.play_sound("upgrade_button_sound")
                                     money_string = "Money: " + str(main_player.money)
 
                                     # this updates the money text and selected tower stats text, helps with optimization
@@ -585,7 +588,7 @@ def game_loop(sprite_sheet, game_map):
                                 if selected_tower.check_attr_dict('attack_speed') < 5:
                                     selected_tower.upgrade_attack_speed(5)
                                     main_player.money = player_money - 5
-                                    upgrade_button_sound.play_sound()
+                                    sounds.play_sound("upgrade_button_sound")
                                     money_string = "Money: " + str(main_player.money)
 
                                     # this updates the money text and selected tower stats text, helps with optimization
@@ -605,7 +608,7 @@ def game_loop(sprite_sheet, game_map):
                                 if selected_tower.check_attr_dict('damage') < 5:
                                     selected_tower.upgrade_range(50)
                                     main_player.money = player_money - 5
-                                    upgrade_button_sound.play_sound()
+                                    sounds.play_sound("collision_sound")
                                     money_string = "Money: " + str(main_player.money)
 
                                     # this updates the money text and selected tower stats text, helps with optimization
@@ -621,7 +624,7 @@ def game_loop(sprite_sheet, game_map):
                 elif sprite_sheet.TILE_SIZE * 15 <= mouse_y <= sprite_sheet.TILE_SIZE * 15 + sprite_sheet.TILE_SIZE:
                     if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 2:
                         print("START BT CLICKED")
-                        start_button_sound.play_sound()
+                        sounds.play_sound("start_button_sound")
                         start_round = True
 
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
@@ -645,7 +648,7 @@ def game_loop(sprite_sheet, game_map):
                         current_tower_info = [sprite_sheet.LISP_TOWER_SPRITE, tower_presets[selected_preset][3]]
 
                     if selected_preset is not None:
-                        tower_grab_sound.play_sound()
+                        sounds.play_sound("tower_grab_sound")
                         has_placed = False
                         tower_range = tower_presets[selected_preset][3]
                         # TODO: cache the surf
@@ -693,7 +696,7 @@ def game_loop(sprite_sheet, game_map):
             projectiles[:] = []
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                    game_map, hovered_tower)
+                    game_map, hovered_tower, sound_bar)
 
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py

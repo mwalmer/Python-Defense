@@ -157,3 +157,9 @@ class SpriteSets:
         self.LEVEL3_TILE = pygame.transform.scale(self.LEVEL3_TILE, self.TILE_XY)
         self.LEVEL4_TILE = pygame.transform.scale(self.LEVEL4_TILE, self.TILE_XY)
         self.LEVEL5_TILE = pygame.transform.scale(self.LEVEL5_TILE, self.TILE_XY)
+
+        self.VOLUME = []
+        for i in range(21):
+            self.VOLUME.append(pygame.image.load(
+                os.path.join(os.path.dirname(__file__), 'assets', 'buttons', f'Volume{i}.png')).convert())
+            self.VOLUME[i] = pygame.transform.scale(self.VOLUME[i], (self.TILE_SIZE * 4, self.TILE_SIZE))
