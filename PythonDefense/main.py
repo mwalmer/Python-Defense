@@ -270,7 +270,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             elif cord == 2:
                 tile = sprite_sheet.MENU_TILE
             elif cord == 3:
-                tile = sprite_sheet.GRASS_TILE
+                # do nothing, this is blit in the tower loop. Easy way to get java tower working
+                pass
             elif cord == 4:
                 # menu has to be drawn under towers, since they do not take up full tile
                 WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
@@ -308,6 +309,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     for tower in towers:
         if tower.name == "java_tower":
             WIN.blit(sprite_sheet.MENU_TILE, tower.cords())
+        else:
+            WIN.blit(sprite_sheet.GRASS_TILE, tower.cords())
         WIN.blit(tower.sprite, tower.cords())
         # Check tower level and assign it a level tile
         if tower.level == 1:
