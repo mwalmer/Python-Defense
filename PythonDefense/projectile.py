@@ -69,7 +69,7 @@ class Projectile:
             x_component = .0000000000001
         x_direction = math.cos(math.atan2(y_component, x_component))
         y_direction = math.sin(math.atan2(y_component, x_component))
-        self.x = (self.x + x_direction * scale(2) * self.projectile_speed * abs(math.sin(self.sin_val)))
+        self.x = (self.x + x_direction * scale(1) * self.projectile_speed * abs(math.sin(self.sin_val)))
         self.y = (self.y + y_direction * scale(1) * self.projectile_speed * abs(math.cos(self.sin_val)))
         self.sin_val += math.pi/64
         self.rect.x = self.x
