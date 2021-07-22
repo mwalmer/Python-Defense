@@ -1,3 +1,4 @@
+import math
 from math import floor
 
 import pygame
@@ -209,7 +210,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
                 sounds.play_sound("lose_life_odd_sound")
             player.take_damage(enemy.health)
             global lives_string
-            lives_string = "Lives: " + str(player.get_health())
+            lives_string = "Lives: " + str(int(math.floor(player.get_health())))
             re_render_text()
             # print('health ' + str(player.get_health()))
             enemy.flag_removal()
@@ -451,7 +452,7 @@ def game_loop(sprite_sheet, game_map):
     won = False
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string
-    lives_string = "Lives: " + str(player_health)
+    lives_string = "Lives: " + str(int(math.floor(player_health)))
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
     money_string = "Money: " + str(player_money)
     re_render_text()
