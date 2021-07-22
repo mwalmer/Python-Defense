@@ -35,7 +35,7 @@ class Rounds:
     def level(self):
         enemies = []
         if self.round == 1:
-            enemies1 = self.weakEn(4,-32)
+            enemies1 = self.scoutEn(500,-32)
             enemies = enemies1
         elif self.round == 2:
             enemies1 = self.weakEn(10,-24)
@@ -83,7 +83,7 @@ class Rounds:
 
     #fast and weak
     def scoutEn(self, num,sep):
-        return self.spawn(num,sep, 5, 6, self.enemy_size, self.enemy_sprite3,3)
+        return self.spawn(num,sep, 5, 12, self.enemy_size, self.enemy_sprite3,3)
 
     #generalist
     def SoldierEn(self,num,sep):
