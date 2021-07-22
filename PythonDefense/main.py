@@ -369,10 +369,10 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         tower_range = current_tower_info[1]
         draw_range_indicator(tower_range, (x, y), None, current_tower_info[2])
 
+    # handle playing the round over animation
     global play_animation
     if Enemy.enemy_count == 0 and start_round is False and play_animation[2] is True:
         play_animation[0] = True
-
     if play_animation[0] is True:
         round_text.set_alpha(play_animation[1])
         WIN.blit(round_text, (scale(100), scale(250)))
@@ -381,6 +381,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         else:
             play_animation[1] += 3
 
+    # FPS Counter, doesn't need convert since it changes every frame anyways
     fps_text = bold_font.render("FPS: " + str(fps)[:4], True, (0, 0, 0), None)
     WIN.blit(fps_text, (scale(10), scale(10)))
 
