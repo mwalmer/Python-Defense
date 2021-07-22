@@ -88,29 +88,30 @@ sounds = Sound()
 lives = 25
 
 # text, is up here so it doesn't have to be render/converted every frame
-font = pygame.font.SysFont('Arial', scale(12))
+font = pygame.font.SysFont('Arial', scale(12), bold=False)
+bold_font = pygame.font.SysFont('Arial', scale(12), bold=True)
 
-tower_sect_text = font.render("Towers", False, (0, 0, 0)).convert()
+tower_sect_text = bold_font.render("Towers", False, (0, 0, 0)).convert()
 tut = [font.render('- Hover a tower for more info', False, (0, 0, 0)).convert(),
        font.render('- Right click to deselect', False, (0, 0, 0)).convert()]
 
 cached_tower_stats_text = []
-score_text = font.render("score: " + str(score), False, (0, 0, 0)).convert()
+score_text = bold_font.render("score: " + str(score), False, (0, 0, 0)).convert()
 
-lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
-money_text = font.render(money_string, False, (0, 0, 0)).convert()
+lives_text = bold_font.render(lives_string, False, (0, 0, 0)).convert()
+money_text = bold_font.render(money_string, False, (0, 0, 0)).convert()
 
 
 def re_render_text():
     global lives_text, money_text
     global lives_string, money_string
-    lives_text = font.render(lives_string, False, (0, 0, 0)).convert()
-    money_text = font.render(money_string, False, (0, 0, 0)).convert()
+    lives_text = bold_font.render(lives_string, False, (0, 0, 0)).convert()
+    money_text = bold_font.render(money_string, False, (0, 0, 0)).convert()
 
 
 def re_render_score():
     global score_text
-    score_text = font.render("score: " + str(score), False, (0, 0, 0)).convert()
+    score_text = bold_font.render("score: " + str(score), False, (0, 0, 0)).convert()
 
 
 # Only finds starting x cord, fine for now
