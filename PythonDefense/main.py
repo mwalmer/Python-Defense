@@ -293,6 +293,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
                 tile = sprite_sheet.DIRT_TILE
             elif cord == 11:
                 tile = sprite_sheet.DIRT_TILE
+            elif cord == 13:
+                tile = sprite_sheet.MENU_TILE
 
             WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
@@ -304,6 +306,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         WIN.blit(enemy.sprite, enemy.cords())
 
     for tower in towers:
+        if tower.name == "java_tower":
+            WIN.blit(sprite_sheet.MENU_TILE, tower.cords())
         WIN.blit(tower.sprite, tower.cords())
         # Check tower level and assign it a level tile
         if tower.level == 1:
@@ -484,7 +488,8 @@ def game_loop(sprite_sheet, game_map):
                 print(get_tile(mouse_cords, game_map))
                 #  TODO: reformat
                 player_money = main_player.get_money()
-                if get_tile(mouse_cords, game_map) == 0 and selected_preset is not None:
+                if (get_tile(mouse_cords, game_map) == 0 or (get_tile(mouse_cords, game_map) == 13 and selected_preset == "java")) and \
+                        selected_preset is not None:
                     # moved selected preset to ^^ condition from vv condition to allow for deselection on grass
                     if player_money >= 15:
                         game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] = 3
