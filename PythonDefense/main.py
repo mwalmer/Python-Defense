@@ -449,7 +449,7 @@ def game_loop(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet)
     selected_preset = None
     player_health = 10000
-    player_money = 500000
+    player_money = 99
     won = False
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string
@@ -496,7 +496,7 @@ def game_loop(sprite_sheet, game_map):
                 if (get_tile(mouse_cords, game_map) == 0 or (get_tile(mouse_cords, game_map) == 13 and selected_preset == "java")) and \
                         selected_preset is not None:
                     # moved selected preset to ^^ condition from vv condition to allow for deselection on grass
-                    if player_money >= 15:
+                    if player_money >= tower_presets[selected_preset][9]:
                         game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] = 3
                         temp_x, temp_y = (mouse_x // scale(32)) * scale(32), (mouse_y // scale(32)) * scale(32)
                         tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
@@ -510,7 +510,7 @@ def game_loop(sprite_sheet, game_map):
                             new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect)
                             towers.append(new_tower)
                             tower_count += 1
-                            main_player.money = player_money - 15
+                            main_player.money = player_money - new_tower.cost
                             money_string = "Money: " + str(main_player.money)
                             re_render_text()
                             has_placed = True
@@ -670,7 +670,7 @@ def game_loop(sprite_sheet, game_map):
                         # adds every line of text to current tower info
                         text_box = []
                         for i, _ in enumerate(tower_presets[selected_preset]):
-                            if i > 8:
+                            if i > 9:
                                 text_box.append(tower_presets[selected_preset][i])
                         current_tower_info.append(text_box)
 
@@ -686,7 +686,7 @@ def game_loop(sprite_sheet, game_map):
             temp = shop_towers[get_tile(mouse_cords, game_map)]
             text_box = []
             for i, _ in enumerate(tower_presets[temp]):
-                if i > 8:
+                if i > 9:
                     text_box.append(tower_presets[temp][i])
             hovered_tower = text_box
 

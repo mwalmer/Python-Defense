@@ -26,18 +26,26 @@ def get_tower_presets():
     javascript - slow attack speed, slows enemies
     lisp - projectile doesn't break and follows set path
     '''
+    python_cost = 15
+    java_cost = 25
+    cpp_cost = 50
+    javascript_cost = 10
+    lisp_cost = 100
+
     tower_presets = {
         "python": ["python_tower", .1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
+                   python_cost,
                    font.render("python tower", False, (0, 0, 0)).convert(),  # text name
-                   font.render("cost 25", False, (0, 0, 0)).convert(),  # text cost
+                   font.render(f"cost ${python_cost}", False, (0, 0, 0)).convert(),  # text cost
                    font.render("a description for the tower", False, (0, 0, 0)).convert()],  # text description
 
         "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
                  Projectile.motion,
+                 java_cost,
                  font.render("java tower", False, (0, 0, 0)).convert(),
-                 font.render("cost 25", False, (0, 0, 0)).convert(),
+                 font.render(f"cost ${java_cost}", False, (0, 0, 0)).convert(),
                  font.render("a description for the tower", False, (0, 0, 0)).convert()],
 
         "cpp": ["cpp_tower", 1, 1, scale(250),
@@ -48,22 +56,25 @@ def get_tower_presets():
                  sprite_set.CPP_LOADING_12_SPRITE, sprite_set.CPP_LOADING_13_SPRITE],
                 "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE_BIG], 10,
                 Projectile.motion,
+                cpp_cost,
                 font.render("c++ tower", False, (0, 0, 0)).convert(),
-                font.render("cost 25", False, (0, 0, 0)).convert(),
+                font.render(f"cost ${cpp_cost}", False, (0, 0, 0)).convert(),
                 font.render("a description for the tower", False, (0, 0, 0)).convert()],
 
         "javascript": ["javascript_tower", 1, 1, scale(250), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
                        "javascript_projectile",
                        [sprite_set.GLITCH_PROJECTILE_SPRITE], 10, Projectile.motion,
+                       javascript_cost,
                        font.render("javascript tower", False, (0, 0, 0)).convert(),
-                       font.render("cost 25", False, (0, 0, 0)).convert(),
+                       font.render(f"cost ${javascript_cost}", False, (0, 0, 0)).convert(),
                        font.render("a description for the tower", False, (0, 0, 0)).convert()],
 
         "lisp": ["lisp_tower", 1, 1, scale(250), [sprite_set.LISP_TOWER_SPRITE],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10,
                  Projectile.arc_motion,
+                 lisp_cost,
                  font.render("lisp tower", False, (0, 0, 0)).convert(),
-                 font.render("cost 25", False, (0, 0, 0)).convert(),
+                 font.render(f"cost ${lisp_cost}", False, (0, 0, 0)).convert(),
                  font.render("a description for the tower", False, (0, 0, 0)).convert()]
     }
 
@@ -85,14 +96,16 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
     ticks = ticks
     projectile_speed = tp[7]
     projectile_motion = tp[8]
+    cost = tp[9]
 
     return Tower(name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
-                 projectile_sprite, ticks, projectile_speed, projectile_motion)
+                 projectile_sprite, ticks, projectile_speed, projectile_motion, cost)
 
 
 class Tower:
     def __init__(self, name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
-                 projectile_sprite, ticks, projectile_speed, projectile_motion_function):
+                 projectile_sprite, ticks, projectile_speed, projectile_motion_function, cost):
+        self.cost = cost
         self.can_shoot = True
         self.name = name
         self.damage = damage
