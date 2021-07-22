@@ -86,10 +86,12 @@ sounds = Sound()
 # MAP IS 25 ACROSS AND 25 DOWN, 5 last columns are for menu
 
 lives = 25
+play_animation = [False, 0, False]
 
 # text, is up here so it doesn't have to be render/converted every frame
 font = pygame.font.SysFont('Arial', scale(12), bold=False)
 bold_font = pygame.font.SysFont('Arial', scale(12), bold=True)
+round_font = pygame.font.SysFont('Arial', scale(75), bold=True)
 
 tower_sect_text = bold_font.render("Towers", True, (0, 0, 0), None).convert_alpha()
 tut = [font.render('- Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
@@ -100,7 +102,7 @@ score_text = bold_font.render("score: " + str(score), True, (0, 0, 0), None).con
 
 lives_text = bold_font.render(lives_string, True, (0, 0, 0), None).convert_alpha()
 money_text = bold_font.render(money_string, True, (0, 0, 0), None).convert_alpha()
-round_text = bold_font.render("Round Cleared", True, (0, 0, 0), None).convert_alpha()
+round_text = round_font.render("Round Over", True, (0, 0, 0), None).convert_alpha()
 
 
 def re_render_text():
@@ -250,7 +252,8 @@ async def all_projectile_movement(projectiles, enemies):
             pass
 
 
-def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet, game_map, hovered_tower_info, sound_bar):
+def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
+                game_map, hovered_tower_info, sound_bar, start_round):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
     hovered_tile = get_tile(mouse_cords, game_map)
     tiles_to_hover = [4, 5, 6, 7, 8]
@@ -365,6 +368,18 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         WIN.blit(current_tower_info[0], (x, y))
         tower_range = current_tower_info[1]
         draw_range_indicator(tower_range, (x, y), None, current_tower_info[2])
+
+    global play_animation
+    if Enemy.enemy_count == 0 and start_round is False and play_animation[2] is True:
+        play_animation[0] = True
+
+    if play_animation[0] is True:
+        round_text.set_alpha(play_animation[1])
+        WIN.blit(round_text, (scale(100), scale(250)))
+        if play_animation[1] > 255:
+            play_animation = [False, 0, False]
+        else:
+            play_animation[1] += 3
 
     pygame.display.update()
 
@@ -637,6 +652,8 @@ def game_loop(sprite_sheet, game_map):
                         print("START BT CLICKED")
                         sounds.play_sound("start_button_sound")
                         start_round = True
+                        global play_animation  # used to not show round over on start
+                        play_animation[2] = True
 
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
                 elif 4 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] <= 8:
@@ -693,6 +710,7 @@ def game_loop(sprite_sheet, game_map):
 
         # TODO: might want to move to update
         # handles level ending and spawning new wave
+
         if Enemy.enemy_count == 0 and not start_round:
             clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
@@ -707,7 +725,7 @@ def game_loop(sprite_sheet, game_map):
             projectiles[:] = []
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                    game_map, hovered_tower, sound_bar)
+                    game_map, hovered_tower, sound_bar, start_round)
 
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py
