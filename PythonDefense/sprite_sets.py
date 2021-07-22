@@ -14,6 +14,7 @@ class SpriteSets:
         self.ENEMY_SIZE = self.TILE_SIZE
         self.FIRE_PROJECTILE_SIZE = scale(16)
         self.ICE_PROJECTILE_SIZE = scale(16)
+        self.GLITCH_PROJECTILE_SIZE = scale(32)
 
         self.GRASS_TILE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'grass_tile.png')).convert()
@@ -81,6 +82,8 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball_big.png')).convert()
         self.ICE_PROJECTILE_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'iceball.png')).convert()
+        self.GLITCH_PROJECTILE_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'glitchball.png')).convert()
         self.UPGRADE_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert()
         self.UPGRADE_DAMAGE_SPRITE = pygame.image.load(
@@ -146,6 +149,8 @@ class SpriteSets:
                                                              (scale(24), scale(24)))
         self.ICE_PROJECTILE_SPRITE = pygame.transform.scale(self.ICE_PROJECTILE_SPRITE,
                                                             (self.ICE_PROJECTILE_SIZE, self.ICE_PROJECTILE_SIZE))
+        self.GLITCH_PROJECTILE_SPRITE = pygame.transform.scale(self.GLITCH_PROJECTILE_SPRITE,
+                                                            (self.GLITCH_PROJECTILE_SIZE, self.GLITCH_PROJECTILE_SIZE))
         self.UPGRADE_SPRITE = pygame.transform.scale(self.UPGRADE_SPRITE, (self.TILE_SIZE * 2, self.TILE_SIZE))
         self.UPGRADE_DAMAGE_SPRITE = pygame.transform.scale(self.UPGRADE_DAMAGE_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))
         self.UPGRADE_RANGE_SPRITE = pygame.transform.scale(self.UPGRADE_RANGE_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))

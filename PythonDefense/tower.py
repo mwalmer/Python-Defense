@@ -54,7 +54,7 @@ def get_tower_presets():
 
         "javascript": ["javascript_tower", 1, 1, scale(250), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
                        "javascript_projectile",
-                       [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10, Projectile.motion,
+                       [sprite_set.GLITCH_PROJECTILE_SPRITE], 10, Projectile.motion,
                        font.render("javascript tower", False, (0, 0, 0)).convert(),
                        font.render("cost 25", False, (0, 0, 0)).convert(),
                        font.render("a description for the tower", False, (0, 0, 0)).convert()],
