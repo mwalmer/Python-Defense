@@ -36,17 +36,17 @@ def get_tower_presets():
         "python": ["python_tower", .1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    python_cost,
-                   font.render("python tower", False, (0, 0, 0)).convert(),  # text name
-                   font.render(f"cost ${python_cost}", False, (0, 0, 0)).convert(),  # text cost
-                   font.render("a description for the tower", False, (0, 0, 0)).convert()],  # text description
+                   font.render("python tower", True, (0, 0, 0), None).convert_alpha(),  # text name
+                   font.render(f"cost ${python_cost}", True, (0, 0, 0), None).convert_alpha(),  # text cost
+                   font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],  # text description
 
         "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
                  Projectile.motion,
                  java_cost,
-                 font.render("java tower", False, (0, 0, 0)).convert(),
-                 font.render(f"cost ${java_cost}", False, (0, 0, 0)).convert(),
-                 font.render("a description for the tower", False, (0, 0, 0)).convert()],
+                 font.render("java tower", True, (0, 0, 0), None).convert_alpha(),
+                 font.render(f"cost ${java_cost}", True, (0, 0, 0), None).convert_alpha(),
+                 font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
         "cpp": ["cpp_tower", 1, 1, scale(250),
                 [sprite_set.CPP_TOWER_SPRITE, sprite_set.CPP_LOADING_1_SPRITE, sprite_set.CPP_LOADING_2_SPRITE,
@@ -57,25 +57,25 @@ def get_tower_presets():
                 "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE_BIG], 10,
                 Projectile.motion,
                 cpp_cost,
-                font.render("c++ tower", False, (0, 0, 0)).convert(),
-                font.render(f"cost ${cpp_cost}", False, (0, 0, 0)).convert(),
-                font.render("a description for the tower", False, (0, 0, 0)).convert()],
+                font.render("c++ tower", True, (0, 0, 0), None).convert_alpha(),
+                font.render(f"cost ${cpp_cost}", True, (0, 0, 0), None).convert_alpha(),
+                font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
         "javascript": ["javascript_tower", 1, 1, scale(250), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
                        "javascript_projectile",
                        [sprite_set.GLITCH_PROJECTILE_SPRITE], 10, Projectile.motion,
                        javascript_cost,
-                       font.render("javascript tower", False, (0, 0, 0)).convert(),
-                       font.render(f"cost ${javascript_cost}", False, (0, 0, 0)).convert(),
-                       font.render("a description for the tower", False, (0, 0, 0)).convert()],
+                       font.render("javascript tower", True, (0, 0, 0), None).convert_alpha(),
+                       font.render(f"cost ${javascript_cost}", True, (0, 0, 0), None).convert_alpha(),
+                       font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
         "lisp": ["lisp_tower", 1, 1, scale(250), [sprite_set.LISP_TOWER_SPRITE],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10,
                  Projectile.arc_motion,
                  lisp_cost,
-                 font.render("lisp tower", False, (0, 0, 0)).convert(),
-                 font.render(f"cost ${lisp_cost}", False, (0, 0, 0)).convert(),
-                 font.render("a description for the tower", False, (0, 0, 0)).convert()]
+                 font.render("lisp tower", True, (0, 0, 0), None).convert_alpha(),
+                 font.render(f"cost ${lisp_cost}", True, (0, 0, 0), None).convert_alpha(),
+                 font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()]
     }
 
     return tower_presets

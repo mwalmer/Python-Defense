@@ -91,27 +91,28 @@ lives = 25
 font = pygame.font.SysFont('Arial', scale(12), bold=False)
 bold_font = pygame.font.SysFont('Arial', scale(12), bold=True)
 
-tower_sect_text = bold_font.render("Towers", False, (0, 0, 0)).convert()
-tut = [font.render('- Hover a tower for more info', False, (0, 0, 0)).convert(),
-       font.render('- Right click to deselect', False, (0, 0, 0)).convert()]
+tower_sect_text = bold_font.render("Towers", True, (0, 0, 0), None).convert_alpha()
+tut = [font.render('- Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
+       font.render('- Right click to deselect', True, (0, 0, 0), None).convert_alpha()]
 
 cached_tower_stats_text = []
-score_text = bold_font.render("score: " + str(score), False, (0, 0, 0)).convert()
+score_text = bold_font.render("score: " + str(score), True, (0, 0, 0), None).convert_alpha()
 
-lives_text = bold_font.render(lives_string, False, (0, 0, 0)).convert()
-money_text = bold_font.render(money_string, False, (0, 0, 0)).convert()
+lives_text = bold_font.render(lives_string, True, (0, 0, 0), None).convert_alpha()
+money_text = bold_font.render(money_string, True, (0, 0, 0), None).convert_alpha()
+round_text = bold_font.render("Round Cleared", True, (0, 0, 0), None).convert_alpha()
 
 
 def re_render_text():
     global lives_text, money_text
     global lives_string, money_string
-    lives_text = bold_font.render(lives_string, False, (0, 0, 0)).convert()
-    money_text = bold_font.render(money_string, False, (0, 0, 0)).convert()
+    lives_text = bold_font.render(lives_string, True, (0, 0, 0), None).convert_alpha()
+    money_text = bold_font.render(money_string, True, (0, 0, 0), None).convert_alpha()
 
 
 def re_render_score():
     global score_text
-    score_text = bold_font.render("score: " + str(score), False, (0, 0, 0)).convert()
+    score_text = bold_font.render("score: " + str(score), True, (0, 0, 0), None).convert_alpha()
 
 
 # Only finds starting x cord, fine for now
