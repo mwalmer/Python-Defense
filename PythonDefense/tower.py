@@ -81,7 +81,7 @@ def get_tower_presets():
     return tower_presets
 
 
-def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
+def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect, on_water=False):
     tower_presets = get_tower_presets()
     tp = tower_presets[tower_name]
     name = tp[0]
@@ -97,9 +97,13 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect):
     projectile_speed = tp[7]
     projectile_motion = tp[8]
     cost = tp[9]
-
-    return Tower(name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
+    print(on_water)
+    tower = Tower(name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
                  projectile_sprite, ticks, projectile_speed, projectile_motion, cost)
+    if on_water:
+        tower.on_water = True
+
+    return tower
 
 
 class Tower:
@@ -129,6 +133,7 @@ class Tower:
         self.target_mode = 0  # 0 - furthest, 1 - last enemy
         self.range_surf = None
         self.attr_levels_dict = {'damage': 1, 'attack_speed': 1, 'projectile_speed': 1, 'range': 1}
+        self.on_water = False
 
     def multiple_animations(self, update_num, enemies):
         if self.name == "cpp_tower":

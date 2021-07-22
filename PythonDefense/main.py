@@ -176,8 +176,8 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
         #   might want to optimize later on
 
-        # Might be optimized? Hard to tell because of weird errors/unfamiliarity with concurrency. I think this is better?
-        # But may want to use timeit function to test it, I'll do that soon - Benny
+    # Might be optimized? Hard to tell because of weird errors/unfamiliarity with concurrency. I think this is better?
+    # But may want to use timeit function to test it, I'll do that soon - Benny
     asyncio.run(all_projectile_movement(projectiles, enemies))
     for tower in towers:
         if tower.sprite_count != 0:
@@ -313,7 +313,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         WIN.blit(enemy.sprite, enemy.cords())
 
     for tower in towers:
-        if tower.name == "java_tower":
+        if tower.on_water:
             WIN.blit(sprite_sheet.MENU_TILE, tower.cords())
         else:
             WIN.blit(sprite_sheet.GRASS_TILE, tower.cords())
@@ -469,7 +469,7 @@ def game_loop(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet)
     selected_preset = None
     player_health = 10000
-    player_money = 99
+    player_money = 100000
     won = False
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string
@@ -513,7 +513,8 @@ def game_loop(sprite_sheet, game_map):
                 print(get_tile(mouse_cords, game_map))
                 #  TODO: reformat
                 player_money = main_player.get_money()
-                if (get_tile(mouse_cords, game_map) == 0 or (get_tile(mouse_cords, game_map) == 13 and selected_preset == "java")) and \
+                selected_tile = get_tile(mouse_cords, game_map)
+                if (selected_tile == 0 or (selected_tile == 13 and selected_preset == "java")) and \
                         selected_preset is not None:
                     # moved selected preset to ^^ condition from vv condition to allow for deselection on grass
                     if player_money >= tower_presets[selected_preset][9]:
@@ -527,7 +528,10 @@ def game_loop(sprite_sheet, game_map):
                         if not any_highlight:
                             sounds.play_sound("tower_placement_sound")
                             # print(game_map.Map)
-                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect)
+                            on_water = False
+                            if selected_tile == 13:
+                                on_water = True
+                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect, on_water)
                             towers.append(new_tower)
                             tower_count += 1
                             main_player.money = player_money - new_tower.cost
@@ -538,6 +542,7 @@ def game_loop(sprite_sheet, game_map):
                             selected_tower = new_tower
                             current_tower_info = None
                             any_highlight = True
+
                     selected_preset = None
                     current_tower_info = None
                     # added so that the tower would be removed upon not having enough money to place
