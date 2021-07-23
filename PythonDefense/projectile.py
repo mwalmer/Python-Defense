@@ -1,13 +1,5 @@
-from PythonDefense.helper_functions import scale
+from PythonDefense.helper_functions import scale, lib
 import math
-from ctypes import *
-
-
-def load_c_lib():
-    lib = cdll.LoadLibrary("./c_src.dll")
-    lib.modulo_zero.restype = c_bool
-    lib.modulo_zero.argtypes = [c_int, c_int]
-    return lib
 
 
 class Projectile:
@@ -99,7 +91,6 @@ class Projectile:
 
     def animation_update(self, update_num):
         try:
-            lib = load_c_lib()
             if lib.modulo_zero(self.anim_num, update_num):
                 if self.cur_sprite_num >= self.sprite_count - 1:
                     self.cur_sprite_num = 0
