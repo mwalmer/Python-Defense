@@ -393,7 +393,7 @@ def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
         # if surf is none it caches the surface. Avoids calling convert alpha every frame
         if tower.range_surf is None:
             surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
-            radius_indicator_color = pygame.Color(0, 0, 0, 100)
+            radius_indicator_color = pygame.Color(0, 0, 0, 70)
             pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range),
                                tower_range)
             tower.range_surf = surf
