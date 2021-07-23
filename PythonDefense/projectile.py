@@ -91,13 +91,14 @@ class Projectile:
 
     def animation_update(self, update_num):
         try:
-            if lib.modulo_zero(self.anim_num, update_num):
+            if lib.modulo_zero(int(self.anim_num), int(update_num)):
                 if self.cur_sprite_num >= self.sprite_count - 1:
                     self.cur_sprite_num = 0
                 else:
                     self.cur_sprite_num += 1
                 self.sprite = self.sprites[self.cur_sprite_num]
         except Exception:
+            print('Animation Exception: PROJECTILE')
             if self.anim_num % update_num == 0:
                 if self.cur_sprite_num >= self.sprite_count - 1:
                     self.cur_sprite_num = 0
