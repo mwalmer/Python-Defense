@@ -256,6 +256,7 @@ class Tower:
         if range_level < 5:
             self.range += range
             self.attr_levels_dict['range'] = range_level + 1
+            self.range_surf = None
             print('range upgraded! New level: ', self.attr_levels_dict['range'])
 
     def check_attr_dict(self, attr_string):
