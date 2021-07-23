@@ -47,7 +47,7 @@ class Projectile:
         self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
         self.rect.x = self.x
         self.rect.y = self.y
-        Projectile.animation_update(self, 8)
+        Projectile.animation_update(self, 10)
 
     def arc_motion(self, change_x, change_y):
         x_component = change_x - self.x

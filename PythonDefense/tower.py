@@ -63,7 +63,10 @@ def get_tower_presets():
 
         "javascript": ["javascript_tower", 1, 1, scale(250), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
                        "javascript_projectile",
-                       [sprite_set.GLITCH_PROJECTILE_SPRITE], 10, Projectile.motion,
+                       [sprite_set.GLITCH_PROJECTILE_RED_SPRITE, sprite_set.GLITCH_PROJECTILE_ORANGE_SPRITE, sprite_set.GLITCH_PROJECTILE_YELLOW_SPRITE,
+                        sprite_set.GLITCH_PROJECTILE_GREEN_SPRITE, sprite_set.GLITCH_PROJECTILE_BLUE_SPRITE, sprite_set.GLITCH_PROJECTILE_INDIGO_SPRITE,
+                        sprite_set.GLITCH_PROJECTILE_VIOLET_SPRITE],
+                       10, Projectile.motion,
                        javascript_cost,
                        font.render("javascript tower", True, (0, 0, 0), None).convert_alpha(),
                        font.render(f"cost ${javascript_cost}", True, (0, 0, 0), None).convert_alpha(),
