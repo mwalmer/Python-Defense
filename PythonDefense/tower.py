@@ -76,8 +76,10 @@ def get_tower_presets():
     return tower_presets
 
 
+tower_presets = get_tower_presets()
+
+
 def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect, on_water=False):
-    tower_presets = get_tower_presets()
     tp = tower_presets[tower_name]
     name = tp[0]
     damage = tp[1]

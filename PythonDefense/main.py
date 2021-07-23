@@ -1,4 +1,5 @@
 import math
+import time
 from math import floor
 
 import pygame
@@ -6,7 +7,6 @@ import os
 import asyncio
 
 from PythonDefense.enemy import Enemy
-from PythonDefense.tower import Tower, get_tower_from_preset, get_tower_presets
 from PythonDefense.player import Player
 from PythonDefense.round import Rounds
 from PythonDefense.sound import Sound
@@ -477,7 +477,7 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 
 def game_loop(sprite_sheet, game_map):
-    tower_presets = get_tower_presets()
+    tower_presets
     sound_bar = SoundBar(sprite_sheet)
     selected_preset = None
     player_health = 10000
@@ -557,6 +557,7 @@ def game_loop(sprite_sheet, game_map):
 
                     selected_preset = None
                     current_tower_info = None
+
                     # added so that the tower would be removed upon not having enough money to place
                 # Checks if click was over a tower and then proceeds with upgrading tower
                 elif game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] == 3:
@@ -640,8 +641,6 @@ def game_loop(sprite_sheet, game_map):
                                 selected_tower = selected_tower
                                 current_tower_info = None
                                 any_highlight = True
-                                    
-
 
                 # Checks if start button was clicked
                 elif sprite_sheet.TILE_SIZE * 15 <= mouse_y <= sprite_sheet.TILE_SIZE * 15 + sprite_sheet.TILE_SIZE:
@@ -871,4 +870,7 @@ def main():
 
 
 if __name__ == '__main__':
+    # might be a better way to do this, but this works
+    # tower presets needs pygame to be init before it is imported
+    from PythonDefense.tower import Tower, get_tower_from_preset, tower_presets
     main()
