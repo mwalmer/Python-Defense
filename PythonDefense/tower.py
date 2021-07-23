@@ -74,7 +74,7 @@ def get_tower_presets():
 
         "lisp": ["lisp_tower", 1, 1, scale(250), [sprite_set.LISP_TOWER_SPRITE],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10,
-                 Projectile.arc_motion,
+                 Projectile.around_shot,
                  lisp_cost,
                  font.render("lisp tower", True, (0, 0, 0), None).convert_alpha(),
                  font.render(f"cost ${lisp_cost}", True, (0, 0, 0), None).convert_alpha(),
