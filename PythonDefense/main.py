@@ -153,7 +153,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             tower.can_shoot = True
         else:
             if tower.name == "python_tower":
-                if tower.ticks >= tower.attack_speed/4:
+                if tower.ticks >= tower.attack_speed / 4:
                     tower.ticks = 0
                     tower.can_shoot = True
 
@@ -193,7 +193,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
     for tower in towers:
         if tower.sprite_count != 0:
-            tower.multiple_animations(tower.attack_speed/100, enemies_on_screen)
+            tower.multiple_animations(tower.attack_speed / 100, enemies_on_screen)
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]
@@ -245,13 +245,13 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 #             sounds.play_sound("collision_sound")
 #     else:
 #         projectile.flag_removal()
-        # this can be modified for aoe projectiles
-        # for enemy in enemies:
-        #     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
-        #         enemy.health -= projectile.damage
-        #         projectile.flag_removal()
-        #         collision_sound.play_sound()
-        #         has_not_hit = False
+# this can be modified for aoe projectiles
+# for enemy in enemies:
+#     if projectile.rect.colliderect(enemy.rect) and has_not_hit:
+#         enemy.health -= projectile.damage
+#         projectile.flag_removal()
+#         collision_sound.play_sound()
+#         has_not_hit = False
 #
 #
 # async def all_projectile_movement(projectiles, enemies):
@@ -388,6 +388,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     if play_animation[0] is True:
         round_text.set_alpha(play_animation[1])
         WIN.blit(round_text, (scale(100), scale(250)))
+        reset_cpp(towers)
         if play_animation[1] > 255:
             play_animation = [False, 0, False]
         else:
@@ -398,6 +399,13 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(fps_text, (scale(10), scale(10)))
 
     pygame.display.update()
+
+
+def reset_cpp(towers):
+    for tower in towers:
+        if tower.name == "cpp_tower":
+            tower.cur_sprite_num = 0
+            tower.sprite = tower.sprites[tower.cur_sprite_num]
 
 
 def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
@@ -437,7 +445,8 @@ def display_tutorial():
 def display_stats(selected_tower):
     if not cached_tower_stats_text:
         att_damage = font.render('Attack damage: ' + str(selected_tower.damage), False, (0, 0, 0)).convert()
-        att_speed = font.render('Attack speed: ' + str(1000 / selected_tower.attack_speed)[:4], False, (0, 0, 0)).convert()
+        att_speed = font.render('Attack speed: ' + str(1000 / selected_tower.attack_speed)[:4], False,
+                                (0, 0, 0)).convert()
         att_range = font.render('Attack range: ' + str(selected_tower.range), False, (0, 0, 0)).convert()
         cached_tower_stats_text.append(att_damage)
         cached_tower_stats_text.append(att_speed)
@@ -500,7 +509,7 @@ def game_loop(sprite_sheet, game_map):
 
     towers = []
     projectiles = []
-    shop_towers = {4: "python", 5: "java", 6: "cpp", 7:"javascript", 8: "lisp"}
+    shop_towers = {4: "python", 5: "java", 6: "cpp", 7: "javascript", 8: "lisp"}
 
     # current_tower_info used to know which tower to drop down (BASED ON MENU TOWER NUMBERS)
     current_tower_info = None  # Maybe add a highlight to the menu for this?
@@ -543,7 +552,8 @@ def game_loop(sprite_sheet, game_map):
                             on_water = False
                             if selected_tile == 13:
                                 on_water = True
-                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect, on_water)
+                            new_tower = get_tower_from_preset(selected_preset, ticks, tower_rect, projectile_rect,
+                                                              on_water)
                             towers.append(new_tower)
                             tower_count += 1
                             main_player.money = player_money - new_tower.cost
@@ -617,12 +627,12 @@ def game_loop(sprite_sheet, game_map):
                                 if selected_tower.check_attr_dict('damage'):
                                     selected_tower.upgrade_damage(5)
                                     upgrade_complete = True
-                                    
+
                             elif sprite_sheet.TILE_SIZE * 22 <= mouse_x <= sprite_sheet.TILE_SIZE * 22 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('attack_speed'):
                                     selected_tower.upgrade_attack_speed(5)
                                     upgrade_complete = True
-                                    
+
                             elif sprite_sheet.TILE_SIZE * 23.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 23.5 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('range'):
                                     selected_tower.upgrade_range(50)
@@ -873,4 +883,5 @@ if __name__ == '__main__':
     # might be a better way to do this, but this works
     # tower presets needs pygame to be init before it is imported
     from PythonDefense.tower import Tower, get_tower_from_preset, tower_presets
+
     main()
