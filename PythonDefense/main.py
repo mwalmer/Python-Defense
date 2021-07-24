@@ -28,6 +28,8 @@ print(height)
 # adjust this to change window size
 lives_string = "Lives: 100"
 money_string = "Money: 150"
+round_string = "Round: "
+round_number = 1
 score = 0
 NUM_TILES_X, NUM_TILES_Y = 25, 20
 
@@ -102,10 +104,16 @@ score_text = bold_font.render("score: " + str(score), True, (0, 0, 0), None).con
 
 lives_text = bold_font.render(lives_string, True, (0, 0, 0), None).convert_alpha()
 money_text = bold_font.render(money_string, True, (0, 0, 0), None).convert_alpha()
-round_text = round_font.render("Round Over", True, (0, 0, 0), None).convert_alpha()
+round_over_text = round_font.render("Round Over", True, (0, 0, 0), None).convert_alpha()
+round_text = bold_font.render(f"{round_string} {round_number}", True, (0, 0, 0), None).convert_alpha()
 
 
-def re_render_text():
+def re_render_round_number():
+    global round_string, round_number, round_text
+    round_text = bold_font.render(f"{round_string} {round_number}", True, (0, 0, 0), None).convert_alpha()
+
+
+def re_render_money_and_lives():
     global lives_text, money_text
     global lives_string, money_string
     lives_text = bold_font.render(lives_string, True, (0, 0, 0), None).convert_alpha()
@@ -233,7 +241,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             money_string = "Money: " + str(player.get_money())
             score += enemy.base_health
             re_render_score()
-            re_render_text()
+            re_render_money_and_lives()
             enemy.flag_removal()
         elif enemy.y > HEIGHT:
             if player.get_health() % 2 == 0:
@@ -243,7 +251,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             player.take_damage(enemy.health)
             global lives_string
             lives_string = "Lives: " + str(int(math.floor(player.get_health())))
-            re_render_text()
+            re_render_money_and_lives()
             # print('health ' + str(player.get_health()))
             enemy.flag_removal()
 
@@ -374,6 +382,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
     WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 12 * sprite_sheet.TILE_SIZE))
 
+    WIN.blit(round_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE - scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
     WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(13)))
     WIN.blit(score_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(26)))
@@ -402,8 +411,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     if Enemy.enemy_count == 0 and start_round is False and play_animation[2] is True:
         play_animation[0] = True
     if play_animation[0] is True:
-        round_text.set_alpha(play_animation[1])
-        WIN.blit(round_text, (scale(100), scale(250)))
+        round_over_text.set_alpha(play_animation[1])
+        WIN.blit(round_over_text, (scale(100), scale(250)))
         reset_cpp(towers)
         if play_animation[1] > 255:
             play_animation = [False, 0, False]
@@ -488,7 +497,7 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
     elif enemy_tile_y >= 20 or enemy_tile_x >= 25:
         global lives
         lives = lives - 1  # Duplicate code? This may have been rewritten in update
-        re_render_text()
+        re_render_money_and_lives()
         # if removed, update conditions to keep from out-of-bounds error
     elif game_map.Map[enemy_tile_y][enemy_tile_x] == 9:
         enemy.face(LEFT)
@@ -513,7 +522,7 @@ def game_loop(sprite_sheet, game_map):
     lives_string = "Lives: " + str(int(math.floor(player_health)))
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
     money_string = "Money: " + str(player_money)
-    re_render_text()
+    re_render_money_and_lives()
 
     main_player = Player(player_health, player_money)
 
@@ -574,7 +583,7 @@ def game_loop(sprite_sheet, game_map):
                             tower_count += 1
                             main_player.money = player_money - new_tower.cost
                             money_string = "Money: " + str(main_player.money)
-                            re_render_text()
+                            re_render_money_and_lives()
                             has_placed = True
                             selected_preset = None
                             selected_tower = new_tower
@@ -626,7 +635,7 @@ def game_loop(sprite_sheet, game_map):
                                     money_string = "Money: " + str(main_player.money)
 
                                     # this updates the money text and selected tower stats text, helps with optimization
-                                    re_render_text()
+                                    re_render_money_and_lives()
                                     cached_tower_stats_text[:] = []
 
                                     # don't have to reset selected_tower after upgrade
@@ -660,7 +669,7 @@ def game_loop(sprite_sheet, game_map):
                                 money_string = "Money: " + str(main_player.money)
 
                                 # this updates the money text and selected tower stats text, helps with optimization
-                                re_render_text()
+                                re_render_money_and_lives()
                                 cached_tower_stats_text[:] = []
 
                                 # don't have to reset selected_tower after upgrade
@@ -742,6 +751,12 @@ def game_loop(sprite_sheet, game_map):
             won = True
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
+
+            # updates the round number
+            global round_number
+            round_number = rounds.round
+            re_render_round_number()
+
             enemies = rounds.level()
             start_round = False
             projectiles[:] = []

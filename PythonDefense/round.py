@@ -35,7 +35,7 @@ class Rounds:
     def level(self):
         enemies = []
         if self.round == 1:
-            enemies1 = self.scoutEn(500,-32)
+            enemies1 = self.SoldierEn(500,-.5)
             enemies = enemies1
         elif self.round == 2:
             enemies1 = self.weakEn(10,-24)
