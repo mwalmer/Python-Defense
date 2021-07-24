@@ -207,7 +207,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if projectile.closest is not None:
             x, y = projectile.closest.cords()
             projectile.movement_function(projectile(), x, y)
-            for enemy in enemies:
+            for enemy in enemies_on_screen:
                 if projectile.rect.colliderect(enemy.rect):
                     projectile.closest.health -= projectile.damage
                     projectile.flag_removal()
@@ -511,7 +511,6 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 
 def game_loop(sprite_sheet, game_map):
-    tower_presets
     sound_bar = SoundBar(sprite_sheet)
     selected_preset = None
     player_health = 10000
@@ -908,6 +907,9 @@ def main():
             if level_screen(game_map):
                 #if information_screen(sprites, game_map):
                     value = game_loop(sprites, game_map)
+                    global score, round_number
+                    score = 0
+                    round_number = 0
                     if value == 1:
                         if end_menu():
                             pass
