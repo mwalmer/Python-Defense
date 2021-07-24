@@ -135,9 +135,11 @@ class Tower:
     def multiple_animations(self, update_num, enemies):
         if self.name == "cpp_tower":
             if self.cur_sprite_num == self.sprite_count - 1:
-                if self.get_first_enemy(enemies) is None:
-                    return
-        self.animation_update(update_num)
+                pass
+            else:
+                self.animation_update(update_num)
+        else:
+            self.animation_update(update_num)
 
     def animation_update(self, update_num):
         try:
