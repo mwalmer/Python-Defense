@@ -73,10 +73,10 @@ class Rounds:
             enemies2 = self.scoutEn(6, -32)
             enemies = enemies1 + enemies2
         elif self.round > 10:
-            enemies3 = self.tankEn(int(self.round / 2 * random()), -1 * int(64 * random()))
-            enemies4 = self.SoldierEn(int(self.round / 2 * random()), -1 * int(64 * random()))
-            enemies2 = self.scoutEn(int(self.round / 2 * random()), -1 * int(64 * random()))
-            enemies1 = self.weakEn(int(self.round / 2 * random()), -1 * int(64 * random()))
+            enemies3 = self.tankEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
+            enemies4 = self.SoldierEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
+            enemies2 = self.scoutEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
+            enemies1 = self.weakEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
             enemies = enemies1 + enemies2 + enemies3 + enemies4
         return enemies
 

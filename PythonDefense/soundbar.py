@@ -1,3 +1,6 @@
+import math
+
+
 class SoundBar:
     def __init__(self, sprite_sheet):
         self.sprite = sprite_sheet.VOLUME[10]
@@ -8,9 +11,9 @@ class SoundBar:
         numerator = mouse_x - sprite_sheet.TILE_SIZE * 20.5
         index = ((numerator / (sprite_sheet.TILE_SIZE * 4)) * self.non_blank_chunks)
         if index <= .4:
-            index = index.__floor__()
+            index = math.floor(index)
         else:
-            index = index.__ceil__()
+            index = math.ceil(index)
         self.sprite = sprite_sheet.VOLUME[index]
         sounds.set_volume(index * .05)
 
