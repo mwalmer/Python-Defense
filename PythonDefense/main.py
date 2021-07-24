@@ -165,16 +165,26 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             closest_enemy = tower.get_enemy(enemies_on_screen)
             if closest_enemy is not None:  # TODO - refactor
                 if tower.name == "cpp_tower":
-                    if tower.cur_sprite_num == tower.sprite_count - 1:
+                    if tower.cur_sprite_num == tower.sprite_count - 2:
+                        tower.cur_sprite_num = tower.sprite_count - 1
+                        tower.sprite = tower.sprites[tower.cur_sprite_num]
                         projectiles.append(tower.fire_projectile(closest_enemy))
                         tower.ticks = 0
                         tower.can_shoot = False
+                        tower.cur_sprite_num = tower.sprite_count - 2
+                        tower.sprite = tower.sprites[tower.cur_sprite_num]
                     else:
                         pass
                 else:
                     projectiles.append(tower.fire_projectile(closest_enemy))
+                    tower.cur_sprite_num = tower.sprite_count - 1
+                    tower.sprite = tower.sprites[tower.cur_sprite_num]
                     tower.ticks = 0
                     tower.can_shoot = False
+        else:
+            if not tower.name == "cpp_tower":
+                tower.cur_sprite_num = 0
+                tower.sprite = tower.sprites[tower.cur_sprite_num]
 
         #   might want to optimize later on
 

@@ -33,7 +33,19 @@ class SpriteSets:
         self.JAVASCRIPT_TOWER_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'javascript_tower.png')).convert_alpha()
         self.LISP_TOWER_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'LISP_TOWER.png')).convert_alpha()
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'lisp_tower.png')).convert_alpha()
+
+        self.PYTHON_TOWER_FLIP = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'python_tower_flip.png')).convert_alpha()
+        self.JAVA_TOWER_SPRITE_FLIP = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'java_tower_flip.png')).convert_alpha()
+        self.CPP_TOWER_SPRITE_FLIP = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'cpp_tower_flip.png')).convert_alpha()
+        self.JAVASCRIPT_TOWER_SPRITE_FLIP = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'javascript_tower_flip.png')).convert_alpha()
+        self.LISP_TOWER_SPRITE_FLIP = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'lisp_tower_flip.png')).convert_alpha()
+
         self.CPP_LOADING_1_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'cpp_tower_loading_1.png')).convert_alpha()
         self.CPP_LOADING_2_SPRITE = pygame.image.load(
@@ -123,10 +135,17 @@ class SpriteSets:
         self.MENU_TILE = pygame.transform.scale(self.MENU_TILE, self.TILE_XY)
         self.HILITE_TILE = pygame.transform.scale(self.HILITE_TILE, self.TILE_XY)
 
+        self.PYTHON_TOWER_SPRITE_FLIP = pygame.transform.scale(self.PYTHON_TOWER_FLIP, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.JAVA_TOWER_SPRITE_FLIP = pygame.transform.scale(self.JAVA_TOWER_SPRITE_FLIP, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.CPP_TOWER_SPRITE_FLIP = pygame.transform.scale(self.CPP_TOWER_SPRITE_FLIP, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.JAVASCRIPT_TOWER_SPRITE_FLIP = pygame.transform.scale(self.JAVASCRIPT_TOWER_SPRITE_FLIP, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.LISP_TOWER_SPRITE_FLIP = pygame.transform.scale(self.LISP_TOWER_SPRITE_FLIP, (self.TOWER_SIZE, self.TOWER_SIZE))
+
         self.PYTHON_TOWER_SPRITE = pygame.transform.scale(self.PYTHON_TOWER, (self.TOWER_SIZE, self.TOWER_SIZE))
         self.JAVA_TOWER_SPRITE = pygame.transform.scale(self.JAVA_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
         self.CPP_TOWER_SPRITE = pygame.transform.scale(self.CPP_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
-        self.JAVASCRIPT_TOWER_SPRITE = pygame.transform.scale(self.JAVASCRIPT_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
+        self.JAVASCRIPT_TOWER_SPRITE = pygame.transform.scale(self.JAVASCRIPT_TOWER_SPRITE,
+                                                              (self.TOWER_SIZE, self.TOWER_SIZE))
         self.LISP_TOWER_SPRITE = pygame.transform.scale(self.LISP_TOWER_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))
 
         self.CPP_LOADING_1_SPRITE = pygame.transform.scale(self.CPP_LOADING_1_SPRITE, (self.TOWER_SIZE, self.TOWER_SIZE))

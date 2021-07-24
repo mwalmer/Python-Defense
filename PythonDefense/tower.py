@@ -25,14 +25,14 @@ def get_tower_presets():
     lisp_cost = 100
 
     tower_presets = {
-        "python": ["python_tower", .1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE],  # tower
+        "python": ["python_tower", .1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    python_cost,
                    font.render("python tower", True, (0, 0, 0), None).convert_alpha(),  # text name
                    font.render(f"cost ${python_cost}", True, (0, 0, 0), None).convert_alpha(),  # text cost
                    font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],  # text description
 
-        "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE],
+        "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
                  Projectile.motion,
                  java_cost,
@@ -45,7 +45,7 @@ def get_tower_presets():
                  sprite_set.CPP_LOADING_3_SPRITE, sprite_set.CPP_LOADING_4_SPRITE, sprite_set.CPP_LOADING_5_SPRITE,
                  sprite_set.CPP_LOADING_6_SPRITE, sprite_set.CPP_LOADING_7_SPRITE, sprite_set.CPP_LOADING_8_SPRITE,
                  sprite_set.CPP_LOADING_9_SPRITE, sprite_set.CPP_LOADING_10_SPRITE, sprite_set.CPP_LOADING_11_SPRITE,
-                 sprite_set.CPP_LOADING_12_SPRITE, sprite_set.CPP_LOADING_13_SPRITE],
+                 sprite_set.CPP_LOADING_12_SPRITE, sprite_set.CPP_LOADING_13_SPRITE, sprite_set.CPP_TOWER_SPRITE_FLIP],
                 "cpp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE_BIG], 10,
                 Projectile.motion,
                 cpp_cost,
@@ -53,7 +53,7 @@ def get_tower_presets():
                 font.render(f"cost ${cpp_cost}", True, (0, 0, 0), None).convert_alpha(),
                 font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
-        "javascript": ["javascript_tower", .75, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
+        "javascript": ["javascript_tower", .75, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE, sprite_set.JAVASCRIPT_TOWER_SPRITE_FLIP],
                        "javascript_projectile",
                        [sprite_set.GLITCH_PROJECTILE_RED_SPRITE, sprite_set.GLITCH_PROJECTILE_ORANGE_SPRITE, sprite_set.GLITCH_PROJECTILE_YELLOW_SPRITE,
                         sprite_set.GLITCH_PROJECTILE_GREEN_SPRITE, sprite_set.GLITCH_PROJECTILE_BLUE_SPRITE, sprite_set.GLITCH_PROJECTILE_INDIGO_SPRITE,
@@ -64,7 +64,7 @@ def get_tower_presets():
                        font.render(f"cost ${javascript_cost}", True, (0, 0, 0), None).convert_alpha(),
                        font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
-        "lisp": ["lisp_tower", 1, .5, scale(250), [sprite_set.LISP_TOWER_SPRITE],
+        "lisp": ["lisp_tower", 1, .5, scale(250), [sprite_set.LISP_TOWER_SPRITE, sprite_set.LISP_TOWER_SPRITE_FLIP],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10,
                  Projectile.around_shot,
                  lisp_cost,
@@ -134,7 +134,7 @@ class Tower:
 
     def multiple_animations(self, update_num, enemies):
         if self.name == "cpp_tower":
-            if self.cur_sprite_num == self.sprite_count - 1:
+            if self.cur_sprite_num == self.sprite_count - 2:
                 pass
             else:
                 self.animation_update(update_num)
@@ -144,14 +144,14 @@ class Tower:
     def animation_update(self, update_num):
         try:
             if lib.modulo_zero(self.anim_num, update_num):
-                if self.cur_sprite_num >= self.sprite_count - 1:
+                if self.cur_sprite_num >= self.sprite_count - 2:
                     self.cur_sprite_num = 0
                 else:
                     self.cur_sprite_num += 1
                 self.sprite = self.sprites[self.cur_sprite_num]
         except Exception:
             if self.anim_num % update_num == 0:
-                if self.cur_sprite_num >= self.sprite_count - 1:
+                if self.cur_sprite_num >= self.sprite_count - 2:
                     self.cur_sprite_num = 0
                 else:
                     self.cur_sprite_num += 1
