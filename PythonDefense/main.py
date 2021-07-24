@@ -184,10 +184,11 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if projectile.closest is not None:
             x, y = projectile.closest.cords()
             projectile.movement_function(projectile(), x, y)
-            if projectile.rect.colliderect(projectile.closest.rect):
-                projectile.closest.health -= projectile.damage
-                projectile.flag_removal()
-                sounds.play_sound("collision_sound")
+            for enemy in enemies:
+                if projectile.rect.colliderect(enemy.rect):
+                    projectile.closest.health -= projectile.damage
+                    projectile.flag_removal()
+                    sounds.play_sound("collision_sound")
         else:
             projectile.flag_removal()
 

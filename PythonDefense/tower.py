@@ -53,7 +53,7 @@ def get_tower_presets():
                 font.render(f"cost ${cpp_cost}", True, (0, 0, 0), None).convert_alpha(),
                 font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
-        "javascript": ["javascript_tower", 1, 1, scale(250), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
+        "javascript": ["javascript_tower", .75, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE],
                        "javascript_projectile",
                        [sprite_set.GLITCH_PROJECTILE_RED_SPRITE, sprite_set.GLITCH_PROJECTILE_ORANGE_SPRITE, sprite_set.GLITCH_PROJECTILE_YELLOW_SPRITE,
                         sprite_set.GLITCH_PROJECTILE_GREEN_SPRITE, sprite_set.GLITCH_PROJECTILE_BLUE_SPRITE, sprite_set.GLITCH_PROJECTILE_INDIGO_SPRITE,
@@ -64,7 +64,7 @@ def get_tower_presets():
                        font.render(f"cost ${javascript_cost}", True, (0, 0, 0), None).convert_alpha(),
                        font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
-        "lisp": ["lisp_tower", 1, 1, scale(250), [sprite_set.LISP_TOWER_SPRITE],
+        "lisp": ["lisp_tower", 1, .5, scale(250), [sprite_set.LISP_TOWER_SPRITE],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10,
                  Projectile.around_shot,
                  lisp_cost,

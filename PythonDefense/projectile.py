@@ -22,7 +22,6 @@ class Projectile:
         self.sin_val = math.pi/64
         self.flip = 0
         self.radians = 2 * math.pi
-
     def cords(self):
         return self.x, self.y
 
@@ -70,21 +69,15 @@ class Projectile:
         Projectile.animation_update(self, 8)
 
     def around_shot(self, change_x, change_y):
-        velocity = math.pi/4
-        if self.flip < 9:
-            x_component = change_x - self.x
-            y_component = change_y - self.y
-            if x_component == 0:
-                x_component = .0000000000001
-            x_direction = math.cos(math.atan2(y_component, x_component))
-            y_direction = math.sin(math.atan2(y_component, x_component))
-            self.x = (self.x + x_direction * scale(1) * self.projectile_speed)
-            self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
+        velocity = math.pi/8
+        if self.flip < 1:
+            self.x = self.x + scale(16)
+            self.y = self.y - scale(32)
             self.flip += 1
         else:
             self.radians += velocity
-            self.x = self.x + math.cos(self.radians)
-            self.y = self.y + math.sin(self.radians)
+            self.x = self.x + math.cos(self.radians) * 25
+            self.y = self.y + math.sin(self.radians) * 25
         self.rect.x = self.x
         self.rect.y = self.y
         Projectile.animation_update(self, 10)
