@@ -869,6 +869,21 @@ def level_screen(game_map):
     return False
 
 
+def information_screen(sprite_sheet, game_map):
+    sound_bar = SoundBar(sprite_sheet)
+    run = True
+    while run:
+        # enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
+        # game_map, hovered_tower_info, sound_bar, start_round, fps
+        draw_window([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        pygame.display.update()
+    pygame.quit()
+    return False
+
+
 def main():
     sprites = SpriteSets()
     game_map = Map()
@@ -876,19 +891,22 @@ def main():
     while loop:
         if start_menu():
             if level_screen(game_map):
-                value = game_loop(sprites, game_map)
-                if value == 1:
-                    if end_menu():
-                        pass
-                    else:
+                #if information_screen(sprites, game_map):
+                    value = game_loop(sprites, game_map)
+                    if value == 1:
+                        if end_menu():
+                            pass
+                        else:
+                            loop = False
+                    if value == 2:
+                        if win_screen():
+                            pass
+                        else:
+                            loop = False
+                    if value == 3:
                         loop = False
-                if value == 2:
-                    if win_screen():
-                        pass
-                    else:
-                        loop = False
-                if value == 3:
-                    loop = False
+                #else:
+                 #   loop = False
             else:
                 loop = False
         else:
