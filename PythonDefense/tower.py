@@ -144,7 +144,7 @@ class Tower:
 
     def animation_update(self, update_num):
         try:
-            if lib.modulo_zero(self.anim_num, update_num):
+            if lib.modulo_zero(int(self.anim_num), int(update_num)):
                 if self.cur_sprite_num >= self.sprite_count - 2:
                     self.cur_sprite_num = 0
                 else:
