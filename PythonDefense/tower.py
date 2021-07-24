@@ -131,6 +131,7 @@ class Tower:
         self.range_surf = None
         self.attr_levels_dict = {'damage': 1, 'attack_speed': 1, 'projectile_speed': 1, 'range': 1}
         self.on_water = False
+        self.flip_frames = 0
 
     def multiple_animations(self, update_num, enemies):
         if self.name == "cpp_tower":

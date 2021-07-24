@@ -173,6 +173,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
                         tower.can_shoot = False
                         tower.cur_sprite_num = tower.sprite_count - 2
                         tower.sprite = tower.sprites[tower.cur_sprite_num]
+                        tower.flip_frames = 4
                     else:
                         pass
                 else:
@@ -181,10 +182,14 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
                     tower.sprite = tower.sprites[tower.cur_sprite_num]
                     tower.ticks = 0
                     tower.can_shoot = False
+                    tower.flip_frames = 4
         else:
             if not tower.name == "cpp_tower":
-                tower.cur_sprite_num = 0
-                tower.sprite = tower.sprites[tower.cur_sprite_num]
+                if tower.flip_frames > 0:
+                    tower.flip_frames -= 1
+                else:
+                    tower.cur_sprite_num = 0
+                    tower.sprite = tower.sprites[tower.cur_sprite_num]
 
         #   might want to optimize later on
 
