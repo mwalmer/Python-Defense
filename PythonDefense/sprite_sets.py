@@ -193,7 +193,7 @@ class SpriteSets:
         self.GLITCH_PROJECTILE_GREEN_SPRITE = pygame.transform.scale(self.GLITCH_PROJECTILE_GREEN_SPRITE,
                                                                    (self.GLITCH_PROJECTILE_SIZE,
                                                                     self.GLITCH_PROJECTILE_SIZE))
-        self.GLITCH_PROJECTILE_BLUE_SPRITE = pygame.transform.scale(self.GLITCH_PROJECTILE_RED_SPRITE,
+        self.GLITCH_PROJECTILE_BLUE_SPRITE = pygame.transform.scale(self.GLITCH_PROJECTILE_BLUE_SPRITE,
                                                                    (self.GLITCH_PROJECTILE_SIZE,
                                                                     self.GLITCH_PROJECTILE_SIZE))
         self.GLITCH_PROJECTILE_INDIGO_SPRITE = pygame.transform.scale(self.GLITCH_PROJECTILE_INDIGO_SPRITE,

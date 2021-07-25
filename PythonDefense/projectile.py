@@ -1,5 +1,6 @@
 from PythonDefense.helper_functions import scale, lib
 import math
+import random
 
 
 class Projectile:
@@ -10,11 +11,17 @@ class Projectile:
         self.rect = rect
         self.x = rect.x
         self.y = rect.y
-        self._sprite = sprites[0]
-        self.sprite = sprites[0]
         self.sprites = sprites
         self.cur_sprite_num = 0
         self.sprite_count = len(self.sprites)
+        if name == "javascript_projectile":
+            random.seed()
+            init_sprite_num = random.randrange(0, self.sprite_count)
+            self._sprite = sprites[init_sprite_num]
+            self.sprite = sprites[init_sprite_num]
+        else:
+            self._sprite = sprites[0]
+            self.sprite = sprites[0]
         self.anim_num = 0
         self.remove = False
         self.closest = None

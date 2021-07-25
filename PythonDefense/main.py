@@ -425,6 +425,142 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 
     pygame.display.update()
 
+def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
+                game_map, hovered_tower_info, sound_bar, start_round, fps):
+    # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
+    hovered_tile = get_tile(mouse_cords, game_map)
+    tiles_to_hover = [4, 5, 6, 7, 8]
+    show_hover_effect = False
+    if hovered_tile in tiles_to_hover:
+        show_hover_effect = True
+
+    # draws map
+    for x, row in enumerate(game_map.Map):
+        tile = sprite_sheet.GRASS_TILE.set_alpha(100)
+        for y, cord in enumerate(row):
+            # draws grass and path
+            # needs to be drawn before enemies or towers
+
+            # Rename cord to a more fitting var name
+            if cord == 0:
+                tile = sprite_sheet.GRASS_TILE
+            elif cord == 1:
+                tile = sprite_sheet.DIRT_TILE
+            elif cord == 2:
+                tile = sprite_sheet.MENU_TILE
+            elif cord == 3:
+                # do nothing, this is blit in the tower loop. Easy way to get java tower working
+                pass
+            elif cord == 4:
+                # menu has to be drawn under towers, since they do not take up full tile
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.PYTHON_TOWER_SPRITE
+            elif cord == 5:
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.JAVA_TOWER_SPRITE
+            elif cord == 6:
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.CPP_TOWER_SPRITE
+            elif cord == 7:
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.JAVASCRIPT_TOWER_SPRITE
+            elif cord == 8:
+                WIN.blit(sprite_sheet.MENU_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                tile = sprite_sheet.LISP_TOWER_SPRITE
+            elif cord == 9:
+                tile = sprite_sheet.DIRT_TILE
+            elif cord == 10:
+                tile = sprite_sheet.DIRT_TILE
+            elif cord == 11:
+                tile = sprite_sheet.DIRT_TILE
+            elif cord == 13:
+                tile = sprite_sheet.MENU_TILE
+
+            WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+
+            # hover highlight on shop towers
+            if cord == hovered_tile and show_hover_effect:
+                WIN.blit(sprite_sheet.HILITE_TILE.set_alpha(100), (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+
+    for enemy in enemies:
+        WIN.blit(enemy.sprite.set_alpha(100), enemy.cords())
+
+    for tower in towers:
+        if tower.on_water:
+            WIN.blit(sprite_sheet.MENU_TILE, tower.cords())
+        else:
+            WIN.blit(sprite_sheet.GRASS_TILE, tower.cords())
+        WIN.blit(tower.sprite.set_alpha(100), tower.cords())
+        # Check tower level and assign it a level tile
+        if tower.level == 1:
+            WIN.blit(sprite_sheet.LEVEL1_TILE.set_alpha(100), tower.cords())
+        elif tower.level == 2:
+            WIN.blit(sprite_sheet.LEVEL2_TILE.set_alpha(100), tower.cords())
+        elif tower.level == 3:
+            WIN.blit(sprite_sheet.LEVEL3_TILE.set_alpha(100), tower.cords())
+        elif tower.level == 4:
+            WIN.blit(sprite_sheet.LEVEL4_TILE.set_alpha(100), tower.cords())
+        elif tower.level == 5:
+            WIN.blit(sprite_sheet.LEVEL5_TILE.set_alpha(100), tower.cords())
+
+    # highlight and show range for selected tower
+    if selected_tower is not None:
+        WIN.blit(sprite_sheet.HILITE_TILE.set_alpha(100), selected_tower.cords())
+        draw_range_indicator(selected_tower.range, selected_tower.cords(), selected_tower)
+
+    for projectile in projectiles:
+        WIN.blit(projectile.sprite.set_alpha(100), projectile.cords())
+
+    # Draw Menu Buttons
+    WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (22 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_RANGE_SPRITE, (23.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 12 * sprite_sheet.TILE_SIZE))
+
+    WIN.blit(round_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE - scale(13)))
+    WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
+    WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(13)))
+    WIN.blit(score_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(26)))
+    WIN.blit(tower_sect_text, (22 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE + scale(13)))
+
+    # shop text box
+    if selected_tower is not None:
+        display_stats(selected_tower)
+    else:
+        if hovered_tower_info is None:
+            display_tutorial()
+            cached_tower_stats_text[:] = []
+        else:
+            display_shop_tower_info(hovered_tower_info)
+
+    # draws current tower/selected shop tower on mouse with range indicator
+    if current_tower_info is not None:
+        x, y = mouse_cords
+        x, y = x - scale(16), y - scale(16)
+        WIN.blit(current_tower_info[0].set_alpha(100), (x, y))
+        tower_range = current_tower_info[1]
+        draw_range_indicator(tower_range, (x, y), None, current_tower_info[2])
+
+    # handle playing the round over animation
+    global play_animation
+    if Enemy.enemy_count == 0 and start_round is False and play_animation[2] is True:
+        play_animation[0] = True
+    if play_animation[0] is True:
+        round_over_text.set_alpha(play_animation[1])
+        WIN.blit(round_over_text.set_alpha(100), (scale(100), scale(250)))
+        reset_cpp(towers)
+        if play_animation[1] > 255:
+            play_animation = [False, 0, False]
+        else:
+            play_animation[1] += 3
+
+    # FPS Counter, doesn't need convert since it changes every frame anyways
+    fps_text = bold_font.render("FPS: " + str(fps)[:4], True, (0, 0, 0), None)
+    WIN.blit(fps_text, (scale(10), scale(10)))
+
+    pygame.display.update()
 
 def reset_cpp(towers):
     for tower in towers:
