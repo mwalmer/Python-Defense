@@ -885,6 +885,18 @@ def level_screen(game_map):
 
 def information_screen(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet)
+
+    # Upgrades - update these values after changing them in main_game_loop
+    player_health = 10000
+    player_money = 100000
+    won = False 
+    # So these get properly updated instead of just on hit/change
+    global lives_string, money_string
+    lives_string = "Lives: " + str(int(math.floor(player_health)))
+    # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
+    money_string = "Money: " + str(player_money)
+    re_render_money_and_lives()
+
     run = True
     draw_window([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
     while run:
