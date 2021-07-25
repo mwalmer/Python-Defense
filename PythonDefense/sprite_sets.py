@@ -128,6 +128,8 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num4.png')).convert_alpha()
         self.LEVEL5_TILE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'levels', 'num5.png')).convert_alpha()
+        self.POP_UP = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'popup.png')).convert_alpha()
 
         # Scale images
         self.GRASS_TILE = pygame.transform.scale(self.GRASS_TILE, self.TILE_XY)
@@ -212,6 +214,8 @@ class SpriteSets:
         self.LEVEL3_TILE = pygame.transform.scale(self.LEVEL3_TILE, self.TILE_XY)
         self.LEVEL4_TILE = pygame.transform.scale(self.LEVEL4_TILE, self.TILE_XY)
         self.LEVEL5_TILE = pygame.transform.scale(self.LEVEL5_TILE, self.TILE_XY)
+
+        self.POP_UP = pygame.transform.scale(self.POP_UP, (scale(32 * 20), scale(32 * 16)))
 
         self.VOLUME = []
         for i in range(21):

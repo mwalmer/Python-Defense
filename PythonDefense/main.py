@@ -886,13 +886,22 @@ def level_screen(game_map):
 def information_screen(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet)
     run = True
+    draw_window([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
     while run:
         # enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
         # game_map, hovered_tower_info, sound_bar, start_round, fps
-        draw_window([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
+
+        WIN.blit(sprite_sheet.POP_UP, (2 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse = pygame.mouse.get_pos()
+                rect = sprite_sheet.POP_UP.get_rect()
+                rect.x += scale(32) * 2
+                rect.y += scale(32) * 2
+                if rect.collidepoint(mouse):
+                    return True
         pygame.display.update()
     pygame.quit()
     return False
@@ -905,7 +914,7 @@ def main():
     while loop:
         if start_menu():
             if level_screen(game_map):
-                #if information_screen(sprites, game_map):
+                if information_screen(sprites, game_map):
                     value = game_loop(sprites, game_map)
                     global score, round_number
                     score = 0
@@ -922,8 +931,8 @@ def main():
                             loop = False
                     if value == 3:
                         loop = False
-                #else:
-                 #   loop = False
+                else:
+                    loop = False
             else:
                 loop = False
         else:
