@@ -1,6 +1,6 @@
 from PythonDefense.helper_functions import scale, lib
 import math
-import random
+import numpy
 
 
 class Projectile:
@@ -12,14 +12,15 @@ class Projectile:
         self.x = rect.x
         self.y = rect.y
         self.sprites = sprites
-        self.cur_sprite_num = 0
         self.sprite_count = len(self.sprites)
         if name == "javascript_projectile":
-            random.seed()
-            init_sprite_num = random.randrange(0, self.sprite_count)
+            print(numpy.random.randint(0, self.sprite_count))
+            init_sprite_num = numpy.random.randint(0, self.sprite_count)
+            self.cur_sprite_num = init_sprite_num
             self._sprite = sprites[init_sprite_num]
             self.sprite = sprites[init_sprite_num]
         else:
+            self.cur_sprite_num = 0
             self._sprite = sprites[0]
             self.sprite = sprites[0]
         self.anim_num = 0
@@ -47,6 +48,19 @@ class Projectile:
         self.rect.x = self.x
         self.rect.y = self.y
         Projectile.animation_update(self, 10)
+
+    def js_motion(self, change_x, change_y):
+        x_component = change_x - self.x
+        y_component = change_y - self.y
+        if x_component == 0:
+            x_component = .0000000000001
+        x_direction = math.cos(math.atan2(y_component, x_component))
+        y_direction = math.sin(math.atan2(y_component, x_component))
+        self.x = (self.x + x_direction * scale(1) * self.projectile_speed)
+        self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
+        self.rect.x = self.x
+        self.rect.y = self.y
+        Projectile.animation_update(self, 2)
 
     def arc_motion(self, change_x, change_y):
         x_component = change_x - self.x

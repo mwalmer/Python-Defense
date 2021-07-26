@@ -209,7 +209,9 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             projectile.movement_function(projectile(), x, y)
             for enemy in enemies_on_screen:
                 if projectile.rect.colliderect(enemy.rect):
-                    projectile.closest.health -= projectile.damage
+                    if projectile.name == "javascript_projectile":
+                        enemy.speed *= .9
+                    enemy.health -= projectile.damage
                     projectile.flag_removal()
                     sounds.play_sound("collision_sound")
         else:
@@ -243,6 +245,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             re_render_score()
             re_render_money_and_lives()
             enemy.flag_removal()
+
         elif enemy.y > HEIGHT:
             if player.get_health() % 2 == 0:
                 sounds.play_sound("lose_life_even_sound")
@@ -257,7 +260,6 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
     # sets list equal to remaining enemies
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
-
 
 # async def projectile_movement(projectile):
 #     if projectile.closest is not None:
@@ -425,8 +427,9 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 
     pygame.display.update()
 
+
 def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                game_map, hovered_tower_info, sound_bar, start_round, fps):
+                            game_map, hovered_tower_info, sound_bar, start_round, fps):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
     hovered_tile = get_tile(mouse_cords, game_map)
     tiles_to_hover = [4, 5, 6, 7, 8]
@@ -480,7 +483,8 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
 
             # hover highlight on shop towers
             if cord == hovered_tile and show_hover_effect:
-                WIN.blit(sprite_sheet.HILITE_TILE.set_alpha(100), (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                WIN.blit(sprite_sheet.HILITE_TILE.set_alpha(100),
+                         (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
     for enemy in enemies:
         WIN.blit(enemy.sprite.set_alpha(100), enemy.cords())
@@ -561,6 +565,7 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
     WIN.blit(fps_text, (scale(10), scale(10)))
 
     pygame.display.update()
+
 
 def reset_cpp(towers):
     for tower in towers:
@@ -1025,7 +1030,7 @@ def information_screen(sprite_sheet, game_map):
     # Upgrades - update these values after changing them in main_game_loop
     player_health = 10000
     player_money = 100000
-    won = False 
+    won = False
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string
     lives_string = "Lives: " + str(int(math.floor(player_health)))
