@@ -207,7 +207,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if projectile.closest is not None:
             x, y = projectile.closest.cords()
             projectile.movement_function(projectile(), x, y)
-           # for enemy in enemies_on_screen:
+            # for enemy in enemies_on_screen:
             if projectile.name == "lisp_projectile":
                 for enemy in enemies_on_screen:
                     if projectile.rect.colliderect(enemy.rect):
@@ -267,6 +267,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
     # sets list equal to remaining enemies
     enemies[:] = [enemy for enemy in enemies if not enemy.remove]
+
 
 # async def projectile_movement(projectile):
 #     if projectile.closest is not None:
@@ -434,6 +435,14 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     pygame.display.update()
 
 
+def draw_transparent_rect():
+    # if surf is none it caches the surface. Avoids calling convert alpha every frame
+    surf = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA).convert_alpha()
+    radius_indicator_color = pygame.Color(0, 0, 0, 60)
+    pygame.draw.rect(surf, radius_indicator_color, (0, 0, WIDTH, HEIGHT))
+    WIN.blit(surf, (0, 0))
+
+
 def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
                             game_map, hovered_tower_info, sound_bar, start_round, fps):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
@@ -445,7 +454,7 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
 
     # draws map
     for x, row in enumerate(game_map.Map):
-        tile = sprite_sheet.GRASS_TILE.set_alpha(100)
+        tile = sprite_sheet.GRASS_TILE
         for y, cord in enumerate(row):
             # draws grass and path
             # needs to be drawn before enemies or towers
@@ -489,37 +498,37 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
 
             # hover highlight on shop towers
             if cord == hovered_tile and show_hover_effect:
-                WIN.blit(sprite_sheet.HILITE_TILE.set_alpha(100),
+                WIN.blit(sprite_sheet.HILITE_TILE,
                          (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
     for enemy in enemies:
-        WIN.blit(enemy.sprite.set_alpha(100), enemy.cords())
+        WIN.blit(enemy.sprite, enemy.cords())
 
     for tower in towers:
         if tower.on_water:
             WIN.blit(sprite_sheet.MENU_TILE, tower.cords())
         else:
             WIN.blit(sprite_sheet.GRASS_TILE, tower.cords())
-        WIN.blit(tower.sprite.set_alpha(100), tower.cords())
+        WIN.blit(tower.sprite, tower.cords())
         # Check tower level and assign it a level tile
         if tower.level == 1:
-            WIN.blit(sprite_sheet.LEVEL1_TILE.set_alpha(100), tower.cords())
+            WIN.blit(sprite_sheet.LEVEL1_TILE, tower.cords())
         elif tower.level == 2:
-            WIN.blit(sprite_sheet.LEVEL2_TILE.set_alpha(100), tower.cords())
+            WIN.blit(sprite_sheet.LEVEL2_TILE, tower.cords())
         elif tower.level == 3:
-            WIN.blit(sprite_sheet.LEVEL3_TILE.set_alpha(100), tower.cords())
+            WIN.blit(sprite_sheet.LEVEL3_TILE, tower.cords())
         elif tower.level == 4:
-            WIN.blit(sprite_sheet.LEVEL4_TILE.set_alpha(100), tower.cords())
+            WIN.blit(sprite_sheet.LEVEL4_TILE, tower.cords())
         elif tower.level == 5:
-            WIN.blit(sprite_sheet.LEVEL5_TILE.set_alpha(100), tower.cords())
+            WIN.blit(sprite_sheet.LEVEL5_TILE, tower.cords())
 
     # highlight and show range for selected tower
     if selected_tower is not None:
-        WIN.blit(sprite_sheet.HILITE_TILE.set_alpha(100), selected_tower.cords())
+        WIN.blit(sprite_sheet.HILITE_TILE, selected_tower.cords())
         draw_range_indicator(selected_tower.range, selected_tower.cords(), selected_tower)
 
     for projectile in projectiles:
-        WIN.blit(projectile.sprite.set_alpha(100), projectile.cords())
+        WIN.blit(projectile.sprite, projectile.cords())
 
     # Draw Menu Buttons
     WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
@@ -549,7 +558,7 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
     if current_tower_info is not None:
         x, y = mouse_cords
         x, y = x - scale(16), y - scale(16)
-        WIN.blit(current_tower_info[0].set_alpha(100), (x, y))
+        WIN.blit(current_tower_info[0], (x, y))
         tower_range = current_tower_info[1]
         draw_range_indicator(tower_range, (x, y), None, current_tower_info[2])
 
@@ -559,7 +568,7 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
         play_animation[0] = True
     if play_animation[0] is True:
         round_over_text.set_alpha(play_animation[1])
-        WIN.blit(round_over_text.set_alpha(100), (scale(100), scale(250)))
+        WIN.blit(round_over_text, (scale(100), scale(250)))
         if play_animation[1] > 255:
             play_animation = [False, 0, False]
         else:
@@ -568,6 +577,8 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
     # FPS Counter, doesn't need convert since it changes every frame anyways
     fps_text = bold_font.render("FPS: " + str(fps)[:4], True, (0, 0, 0), None)
     WIN.blit(fps_text, (scale(10), scale(10)))
+
+    draw_transparent_rect()
 
     pygame.display.update()
 
@@ -1045,7 +1056,7 @@ def information_screen(sprite_sheet, game_map):
     re_render_money_and_lives()
 
     run = True
-    draw_window([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
+    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
     while run:
         # enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
         # game_map, hovered_tower_info, sound_bar, start_round, fps
