@@ -207,8 +207,15 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if projectile.closest is not None:
             x, y = projectile.closest.cords()
             projectile.movement_function(projectile(), x, y)
-            for enemy in enemies_on_screen:
-                if projectile.rect.colliderect(enemy.rect):
+           # for enemy in enemies_on_screen:
+            if projectile.name == "lisp_projectile":
+                for enemy in enemies_on_screen:
+                    if projectile.rect.colliderect(enemy.rect):
+                        enemy.health -= projectile.damage
+                        projectile.flag_removal()
+                        sounds.play_sound("collision_sound")
+            else:
+                if projectile.rect.colliderect(projectile.closest.rect):
                     if projectile.name == "javascript_projectile":
                         enemy.speed *= .9
                     enemy.health -= projectile.damage
@@ -415,7 +422,6 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     if play_animation[0] is True:
         round_over_text.set_alpha(play_animation[1])
         WIN.blit(round_over_text, (scale(100), scale(250)))
-        reset_cpp(towers)
         if play_animation[1] > 255:
             play_animation = [False, 0, False]
         else:
@@ -554,7 +560,6 @@ def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_
     if play_animation[0] is True:
         round_over_text.set_alpha(play_animation[1])
         WIN.blit(round_over_text.set_alpha(100), (scale(100), scale(250)))
-        reset_cpp(towers)
         if play_animation[1] > 255:
             play_animation = [False, 0, False]
         else:
@@ -891,6 +896,7 @@ def game_loop(sprite_sheet, game_map):
             won = True
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
+            reset_cpp(towers)
 
             # updates the round number
             global round_number
