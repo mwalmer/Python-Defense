@@ -38,7 +38,7 @@ class Rounds:
     def level(self):
         enemies = []
         if self.round == 1:
-            enemies1 = self.SoldierEn(500, -.5)
+            enemies1 = self.weakEn(5, -32)
             enemies = enemies1
         elif self.round == 2:
             enemies1 = self.weakEn(10, -24)
@@ -100,4 +100,4 @@ class Rounds:
 
     # these guys suck
     def weakEn(self, num, sep):
-        return self.spawn(num, sep, 2, 2, self.enemy_size, self.enemy_sprite6, 1)
+        return self.spawn(num, sep, 2, 2, self.enemy_size, self.enemy_sprite2, 1)

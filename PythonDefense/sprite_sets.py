@@ -73,13 +73,13 @@ class SpriteSets:
         self.CPP_LOADING_13_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'towers', 'cpp_tower_loading_13.png')).convert_alpha()
         self.ENEMY1_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy1.png')).convert_alpha()
+            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'Smile.png')).convert_alpha()
         self.ENEMY2_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy2.png')).convert_alpha()
+            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'Face.png')).convert_alpha()
         self.ENEMY3_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy3.png')).convert_alpha()
+            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'Skull.png')).convert_alpha()
         self.ENEMY4_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy4.png')).convert_alpha()
+            os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'Cool.png')).convert_alpha()
         self.ENEMY5_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'enemies', 'enemy5.png')).convert_alpha()
         self.ENEMY6_SPRITE = pygame.image.load(
