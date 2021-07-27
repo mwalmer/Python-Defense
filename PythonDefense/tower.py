@@ -1,13 +1,13 @@
 from PythonDefense.projectile import Projectile
 import copy
 import math
-import sprite_sets
-from helper_functions import scale, lib
+from PythonDefense.sprite_sets import SpriteSets
+from PythonDefense.helper_functions import scale, lib
 import pygame
 
 
 def get_tower_presets():
-    sprite_set = sprite_sets.SpriteSets()
+    sprite_set = SpriteSets()
     font = pygame.font.SysFont('Arial', scale(14))
 
     '''
