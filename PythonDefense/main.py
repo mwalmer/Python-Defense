@@ -793,10 +793,12 @@ def game_loop(sprite_sheet, game_map):
 
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py
-        return 1
+        return [1, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
+                game_map, hovered_tower, sound_bar, start_round, clock.get_fps()]]
 
     if won:
-        return 2
+        return [2, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
+                    game_map, hovered_tower, sound_bar, start_round, clock.get_fps()]]
 
     else:
         pygame.quit()
@@ -813,7 +815,7 @@ def start_menu(sprite_sheet, game_map):
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
     money_string = "Money: " + str(player_money)
     re_render_money_and_lives()
-    
+
     sound_bar = SoundBar(sprite_sheet)
     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
     color = (0, 0, 0)
@@ -839,9 +841,9 @@ def start_menu(sprite_sheet, game_map):
     return False
 
 
-def end_menu():
-    WIN.fill((175, 238, 238))
-    color = (255, 69, 0)
+def end_menu(value):
+    draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11])
+    color = (0, 0, 0)
     font = pygame.font.SysFont('Arial', scale(32))
     end_text = font.render('Game Over', True, color)
     reset_text = font.render('Click this text to reset the game', True, color)
@@ -864,10 +866,9 @@ def end_menu():
     return False
 
 
-def win_screen():
-    WIN.fill((175, 238, 238))
-    WIN.fill((236, 192, 67))
-    color = (19, 63, 188)
+def win_screen(value):
+    draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11])
+    color = (255, 255, 255)
     font = pygame.font.SysFont('Arial', scale(32))
     win_text = font.render('You win! Well played', True, color)
     reset_text = font.render('Click this text to reset the game', True, color)
@@ -895,11 +896,11 @@ def level_screen(sprite_sheet, game_map):
     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
     color = (255, 255, 255)
     font = pygame.font.SysFont('Arial', scale(32))
-    level_1_text = font.render('Level 1 Map', True, color)
+    level_1_text = font.render('Click for level 1 Map', True, color)
     button_1_rect = level_1_text.get_rect()
     button_1_rect[0] = width / 6
     button_1_rect[1] = height / 3.5
-    level_2_text = font.render('Level 2 Map', True, color)
+    level_2_text = font.render('Click for level 2 Map', True, color)
     button_2_rect = level_2_text.get_rect()
     button_2_rect[0] = width / 6
     button_2_rect[1] = height / 2.5
@@ -908,6 +909,21 @@ def level_screen(sprite_sheet, game_map):
         WIN.blit(level_1_text, (width / 6, height / 3.5))
         WIN.blit(level_2_text, (width / 6, height / 2.5))
         for event in pygame.event.get():
+            mouse = pygame.mouse.get_pos()
+            if button_1_rect.collidepoint(mouse):
+                if game_map.name != "default":
+                    game_map.set_default_map()
+                    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None,
+                                            sound_bar, False, FPS)
+                    level_1_text = font.render('Click for level 1 Map', True, color)
+                    level_2_text = font.render('Click for level 2 Map', True, color)
+            if button_2_rect.collidepoint(mouse):
+                if game_map.name != "level_2":
+                    game_map.set_level_2_map()
+                    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None,
+                                            sound_bar, False, FPS)
+                    level_1_text = font.render('Click for level 1 Map', True, color)
+                    level_2_text = font.render('Click for level 2 Map', True, color)
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -971,16 +987,18 @@ def main():
                     global score, round_number
                     score = 0
                     round_number = 0
-                    if value == 1:
-                        if end_menu():
-                            pass
-                        else:
-                            loop = False
-                    if value == 2:
-                        if win_screen():
-                            pass
-                        else:
-                            loop = False
+                    if value != 3:
+                        if value[0] == 1:
+                            if end_menu(value[1]):
+                                pass
+                            else:
+                                loop = False
+                    if value != 3:
+                        if value[0] == 2:
+                            if win_screen(value[1]):
+                                pass
+                            else:
+                                loop = False
                     if value == 3:
                         loop = False
                 else:
