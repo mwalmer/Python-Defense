@@ -28,6 +28,8 @@ def load_c_lib():
     lib = cdll.LoadLibrary(path)
     lib.modulo_zero.restype = c_bool
     lib.modulo_zero.argtypes = [c_int, c_int]
+    lib.motion.restype = None
+    lib.motion.argtypes = [c_double, c_double, c_void_p, c_void_p, c_double, c_double]
     return lib
 
 

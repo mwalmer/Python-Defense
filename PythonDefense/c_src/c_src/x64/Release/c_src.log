@@ -1,11 +1,13 @@
 ﻿  pch.cpp
   dllmain.cpp
   Speed.cpp
-C:\Users\benny\source\repos\c_src\c_src\Speed.cpp(5,1): warning C4273: 'modulo_zero': inconsistent dll linkage
-C:\Users\benny\source\repos\c_src\c_src\Speed.h(9,27): message : see previous definition of 'modulo_zero'
-     Creating library C:\Users\benny\source\repos\c_src\x64\Release\c_src.lib and object C:\Users\benny\source\repos\c_src\x64\Release\c_src.exp
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.cpp(6,1): warning C4273: 'modulo_zero': inconsistent dll linkage
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.h(9,27): message : see previous definition of 'modulo_zero'
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.cpp(11,1): warning C4273: 'motion': inconsistent dll linkage
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.h(11,27): message : see previous definition of 'motion'
+     Creating library C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\x64\Release\c_src.lib and object C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\x64\Release\c_src.exp
   Generating code
   Previous IPDB not found, fall back to full compilation.
-  All 2 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 3 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  c_src.vcxproj -> C:\Users\benny\source\repos\c_src\x64\Release\c_src.dll
+  c_src.vcxproj -> C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\x64\Release\c_src.dll

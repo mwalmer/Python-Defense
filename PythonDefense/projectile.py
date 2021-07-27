@@ -1,6 +1,7 @@
 from PythonDefense.helper_functions import scale, lib
 import math
 import numpy
+from ctypes import *
 
 
 class Projectile:
@@ -37,14 +38,13 @@ class Projectile:
         return self
 
     def motion(self, change_x, change_y):
-        x_component = change_x - self.x
-        y_component = change_y - self.y
-        if x_component == 0:
-            x_component = .0000000000001
-        x_direction = math.cos(math.atan2(y_component, x_component))
-        y_direction = math.sin(math.atan2(y_component, x_component))
-        self.x = (self.x + x_direction * scale(1) * self.projectile_speed)
-        self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
+        self.x = c_double(self.x)
+        self.y = c_double(self.y)
+
+        lib.motion(c_double(change_x), c_double(change_y), byref(self.x), byref(self.y), c_double(scale(1)), c_double(self.projectile_speed))
+
+        self.x = self.x.value
+        self.y = self.y.value
         self.rect.x = self.x
         self.rect.y = self.y
         Projectile.animation_update(self, 10)
