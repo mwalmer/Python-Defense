@@ -218,8 +218,8 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
             else:
                 if projectile.rect.colliderect(projectile.closest.rect):
                     if projectile.name == "javascript_projectile":
-                        enemy.speed *= .9
-                    enemy.health -= projectile.damage
+                        projectile.closest.speed *= .9
+                    projectile.closest.health -= projectile.damage
                     projectile.flag_removal()
                     sounds.play_sound("collision_sound")
         else:
