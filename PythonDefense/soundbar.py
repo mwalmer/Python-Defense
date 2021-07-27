@@ -2,8 +2,8 @@ import math
 
 
 class SoundBar:
-    def __init__(self, sprite_sheet):
-        self.sprite = sprite_sheet.VOLUME[10]
+    def __init__(self, sprite_sheet, volume):
+        self.sprite = sprite_sheet.VOLUME[volume]
         self.non_blank_chunks = 20
 
     def user_click(self, mouse_x, mouse_y, sprite_sheet, sounds):

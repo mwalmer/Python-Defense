@@ -31,6 +31,7 @@ money_string = "Money: 150"
 round_string = "Round: "
 round_number = 1
 score = 0
+volume = 10
 NUM_TILES_X, NUM_TILES_Y = 25, 20
 
 # test colors/cords for text
@@ -445,13 +446,13 @@ def draw_transparent_rect():
 
 def draw_window_transparent(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
                             game_map, hovered_tower_info, sound_bar, start_round, fps):
-
     draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                            game_map, hovered_tower_info, sound_bar, start_round, fps)
+                game_map, hovered_tower_info, sound_bar, start_round, fps)
 
     draw_transparent_rect()
 
     pygame.display.update()
+
 
 def reset_cpp(towers):
     for tower in towers:
@@ -538,13 +539,16 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 
 
 def game_loop(sprite_sheet, game_map):
-    sound_bar = SoundBar(sprite_sheet)
+    global volume
+    sound_bar = SoundBar(sprite_sheet, volume)
     selected_preset = None
     player_health = 1
     player_money = 100000
     won = False
     # So these get properly updated instead of just on hit/change
-    global lives_string, money_string
+    global lives_string, money_string, score
+    score = 0
+    re_render_score()
     lives_string = "Lives: " + str(int(math.floor(player_health)))
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
     money_string = "Money: " + str(player_money)
@@ -644,8 +648,16 @@ def game_loop(sprite_sheet, game_map):
                     any_highlight = False
 
                 elif sprite_sheet.TILE_SIZE * 12 <= mouse_y <= sprite_sheet.TILE_SIZE * 12 + sprite_sheet.TILE_SIZE:
-                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
+                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.\
+                            TILE_SIZE * 4:
                         sound_bar.user_click(mouse_x, mouse_y, sprite_sheet, sounds)
+                        numerator = mouse_x - sprite_sheet.TILE_SIZE * 20.5
+                        index = ((numerator / (sprite_sheet.TILE_SIZE * 4)) * 20)
+                        if index <= .4:
+                            index = math.floor(index)
+                        else:
+                            index = math.ceil(index)
+                        volume = int(index)
 
 
 
@@ -797,8 +809,7 @@ def game_loop(sprite_sheet, game_map):
     if main_player.get_health() <= 0:
         Enemy.enemy_count = 0  # Resets static var in enemy.py
         return [1, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                game_map, hovered_tower, sound_bar, start_round, clock.get_fps()]]
-
+                    game_map, hovered_tower, sound_bar, start_round, clock.get_fps()]]
 
     if won:
         return [2, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
@@ -820,8 +831,9 @@ def start_menu(sprite_sheet, game_map):
     money_string = "Money: " + str(player_money)
     re_render_money_and_lives()
 
-    sound_bar = SoundBar(sprite_sheet)
-    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
+    sound_bar = SoundBar(sprite_sheet, volume)
+    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar,
+                            False, FPS)
     color = (0, 0, 0)
     font = pygame.font.SysFont('Arial', scale(32))
     title_text = font.render('Python Defense', True, color)
@@ -846,7 +858,8 @@ def start_menu(sprite_sheet, game_map):
 
 
 def end_menu(value):
-    draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11])
+    draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8],
+                            value[9], value[10], value[11])
     color = (0, 0, 0)
     font = pygame.font.SysFont('Arial', scale(32))
     end_text = font.render('Game Over', True, color)
@@ -871,7 +884,8 @@ def end_menu(value):
 
 
 def win_screen(value):
-    draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9], value[10], value[11])
+    draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8],
+                            value[9], value[10], value[11])
     color = (255, 255, 255)
     font = pygame.font.SysFont('Arial', scale(32))
     win_text = font.render('You win! Well played', True, color)
@@ -896,8 +910,9 @@ def win_screen(value):
 
 
 def level_screen(sprite_sheet, game_map):
-    sound_bar = SoundBar(sprite_sheet)
-    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
+    sound_bar = SoundBar(sprite_sheet, volume)
+    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar,
+                            False, FPS)
     color = (255, 255, 255)
     font = pygame.font.SysFont('Arial', scale(32))
     level_1_text = font.render('Click for level 1 Map', True, color)
@@ -917,14 +932,16 @@ def level_screen(sprite_sheet, game_map):
             if button_1_rect.collidepoint(mouse):
                 if game_map.name != "default":
                     game_map.set_default_map()
-                    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None,
+                    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map,
+                                            None,
                                             sound_bar, False, FPS)
                     level_1_text = font.render('Click for level 1 Map', True, color)
                     level_2_text = font.render('Click for level 2 Map', True, color)
             if button_2_rect.collidepoint(mouse):
                 if game_map.name != "level_2":
                     game_map.set_level_2_map()
-                    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None,
+                    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map,
+                                            None,
                                             sound_bar, False, FPS)
                     level_1_text = font.render('Click for level 1 Map', True, color)
                     level_2_text = font.render('Click for level 2 Map', True, color)
@@ -944,7 +961,7 @@ def level_screen(sprite_sheet, game_map):
 
 
 def information_screen(sprite_sheet, game_map):
-    sound_bar = SoundBar(sprite_sheet)
+    sound_bar = SoundBar(sprite_sheet, volume)
 
     # Upgrades - update these values after changing them in main_game_loop
     player_health = 10000
@@ -958,7 +975,8 @@ def information_screen(sprite_sheet, game_map):
     re_render_money_and_lives()
 
     run = True
-    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar, False, FPS)
+    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar,
+                            False, FPS)
     while run:
         # enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
         # game_map, hovered_tower_info, sound_bar, start_round, fps
