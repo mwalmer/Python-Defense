@@ -540,7 +540,7 @@ def enemy_pathfinding(enemy, sprite_sheet, game_map):
 def game_loop(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet)
     selected_preset = None
-    player_health = 10000
+    player_health = 1
     player_money = 100000
     won = False
     # So these get properly updated instead of just on hit/change
@@ -570,7 +570,8 @@ def game_loop(sprite_sheet, game_map):
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
-
+    global play_animation
+    play_animation = [False, 0, False]
     start_round = False  # Changed to True when start button clicked
     while run and main_player.get_health() > 0 and not won:
         ticks = clock.tick(FPS)
@@ -699,6 +700,7 @@ def game_loop(sprite_sheet, game_map):
                                 cached_tower_stats_text[:] = []
 
                                 # don't have to reset selected_tower after upgrade
+
                                 selected_tower = selected_tower
                                 current_tower_info = None
                                 any_highlight = True
@@ -709,7 +711,7 @@ def game_loop(sprite_sheet, game_map):
                         print("START BT CLICKED")
                         sounds.play_sound("start_button_sound")
                         start_round = True
-                        global play_animation  # used to not show round over on start
+                        # used to not show round over on start
                         play_animation[2] = True
 
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
@@ -774,6 +776,7 @@ def game_loop(sprite_sheet, game_map):
             # update logic
             update(enemies, towers, rounds, projectiles, ticks, main_player, sprite_sheet, game_map)
         if Enemy.enemy_count == 0 and rounds.last_round():
+            start_round = False
             won = True
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
@@ -795,6 +798,7 @@ def game_loop(sprite_sheet, game_map):
         Enemy.enemy_count = 0  # Resets static var in enemy.py
         return [1, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
                 game_map, hovered_tower, sound_bar, start_round, clock.get_fps()]]
+
 
     if won:
         return [2, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
