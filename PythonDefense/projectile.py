@@ -28,9 +28,10 @@ class Projectile:
         self.remove = False
         self.closest = None
         self.movement_function = movement_function
-        self.sin_val = math.pi/64
+        self.sin_val = math.pi / 64
         self.flip = 0
-        self.radians = 2 * math.pi
+        self.radians = 2 * math.pi - math.pi / 8
+
     def cords(self):
         return self.x, self.y
 
@@ -41,7 +42,8 @@ class Projectile:
         self.x = c_double(self.x)
         self.y = c_double(self.y)
 
-        lib.motion(c_double(change_x), c_double(change_y), byref(self.x), byref(self.y), c_double(scale(1)), c_double(self.projectile_speed))
+        lib.motion(c_double(change_x), c_double(change_y), byref(self.x), byref(self.y), c_double(scale(1)),
+                   c_double(self.projectile_speed))
 
         self.x = self.x.value
         self.y = self.y.value
@@ -50,55 +52,68 @@ class Projectile:
         Projectile.animation_update(self, 10)
 
     def js_motion(self, change_x, change_y):
-        x_component = change_x - self.x
-        y_component = change_y - self.y
-        if x_component == 0:
-            x_component = .0000000000001
-        x_direction = math.cos(math.atan2(y_component, x_component))
-        y_direction = math.sin(math.atan2(y_component, x_component))
-        self.x = (self.x + x_direction * scale(1) * self.projectile_speed)
-        self.y = (self.y + y_direction * scale(1) * self.projectile_speed)
+        self.x = c_double(self.x)
+        self.y = c_double(self.y)
+
+        lib.motion(c_double(change_x), c_double(change_y), byref(self.x), byref(self.y), c_double(scale(1)),
+                   c_double(self.projectile_speed))
+
+        self.x = self.x.value
+        self.y = self.y.value
         self.rect.x = self.x
         self.rect.y = self.y
+
         Projectile.animation_update(self, 2)
 
     def arc_motion(self, change_x, change_y):
-        x_component = change_x - self.x
-        y_component = change_y - self.y
-        if x_component == 0:
-            x_component = .0000000000001
-        x_direction = math.cos(math.atan2(y_component, x_component))
-        y_direction = math.sin(math.atan2(y_component, x_component))
-        self.x = (self.x + x_direction * scale(1) * self.projectile_speed) + y_direction * scale(1)
-        self.y = (self.y + y_direction * scale(1) * self.projectile_speed) + x_direction * scale(1)
+        self.x = c_double(self.x)
+        self.y = c_double(self.y)
+
+        lib.arc_motion(c_double(change_x), c_double(change_y), byref(self.x), byref(self.y), c_double(scale(1)),
+                       c_double(self.projectile_speed))
+
+        self.x = self.x.value
+        self.y = self.y.value
         self.rect.x = self.x
         self.rect.y = self.y
+
         Projectile.animation_update(self, 8)
 
     def snake_shot(self, change_x, change_y):
-        x_component = change_x - self.x
-        y_component = change_y - self.y
-        if x_component == 0:
-            x_component = .0000000000001
-        x_direction = math.cos(math.atan2(y_component, x_component))
-        y_direction = math.sin(math.atan2(y_component, x_component))
-        self.x = (self.x + x_direction * scale(1) * self.projectile_speed * abs(math.sin(self.sin_val)))
-        self.y = (self.y + y_direction * scale(1) * self.projectile_speed * abs(math.cos(self.sin_val)))
-        self.sin_val += math.pi/64
+        self.x = c_double(self.x)
+        self.y = c_double(self.y)
+
+        self.sin_val += math.pi / 64
+        lib.snake_shot(c_double(change_x), c_double(change_y), byref(self.x), byref(self.y), c_double(scale(1)),
+                       c_double(self.projectile_speed), c_double(self.sin_val))
+
+        self.x = self.x.value
+        self.y = self.y.value
         self.rect.x = self.x
         self.rect.y = self.y
         Projectile.animation_update(self, 8)
 
     def around_shot(self, change_x, change_y):
-        velocity = math.pi/8
-        if self.flip < 1:
-            self.x = self.x + scale(16)
-            self.y = self.y - scale(32)
-            self.flip += 1
-        else:
-            self.radians += velocity
-            self.x = self.x + math.cos(self.radians) * 25
-            self.y = self.y + math.sin(self.radians) * 25
+
+        self.x = c_double(self.x)
+        self.y = c_double(self.y)
+        self.radians += math.pi / 8
+        lib.around_shot(byref(self.x), byref(self.y), c_double(scale(16)), c_double(-scale(32)), c_int(self.flip),
+                        c_double(self.radians))
+        self.flip += 1
+        # if (rock):
+        #    velocity = math.pi / 8
+        #    if self.flip < 1:
+        #        self.x = self.x + scale(16)
+        #        self.y = self.y - scale(32)
+        #        self.flip += 1
+        #    else:
+        #        self.radians += velocity
+        #        self.x = self.x + math.cos(self.radians) * 25
+        #        self.y = self.y + math.sin(self.radians) * 25
+
+        self.x = self.x.value
+        self.y = self.y.value
         self.rect.x = self.x
         self.rect.y = self.y
         Projectile.animation_update(self, 10)
@@ -120,8 +135,6 @@ class Projectile:
                     self.cur_sprite_num += 1
                 self.sprite = self.sprites[self.cur_sprite_num]
         self.anim_num += 1
-
-
 
     def absolute_position(self, new_x, new_y):
         self.x = new_x

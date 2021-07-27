@@ -34,7 +34,7 @@ def get_tower_presets():
 
         "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
-                 Projectile.motion,
+                 Projectile.arc_motion,
                  java_cost,
                  font.render("java tower", True, (0, 0, 0), None).convert_alpha(),
                  font.render(f"cost ${java_cost}", True, (0, 0, 0), None).convert_alpha(),

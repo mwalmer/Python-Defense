@@ -5,9 +5,15 @@ C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in pyth
 C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.h(9,27): message : see previous definition of 'modulo_zero'
 C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.cpp(11,1): warning C4273: 'motion': inconsistent dll linkage
 C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.h(11,27): message : see previous definition of 'motion'
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.cpp(26,1): warning C4273: 'arc_motion': inconsistent dll linkage
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.h(13,27): message : see previous definition of 'arc_motion'
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.cpp(41,1): warning C4273: 'snake_shot': inconsistent dll linkage
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.h(15,27): message : see previous definition of 'snake_shot'
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.cpp(59,1): warning C4273: 'around_shot': inconsistent dll linkage
+C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\c_src\Speed.h(17,27): message : see previous definition of 'around_shot'
      Creating library C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\x64\Release\c_src.lib and object C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\x64\Release\c_src.exp
   Generating code
   Previous IPDB not found, fall back to full compilation.
-  All 3 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 6 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   c_src.vcxproj -> C:\Users\benny\Desktop\Programming\CIS 4930 PPP - performant programming in python\Py-Defense\Python-Defense\PythonDefense\c_src\x64\Release\c_src.dll

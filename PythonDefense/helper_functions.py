@@ -30,6 +30,12 @@ def load_c_lib():
     lib.modulo_zero.argtypes = [c_int, c_int]
     lib.motion.restype = None
     lib.motion.argtypes = [c_double, c_double, c_void_p, c_void_p, c_double, c_double]
+    lib.arc_motion.restype = None
+    lib.arc_motion.argtypes = [c_double, c_double, c_void_p, c_void_p, c_double, c_double]
+    lib.snake_shot.restype = None
+    lib.snake_shot.argtypes = [c_double, c_double, c_void_p, c_void_p, c_double, c_double, c_double]
+    lib.around_shot.restype = None
+    lib.around_shot.argtypes = [c_void_p, c_void_p, c_double, c_double, c_int, c_double]
     return lib
 
 
