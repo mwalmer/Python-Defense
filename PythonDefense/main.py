@@ -834,7 +834,7 @@ def start_menu(sprite_sheet, game_map):
     if game_map.name == "default":
         game_map.set_default_map()
     if game_map.name == "level_2":
-        game_map.set_level_2_map
+        game_map.set_level_2_map()
     sound_bar = SoundBar(sprite_sheet, volume)
     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar,
                             False, FPS)
