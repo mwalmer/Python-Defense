@@ -14,6 +14,9 @@ Click on a turret in the menu to select it, then click the desired tile to place
 2. run `setup.py sdist`
 3. dist folder will contain the tar.gz file
 
+## Build installer with cx_Freeze
+run `setup.py build bdist_msi`
+
 
 ## GitHub Repository
 https://github.com/mwalmer/Python-Defense
