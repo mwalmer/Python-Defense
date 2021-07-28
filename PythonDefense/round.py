@@ -88,11 +88,11 @@ class Rounds:
 
     # slow and tanky
     def tankEn(self, num, sep):
-        return self.spawn(num, sep, 15, 1, self.enemy_size, self.enemy_sprite4, 4)
+        return self.spawn(num, sep, 14, 1, self.enemy_size, self.enemy_sprite4, 4)
 
     # fast and weak
     def scoutEn(self, num, sep):
-        return self.spawn(num, sep, 5, 12, self.enemy_size, self.enemy_sprite3, 3)
+        return self.spawn(num, sep, 5, 6, self.enemy_size, self.enemy_sprite3, 3)
 
     # generalist
     def SoldierEn(self, num, sep):
