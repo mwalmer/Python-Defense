@@ -208,7 +208,8 @@ class Tower:
 
     # basic upgrade function for towers
     def basic_upgrade(self, damage, attack_speed, projectile_speed, range):
-        self.damage += damage
+        self.damage *= 1.5
+        self.damage = round(self.damage, 3)
         self.attack_speed -= 1000 / (attack_speed * 2)
         self.projectile_speed += projectile_speed
         self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
@@ -227,7 +228,8 @@ class Tower:
     def upgrade_damage(self, damage):
         damage_level = self.attr_levels_dict['damage']
         if damage_level < 5:
-            self.damage += damage
+            self.damage *= 1.5
+            self.damage = round(self.damage, 3)
             self.attr_levels_dict['damage'] = damage_level + 1
             print('damage upgraded! New level: ', self.attr_levels_dict['damage'])
 
