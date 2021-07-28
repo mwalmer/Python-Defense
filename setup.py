@@ -23,7 +23,8 @@ setup(
     },
     install_requires=[
         'pygame~=2.0.1',
-        'numpy~=1.21.0'
+        'numpy~=1.21.0',
+        'cx-Freeze~=6.7',
     ],
     include_package_data=True,
     executables=[Executable("PythonDefense/main.py", base=base)]
