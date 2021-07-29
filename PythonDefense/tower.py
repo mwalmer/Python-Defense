@@ -95,7 +95,7 @@ def get_tower_from_preset(tower_name, ticks, tower_rect, projectile_rect, on_wat
     projectile_speed = tp[7]
     projectile_motion = tp[8]
     cost = tp[9]
-    print(on_water)
+
     tower = Tower(name, damage, attack_speed, range, rect, sprites, projectile_name, projectile_rect,
                  projectile_sprite, ticks, projectile_speed, projectile_motion, cost)
     if on_water:

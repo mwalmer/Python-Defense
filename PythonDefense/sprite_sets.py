@@ -264,3 +264,6 @@ class SpriteSets:
                                                 (0, scale(10)),
                                                 (0, 0),
                                             ])
+
+        self.RED_TILE = pygame.Surface((self.TILE_SIZE, self.TOWER_SIZE), pygame.SRCALPHA).convert_alpha()
+        self.RED_TILE.fill((255, 0, 0, 60))
