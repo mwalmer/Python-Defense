@@ -386,12 +386,12 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         WIN.blit(projectile.sprite, projectile.cords())
 
     # Draw Menu Buttons
-    WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17 * sprite_sheet.TILE_SIZE))
-    WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
-    WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (22 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
-    WIN.blit(sprite_sheet.UPGRADE_RANGE_SPRITE, (23.5 * sprite_sheet.TILE_SIZE, 18.5 * sprite_sheet.TILE_SIZE))
-    WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 15 * sprite_sheet.TILE_SIZE))
-    WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 12 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_RANGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.UPGRADE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17.5 * sprite_sheet.TILE_SIZE))
+    WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 19 * sprite_sheet.TILE_SIZE))
 
     WIN.blit(round_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE - scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
@@ -663,8 +663,8 @@ def game_loop(sprite_sheet, game_map):
 
                 # MAJOR TODO: CHANGE ALL THESE IF's TO ELIFS for PREFORMANce
                 # Checks if upgrade button was clicked
-                elif sprite_sheet.TILE_SIZE * 17 <= mouse_y <= sprite_sheet.TILE_SIZE * 17 + sprite_sheet.TILE_SIZE:
-                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 2:
+                elif sprite_sheet.TILE_SIZE * 16 <= mouse_y <= sprite_sheet.TILE_SIZE * 16 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
                         if selected_tower is not None and has_placed is not False:
                             if selected_tower.level_up():
                                 if player_money >= 15:
@@ -683,21 +683,21 @@ def game_loop(sprite_sheet, game_map):
                                     any_highlight = True
 
                 # Checks if small upgrade buttons were clicked
-                elif sprite_sheet.TILE_SIZE * 18.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 18.5 + sprite_sheet.TILE_SIZE:
+                elif sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE:
                     upgrade_complete = False
                     if selected_tower is not None and has_placed is not False:
                         if player_money >= 5:
-                            if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE:
+                            if sprite_sheet.TILE_SIZE * 11.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 11.5 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('damage'):
                                     selected_tower.upgrade_damage(5)
                                     upgrade_complete = True
 
-                            elif sprite_sheet.TILE_SIZE * 22 <= mouse_x <= sprite_sheet.TILE_SIZE * 22 + sprite_sheet.TILE_SIZE:
+                            elif sprite_sheet.TILE_SIZE * 13 <= mouse_y <= sprite_sheet.TILE_SIZE * 13 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('attack_speed'):
                                     selected_tower.upgrade_attack_speed(5)
                                     upgrade_complete = True
 
-                            elif sprite_sheet.TILE_SIZE * 23.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 23.5 + sprite_sheet.TILE_SIZE:
+                            elif sprite_sheet.TILE_SIZE * 14.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('range'):
                                     selected_tower.upgrade_range(50)
                                     upgrade_complete = True
@@ -718,8 +718,8 @@ def game_loop(sprite_sheet, game_map):
                                 any_highlight = True
 
                 # Checks if start button was clicked
-                elif sprite_sheet.TILE_SIZE * 15 <= mouse_y <= sprite_sheet.TILE_SIZE * 15 + sprite_sheet.TILE_SIZE:
-                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 2:
+                elif sprite_sheet.TILE_SIZE * 17.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 17.5 + sprite_sheet.TILE_SIZE:
+                    if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
                         print("START BT CLICKED")
                         sounds.play_sound("start_button_sound")
                         start_round = True

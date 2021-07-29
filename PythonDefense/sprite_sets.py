@@ -206,11 +206,11 @@ class SpriteSets:
                                                                    (self.GLITCH_PROJECTILE_SIZE,
                                                                     self.GLITCH_PROJECTILE_SIZE))
 
-        self.UPGRADE_SPRITE = pygame.transform.scale(self.UPGRADE_SPRITE, (self.TILE_SIZE * 2, self.TILE_SIZE))
+        self.UPGRADE_SPRITE = pygame.transform.scale(self.UPGRADE_SPRITE, (self.TILE_SIZE * 4, self.TILE_SIZE))
         self.UPGRADE_DAMAGE_SPRITE = pygame.transform.scale(self.UPGRADE_DAMAGE_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))
         self.UPGRADE_RANGE_SPRITE = pygame.transform.scale(self.UPGRADE_RANGE_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))
         self.UPGRADE_SPEED_SPRITE = pygame.transform.scale(self.UPGRADE_SPEED_SPRITE, (self.TILE_SIZE, self.TILE_SIZE))
-        self.START_SPRITE = pygame.transform.scale(self.START_SPRITE, (self.TILE_SIZE * 2, self.TILE_SIZE))
+        self.START_SPRITE = pygame.transform.scale(self.START_SPRITE, (self.TILE_SIZE * 4, self.TILE_SIZE))
 
         self.LEVEL1_TILE = pygame.transform.scale(self.LEVEL1_TILE, self.TILE_XY)
         self.LEVEL2_TILE = pygame.transform.scale(self.LEVEL2_TILE, self.TILE_XY)
@@ -224,4 +224,4 @@ class SpriteSets:
         for i in range(21):
             self.VOLUME.append(pygame.image.load(
                 os.path.join(os.path.dirname(__file__), 'assets', 'buttons', f'Volume{i}.png')).convert())
-            self.VOLUME[i] = pygame.transform.scale(self.VOLUME[i], (self.TILE_SIZE * 4, self.TILE_SIZE))
+            self.VOLUME[i] = pygame.transform.scale(self.VOLUME[i], (self.TILE_SIZE * 4, self.TILE_SIZE//2))
