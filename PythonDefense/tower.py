@@ -18,14 +18,14 @@ def get_tower_presets():
     javascript - slow attack speed, slows enemies
     lisp - projectile doesn't break and follows set path
     '''
-    python_cost = 35
-    java_cost = 30
+    python_cost = 30
+    java_cost = 35
     cpp_cost = 100
     javascript_cost = 25
     lisp_cost = 50
 
     tower_presets = {      # damage | att_speed | range
-        "python": ["python_tower", 1, 1, scale(150), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
+        "python": ["python_tower", 1, 1, scale(200), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    python_cost,
                    font.render("python tower", True, (0, 0, 0), None).convert_alpha(),  # text name
@@ -54,7 +54,7 @@ def get_tower_presets():
                 font.render("Charges up at the start of", True, (0, 0, 0), None).convert_alpha(),
                 font.render("the round", True, (0, 0, 0), None).convert_alpha()],
 
-        "javascript": ["javascript_tower", .75, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE, sprite_set.JAVASCRIPT_TOWER_SPRITE_FLIP],
+        "javascript": ["javascript_tower", 1, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE, sprite_set.JAVASCRIPT_TOWER_SPRITE_FLIP],
                        "javascript_projectile",
                        [sprite_set.GLITCH_PROJECTILE_RED_SPRITE, sprite_set.GLITCH_PROJECTILE_ORANGE_SPRITE, sprite_set.GLITCH_PROJECTILE_YELLOW_SPRITE,
                         sprite_set.GLITCH_PROJECTILE_GREEN_SPRITE, sprite_set.GLITCH_PROJECTILE_BLUE_SPRITE, sprite_set.GLITCH_PROJECTILE_INDIGO_SPRITE,
@@ -65,7 +65,7 @@ def get_tower_presets():
                        font.render(f"cost ${javascript_cost}", True, (0, 0, 0), None).convert_alpha(),
                        font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
 
-        "lisp": ["lisp_tower", 1, .5, scale(250), [sprite_set.LISP_TOWER_SPRITE, sprite_set.LISP_TOWER_SPRITE_FLIP],
+        "lisp": ["lisp_tower", 1, .75, scale(250), [sprite_set.LISP_TOWER_SPRITE, sprite_set.LISP_TOWER_SPRITE_FLIP],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10,
                  Projectile.around_shot,
                  lisp_cost,
