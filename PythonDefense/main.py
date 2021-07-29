@@ -297,7 +297,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
 
 def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                game_map, hovered_tower_info, sound_bar, start_round, fps):
+                game_map, hovered_tower_info, sound_bar, start_round, fps, hovered_button=None):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
     hovered_tile = get_tile(mouse_cords, game_map)
     tiles_to_hover = [4, 5, 6, 7, 8]
@@ -353,6 +353,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             if cord == hovered_tile and show_hover_effect:
                 WIN.blit(sprite_sheet.HILITE_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
+
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
 
@@ -383,6 +384,27 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         WIN.blit(projectile.sprite, projectile.cords())
 
     # Draw Menu Buttons
+    if hovered_button is not None:
+        small_highlight = pygame.Surface((sprite_sheet.TILE_SIZE + scale(6), sprite_sheet.TILE_SIZE + scale(6))).convert()
+        yellow = pygame.Color(255, 255, 0)
+        small_highlight.fill(yellow)
+        large_highlight = pygame.Surface((sprite_sheet.TILE_SIZE * 4 + scale(6), sprite_sheet.TILE_SIZE + scale(6))).convert()
+        large_highlight.fill(yellow)
+        sound_bar_highlight = pygame.Surface((sprite_sheet.TILE_SIZE * 4 + scale(6), sprite_sheet.TILE_SIZE // 2 + scale(6))).convert()
+        sound_bar_highlight.fill(yellow)
+        if hovered_button == 1:
+            WIN.blit(small_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 11.5 * sprite_sheet.TILE_SIZE - scale(3)))
+        elif hovered_button == 2:
+            WIN.blit(small_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 13 * sprite_sheet.TILE_SIZE - scale(3)))
+        elif hovered_button == 3:
+            WIN.blit(small_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 14.5 * sprite_sheet.TILE_SIZE - scale(3)))
+        elif hovered_button == 4:
+            WIN.blit(large_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 16 * sprite_sheet.TILE_SIZE - scale(3)))
+        elif hovered_button == 5:
+            WIN.blit(large_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 17.5 * sprite_sheet.TILE_SIZE - scale(3)))
+        elif hovered_button == 6:
+            WIN.blit(sound_bar_highlight,(20.5 * sprite_sheet.TILE_SIZE - scale(3), 19 * sprite_sheet.TILE_SIZE - scale(3)))
+
     WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_RANGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
@@ -578,6 +600,7 @@ def game_loop(sprite_sheet, game_map):
         ticks = clock.tick(FPS)
         mouse_cords = pygame.mouse.get_pos()
         hovered_tower = None
+        hovered_button = None
         # TODO: limit possible event types
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -777,6 +800,24 @@ def game_loop(sprite_sheet, game_map):
                     text_box.append(tower_presets[temp][i])
             hovered_tower = text_box
 
+        # hover effect for menu buttons, not towers though
+        mouse_x, mouse_y = mouse_cords
+        if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE and sprite_sheet.TILE_SIZE * 11.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
+            if sprite_sheet.TILE_SIZE * 11.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 11.5 + sprite_sheet.TILE_SIZE:
+                hovered_button = 1
+            elif sprite_sheet.TILE_SIZE * 13 <= mouse_y <= sprite_sheet.TILE_SIZE * 13 + sprite_sheet.TILE_SIZE:
+                hovered_button = 2
+            elif sprite_sheet.TILE_SIZE * 14.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
+                        hovered_button = 3
+        elif sprite_sheet.TILE_SIZE * 16 <= mouse_y <= sprite_sheet.TILE_SIZE * 16 + sprite_sheet.TILE_SIZE:
+            if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
+                hovered_button = 4
+        elif sprite_sheet.TILE_SIZE * 17.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 17.5 + sprite_sheet.TILE_SIZE:
+            if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
+                hovered_button = 5
+        elif sprite_sheet.TILE_SIZE * 19 <= mouse_y <= sprite_sheet.TILE_SIZE * 19 + sprite_sheet.TILE_SIZE // 2:
+            if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
+                hovered_button = 6
         # TODO: might want to move to update
         # handles level ending and spawning new wave
 
@@ -802,7 +843,7 @@ def game_loop(sprite_sheet, game_map):
             projectiles[:] = []
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                    game_map, hovered_tower, sound_bar, start_round, clock.get_fps())
+                    game_map, hovered_tower, sound_bar, start_round, clock.get_fps(), hovered_button)
 
     if main_player.get_health() <= 0:
         play_animation = [False, 0, False]
