@@ -107,6 +107,8 @@ lives_text = bold_font.render(lives_string, True, (0, 0, 0), None).convert_alpha
 money_text = bold_font.render(money_string, True, (0, 0, 0), None).convert_alpha()
 round_over_text = round_font.render("Round Over", True, (0, 0, 0), None).convert_alpha()
 round_text = bold_font.render(f"{round_string} {round_number}", True, (0, 0, 0), None).convert_alpha()
+small_font = pygame.font.SysFont('Arial', scale(8), bold=False)
+sound_text = small_font.render("Volume", True, (0, 0, 0), None).convert_alpha()
 
 
 def re_render_round_number():
@@ -383,7 +385,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
 
-    # Draw Menu Buttons
+    # draw highlight for menu buttons
     if hovered_button is not None:
         if hovered_button == 1:
             WIN.blit(sprite_sheet.SMALL_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 11.5 * sprite_sheet.TILE_SIZE - scale(3)))
@@ -396,8 +398,9 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         elif hovered_button == 5:
             WIN.blit(sprite_sheet.LARGE_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 17.5 * sprite_sheet.TILE_SIZE - scale(3)))
         elif hovered_button == 6:
-            WIN.blit(sprite_sheet.SOUND_BAR_HIGHLIGHT,(20.5 * sprite_sheet.TILE_SIZE - scale(3), 19 * sprite_sheet.TILE_SIZE - scale(3)))
+            WIN.blit(sprite_sheet.SOUND_BAR_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 19 * sprite_sheet.TILE_SIZE - scale(3)))
 
+    # Draw Menu Buttons
     WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_RANGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
@@ -405,11 +408,13 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 19 * sprite_sheet.TILE_SIZE))
 
+    # draw text
     WIN.blit(round_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE - scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
     WIN.blit(money_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(13)))
     WIN.blit(score_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE + scale(26)))
     WIN.blit(tower_sect_text, (22 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE + scale(13)))
+    WIN.blit(sound_text, (21 * sprite_sheet.TILE_SIZE + scale(35), 19 * sprite_sheet.TILE_SIZE + scale(3.5)))
 
     # shop text box
     if selected_tower is not None:
