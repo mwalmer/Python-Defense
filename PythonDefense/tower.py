@@ -30,7 +30,7 @@ def get_tower_presets():
                    python_cost,
                    font.render("python tower", True, (0, 0, 0), None).convert_alpha(),  # text name
                    font.render(f"cost ${python_cost}", True, (0, 0, 0), None).convert_alpha(),  # text cost
-                   font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],  # text description
+                   font.render("Shoots a snaking pattern", True, (0, 0, 0), None).convert_alpha()],  # text description
 
         "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
@@ -38,9 +38,9 @@ def get_tower_presets():
                  java_cost,
                  font.render("java tower", True, (0, 0, 0), None).convert_alpha(),
                  font.render(f"cost ${java_cost}", True, (0, 0, 0), None).convert_alpha(),
-                 font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
+                 font.render("Can be placed on water", True, (0, 0, 0), None).convert_alpha()],
 
-        "cpp": ["cpp_tower", 1, 1, scale(250),
+        "cpp": ["cpp_tower", 3, 1, scale(250),
                 [sprite_set.CPP_TOWER_SPRITE, sprite_set.CPP_LOADING_1_SPRITE, sprite_set.CPP_LOADING_2_SPRITE,
                  sprite_set.CPP_LOADING_3_SPRITE, sprite_set.CPP_LOADING_4_SPRITE, sprite_set.CPP_LOADING_5_SPRITE,
                  sprite_set.CPP_LOADING_6_SPRITE, sprite_set.CPP_LOADING_7_SPRITE, sprite_set.CPP_LOADING_8_SPRITE,
@@ -51,7 +51,8 @@ def get_tower_presets():
                 cpp_cost,
                 font.render("c++ tower", True, (0, 0, 0), None).convert_alpha(),
                 font.render(f"cost ${cpp_cost}", True, (0, 0, 0), None).convert_alpha(),
-                font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
+                font.render("Charges up at the start of", True, (0, 0, 0), None).convert_alpha(),
+                font.render("the round", True, (0, 0, 0), None).convert_alpha()],
 
         "javascript": ["javascript_tower", .75, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE, sprite_set.JAVASCRIPT_TOWER_SPRITE_FLIP],
                        "javascript_projectile",
