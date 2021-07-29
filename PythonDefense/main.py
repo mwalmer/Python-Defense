@@ -688,16 +688,19 @@ def game_loop(sprite_sheet, game_map):
                             if sprite_sheet.TILE_SIZE * 11.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 11.5 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('damage'):
                                     selected_tower.upgrade_damage(5)
+                                    sounds.play_sound("upgrade_button_sound")
                                     upgrade_complete = True
 
                             elif sprite_sheet.TILE_SIZE * 13 <= mouse_y <= sprite_sheet.TILE_SIZE * 13 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('attack_speed'):
                                     selected_tower.upgrade_attack_speed(5)
+                                    sounds.play_sound("upgrade_button_sound")
                                     upgrade_complete = True
 
                             elif sprite_sheet.TILE_SIZE * 14.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('range'):
                                     selected_tower.upgrade_range(50)
+                                    sounds.play_sound("upgrade_button_sound")
                                     upgrade_complete = True
 
                             if upgrade_complete:
@@ -858,6 +861,8 @@ def start_menu(sprite_sheet, game_map):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
+                    sounds.play_sound("menu_sound")
+                    sounds.play_sound("tower_placement_sound")
                     return True
         pygame.display.update()
     pygame.quit()
@@ -884,6 +889,7 @@ def end_menu(value):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
+                    sounds.play_sound("menu_sound")
                     return True
         pygame.display.update()
     pygame.quit()
@@ -910,6 +916,7 @@ def win_screen(value):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
+                    sounds.play_sound("menu_sound")
                     return True
         pygame.display.update()
     pygame.quit()
@@ -958,9 +965,11 @@ def level_screen(sprite_sheet, game_map):
                 mouse = pygame.mouse.get_pos()
                 if button_1_rect.collidepoint(mouse):
                     game_map.set_default_map()
+                    sounds.play_sound("menu_sound")
                     return True
                 if button_2_rect.collidepoint(mouse):
                     game_map.set_level_2_map()
+                    sounds.play_sound("menu_sound")
                     return True
         pygame.display.update()
     pygame.quit()
@@ -998,6 +1007,7 @@ def information_screen(sprite_sheet, game_map):
                 rect.x += scale(32) * 2
                 rect.y += scale(32) * 2
                 if rect.collidepoint(mouse):
+                    sounds.play_sound("menu_sound")
                     return True
         pygame.display.update()
     pygame.quit()
