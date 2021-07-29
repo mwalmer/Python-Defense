@@ -24,15 +24,15 @@ def get_tower_presets():
     javascript_cost = 25
     lisp_cost = 50
 
-    tower_presets = {
-        "python": ["python_tower", .1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
+    tower_presets = {      # damage | att_speed | range
+        "python": ["python_tower", 1, 1, scale(150), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    python_cost,
                    font.render("python tower", True, (0, 0, 0), None).convert_alpha(),  # text name
                    font.render(f"cost ${python_cost}", True, (0, 0, 0), None).convert_alpha(),  # text cost
                    font.render("Shoots a snaking pattern", True, (0, 0, 0), None).convert_alpha()],  # text description
 
-        "java": ["java_tower", 1, 1, scale(250), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
+        "java": ["java_tower", 1, 1.25, scale(200), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
                  Projectile.arc_motion,
                  java_cost,
@@ -215,8 +215,7 @@ class Tower:
     def basic_upgrade(self, damage, attack_speed, projectile_speed, range):
         self.damage *= 1.5
         self.damage = round(self.damage, 3)
-        self.attack_speed -= 1000 / (attack_speed * 2)
-        self.projectile_speed += projectile_speed
+        self.attack_speed = 1000 / ((1000 / self.attack_speed) * 1.5)
         self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
                                      self.projectile.sprites, self.projectile_motion_function)
         self.range += range
@@ -240,19 +239,12 @@ class Tower:
 
     def upgrade_attack_speed(self, attack_speed):
         attack_speed_level = self.attr_levels_dict['attack_speed']
+        print(self.attack_speed)
         if attack_speed_level < 5:
-            self.attack_speed -= 1000 / (attack_speed * 2)
+            self.attack_speed = 1000 / ((1000 / self.attack_speed) * 1.5)
+            print(self.attack_speed)
             self.attr_levels_dict['attack_speed'] = attack_speed_level + 1
             print('attack speed upgraded! New level: ', self.attr_levels_dict['attack_speed'])
-
-    def upgrade_projectile_speed(self, projectile_speed):
-        projectile_speed_level = self.attr_levels_dict['projectile_speed']
-        if projectile_speed_level < 5:
-            self.projectile_speed += projectile_speed
-            self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
-                                         self.projectile.sprites, self.projectile_motion_function)
-            self.attr_levels_dict['projectile_speed'] = projectile_speed_level + 1
-            print('projectile speed upgraded! New level: ', self.attr_levels_dict['projectile_speed'])
 
     def upgrade_range(self, range):
         range_level = self.attr_levels_dict['range']

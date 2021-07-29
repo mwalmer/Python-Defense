@@ -153,18 +153,12 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
     for enemy in enemies:
         if enemy.x > 0 and enemy.y > 0:
             enemies_on_screen.append(enemy)
-
     for tower in towers:
         # checks the towers attack speed before firing
         tower.ticks += ticks
         if tower.ticks >= tower.attack_speed:
             tower.ticks = 0
             tower.can_shoot = True
-        else:
-            if tower.name == "python_tower":
-                if tower.ticks >= tower.attack_speed / 4:
-                    tower.ticks = 0
-                    tower.can_shoot = True
 
         # only runs when tower can shoot, reduces number of calls to get_enemy and within_range
         # which is good for performance, can be optimized more if needed
@@ -661,8 +655,6 @@ def game_loop(sprite_sheet, game_map):
                         else:
                             index = math.ceil(index)
                         volume = int(index)
-
-
 
                 # MAJOR TODO: CHANGE ALL THESE IF's TO ELIFS for PREFORMANce
                 # Checks if upgrade button was clicked
