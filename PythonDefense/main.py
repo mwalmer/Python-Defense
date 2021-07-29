@@ -385,25 +385,18 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 
     # Draw Menu Buttons
     if hovered_button is not None:
-        small_highlight = pygame.Surface((sprite_sheet.TILE_SIZE + scale(6), sprite_sheet.TILE_SIZE + scale(6))).convert()
-        yellow = pygame.Color(255, 255, 0)
-        small_highlight.fill(yellow)
-        large_highlight = pygame.Surface((sprite_sheet.TILE_SIZE * 4 + scale(6), sprite_sheet.TILE_SIZE + scale(6))).convert()
-        large_highlight.fill(yellow)
-        sound_bar_highlight = pygame.Surface((sprite_sheet.TILE_SIZE * 4 + scale(6), sprite_sheet.TILE_SIZE // 2 + scale(6))).convert()
-        sound_bar_highlight.fill(yellow)
         if hovered_button == 1:
-            WIN.blit(small_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 11.5 * sprite_sheet.TILE_SIZE - scale(3)))
+            WIN.blit(sprite_sheet.SMALL_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 11.5 * sprite_sheet.TILE_SIZE - scale(3)))
         elif hovered_button == 2:
-            WIN.blit(small_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 13 * sprite_sheet.TILE_SIZE - scale(3)))
+            WIN.blit(sprite_sheet.SMALL_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 13 * sprite_sheet.TILE_SIZE - scale(3)))
         elif hovered_button == 3:
-            WIN.blit(small_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 14.5 * sprite_sheet.TILE_SIZE - scale(3)))
+            WIN.blit(sprite_sheet.SMALL_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 14.5 * sprite_sheet.TILE_SIZE - scale(3)))
         elif hovered_button == 4:
-            WIN.blit(large_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 16 * sprite_sheet.TILE_SIZE - scale(3)))
+            WIN.blit(sprite_sheet.LARGE_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 16 * sprite_sheet.TILE_SIZE - scale(3)))
         elif hovered_button == 5:
-            WIN.blit(large_highlight, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 17.5 * sprite_sheet.TILE_SIZE - scale(3)))
+            WIN.blit(sprite_sheet.LARGE_HIGHLIGHT, (20.5 * sprite_sheet.TILE_SIZE - scale(3), 17.5 * sprite_sheet.TILE_SIZE - scale(3)))
         elif hovered_button == 6:
-            WIN.blit(sound_bar_highlight,(20.5 * sprite_sheet.TILE_SIZE - scale(3), 19 * sprite_sheet.TILE_SIZE - scale(3)))
+            WIN.blit(sprite_sheet.SOUND_BAR_HIGHLIGHT,(20.5 * sprite_sheet.TILE_SIZE - scale(3), 19 * sprite_sheet.TILE_SIZE - scale(3)))
 
     WIN.blit(sprite_sheet.UPGRADE_DAMAGE_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sprite_sheet.UPGRADE_SPEED_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
