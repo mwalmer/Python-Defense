@@ -647,7 +647,7 @@ def game_loop(sprite_sheet, game_map):
                     selected_tower = None
                     any_highlight = False
 
-                elif sprite_sheet.TILE_SIZE * 19 <= mouse_y <= sprite_sheet.TILE_SIZE * 19 + sprite_sheet.TILE_SIZE:
+                elif sprite_sheet.TILE_SIZE * 19 <= mouse_y <= sprite_sheet.TILE_SIZE * 19 + sprite_sheet.TILE_SIZE//2:
                     if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.\
                             TILE_SIZE * 4:
                         sound_bar.user_click(mouse_x, mouse_y, sprite_sheet, sounds)
