@@ -934,10 +934,15 @@ def level_screen(sprite_sheet, game_map):
     button_2_rect = level_2_text.get_rect()
     button_2_rect[0] = width / 6
     button_2_rect[1] = height / 2.5
+    level_3_text = font.render('Click for level 3 Map', True, color)
+    button_3_rect = level_3_text.get_rect()
+    button_3_rect[0] = width / 6
+    button_3_rect[1] = height / 2.5 + (height / 2.5 - height / 3.5)
     run = True
     while run:
         WIN.blit(level_1_text, (width / 6, height / 3.5))
         WIN.blit(level_2_text, (width / 6, height / 2.5))
+        WIN.blit(level_3_text, (width / 6, height / 2.5 + (height / 2.5 - height / 3.5)))
         for event in pygame.event.get():
             mouse = pygame.mouse.get_pos()
             if button_1_rect.collidepoint(mouse):
@@ -948,6 +953,7 @@ def level_screen(sprite_sheet, game_map):
                                             sound_bar, False, FPS)
                     level_1_text = font.render('Click for level 1 Map', True, color)
                     level_2_text = font.render('Click for level 2 Map', True, color)
+                    level_3_text = font.render('Click for level 3 Map', True, color)
             if button_2_rect.collidepoint(mouse):
                 if game_map.name != "level_2":
                     game_map.set_level_2_map()
@@ -956,6 +962,16 @@ def level_screen(sprite_sheet, game_map):
                                             sound_bar, False, FPS)
                     level_1_text = font.render('Click for level 1 Map', True, color)
                     level_2_text = font.render('Click for level 2 Map', True, color)
+                    level_3_text = font.render('Click for level 3 Map', True, color)
+            if button_3_rect.collidepoint(mouse):
+                if game_map.name != "level_3":
+                    game_map.set_level_3_map()
+                    draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map,
+                                            None,
+                                            sound_bar, False, FPS)
+                    level_1_text = font.render('Click for level 1 Map', True, color)
+                    level_2_text = font.render('Click for level 2 Map', True, color)
+                    level_3_text = font.render('Click for level 3 Map', True, color)
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -966,6 +982,10 @@ def level_screen(sprite_sheet, game_map):
                     return True
                 if button_2_rect.collidepoint(mouse):
                     game_map.set_level_2_map()
+                    sounds.play_sound("menu_sound")
+                    return True
+                if button_3_rect.collidepoint(mouse):
+                    game_map.set_level_3_map()
                     sounds.play_sound("menu_sound")
                     return True
         pygame.display.update()
