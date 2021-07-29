@@ -87,7 +87,7 @@ class Rounds:
         self.round += 1
 
     def last_round(self):
-        return self.round == 15
+        return self.round == 1
 
     # slow and tanky
     def tankEn(self, num, sep):

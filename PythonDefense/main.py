@@ -586,7 +586,6 @@ def game_loop(sprite_sheet, game_map):
     selected_preset = None
     player_health = 20
     player_money = 6000
-    won = False
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string, score
     score = 0
@@ -619,7 +618,7 @@ def game_loop(sprite_sheet, game_map):
     global play_animation
     play_animation = [False, 0, False]
     start_round = False  # Changed to True when start button clicked
-    while run and main_player.get_health() > 0 and not won:
+    while run and main_player.get_health() > 0:
         ticks = clock.tick(FPS)
         mouse_cords = pygame.mouse.get_pos()
         hovered_tower = None
@@ -851,7 +850,18 @@ def game_loop(sprite_sheet, game_map):
             update(enemies, towers, rounds, projectiles, ticks, main_player, sprite_sheet, game_map)
         if Enemy.enemy_count == 0 and rounds.last_round():
             start_round = False
-            won = True
+            play_animation = [False, 0, False]
+            _continue = win_screen([enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
+                        game_map, hovered_tower, sound_bar, start_round, clock.get_fps()])
+            if _continue == 2: #TODO - WARNING - don't change these
+                return 2
+            if _continue == 3: #TODO - WARNING - don't change these
+                return 3
+            if _continue == 1:
+                rounds.next_round()
+                print("hello")
+            if not _continue:
+                return False
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
             reset_cpp(towers)
@@ -872,11 +882,6 @@ def game_loop(sprite_sheet, game_map):
         play_animation = [False, 0, False]
         Enemy.enemy_count = 0  # Resets static var in enemy.py
         return [1, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                    game_map, hovered_tower, sound_bar, start_round, clock.get_fps()]]
-
-    if won:
-        play_animation = [False, 0, False]
-        return [2, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
                     game_map, hovered_tower, sound_bar, start_round, clock.get_fps()]]
 
     else:
@@ -963,14 +968,19 @@ def win_screen(value):
     color = (255, 255, 255)
     font = pygame.font.SysFont('Arial', scale(32))
     win_text = font.render('You win! Well played', True, color)
-    reset_text = font.render('Click this text to reset the game', True, color)
+    reset_text = font.render('Click this text to start a new game', True, color)
+    continue_text = font.render('Click this text to continue the game', True, color)
     button_rect = reset_text.get_rect()
     button_rect[0] = width / 6
-    button_rect[1] = height / 2.5
+    button_rect[1] = height / 2.5 + (height / 2.5 - height / 3.5)
+    continue_button_rect = continue_text.get_rect()
+    continue_button_rect[0] = width / 6
+    continue_button_rect[1] = height / 2.5
     run = True
     while run:
-        WIN.blit(reset_text, (width / 6, height / 2.5))
         WIN.blit(win_text, (width / 6, height / 3.5))
+        WIN.blit(continue_text, (width / 6, height / 2.5))
+        WIN.blit(reset_text, (width / 6, height / 2.5 + (height / 2.5 - height / 3.5)))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -978,7 +988,11 @@ def win_screen(value):
                 mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
                     sounds.play_sound("menu_sound")
-                    return True
+                    return 2
+                if continue_button_rect.collidepoint(mouse):
+                    sounds.play_sound("menu_sound")
+                    return 1
+                    print("hi")
         pygame.display.update()
     pygame.quit()
     return False
@@ -1107,20 +1121,19 @@ def main():
                     global score, round_number
                     score = 0
                     round_number = 0
-                    if value != 3:
-                        if value[0] == 1:
-                            if end_menu(value[1]):
-                                pass
-                            else:
-                                loop = False
-                    if value != 3:
-                        if value[0] == 2:
-                            if win_screen(value[1]):
-                                pass
-                            else:
-                                loop = False
-                    if value == 3:
+                    if value == False:
                         loop = False
+                    else:
+                        if value != 3 and value != 2:
+                            if value[0] == 1:
+                                if end_menu(value[1]):
+                                    pass
+                                else:
+                                    loop = False
+                        if value == 2:
+                            loop = True
+                        if value == 3:
+                            loop = False
                 else:
                     loop = False
             else:
