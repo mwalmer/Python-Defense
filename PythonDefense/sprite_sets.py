@@ -230,6 +230,7 @@ class SpriteSets:
         self.BLACK = pygame.Color(0, 0, 0)
         self.EMPTY_COLOR = pygame.Color(111, 207, 242)
         self.FILLED_IN_COLOR = pygame.Color(0, 150, 135)
+        self.OTHER_FILLED_IN_COLOR = pygame.Color(63, 81, 181)
 
         self.SMALL_HIGHLIGHT = pygame.Surface((self.TILE_SIZE + scale(6), self.TILE_SIZE + scale(6))).convert()
         self.SMALL_HIGHLIGHT.fill(self.YELLOW)
@@ -248,3 +249,14 @@ class SpriteSets:
 
         self.SMALL_UPGRADE_LEVEL_FILLED = pygame.Surface((scale(10), scale(10))).convert()
         self.SMALL_UPGRADE_LEVEL_FILLED.fill(self.FILLED_IN_COLOR)
+
+        self.SMALL_UPGRADE_LEVEL_FILLED_ALT = pygame.Surface((scale(10), scale(10))).convert()
+        self.SMALL_UPGRADE_LEVEL_FILLED_ALT.fill(self.OTHER_FILLED_IN_COLOR)
+
+        self.SMALL_UPGRADE_LEVEL_TILTED = pygame.Surface((scale(10), scale(10)), pygame.SRCALPHA).convert_alpha()
+        self.triangle = pygame.draw.polygon(self.SMALL_UPGRADE_LEVEL_TILTED, self.OTHER_FILLED_IN_COLOR,
+                                            [
+                                                (scale(10), 0),
+                                                (0, scale(10)),
+                                                (0, 0),
+                                            ])

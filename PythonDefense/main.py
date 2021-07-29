@@ -451,24 +451,31 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(fps_text, (scale(10), scale(10)))
 
     if selected_tower is not None:
-        draw_upgrade_bar(sprite_sheet, 11.5, selected_tower.attr_levels_dict['damage'])
-        draw_upgrade_bar(sprite_sheet, 13, selected_tower.attr_levels_dict['attack_speed'])
-        draw_upgrade_bar(sprite_sheet, 14.5, selected_tower.attr_levels_dict['range'])
+        draw_upgrade_bar(sprite_sheet, 11.5, selected_tower.attr_levels_dict['damage'], selected_tower.level)
+        draw_upgrade_bar(sprite_sheet, 13, selected_tower.attr_levels_dict['attack_speed'], selected_tower.level)
+        draw_upgrade_bar(sprite_sheet, 14.5, selected_tower.attr_levels_dict['range'], selected_tower.level)
     else:
-        draw_upgrade_bar(sprite_sheet, 11.5, 0)
-        draw_upgrade_bar(sprite_sheet, 13, 0)
-        draw_upgrade_bar(sprite_sheet, 14.5, 0)
+        draw_upgrade_bar(sprite_sheet, 11.5, 0, 0)
+        draw_upgrade_bar(sprite_sheet, 13, 0, 0)
+        draw_upgrade_bar(sprite_sheet, 14.5, 0, 0)
 
     pygame.display.update()
 
-def draw_upgrade_bar(sprite_sheet, y_offset, level):
+
+def draw_upgrade_bar(sprite_sheet, y_offset, small_level, big_level):
     for x in range(5):
         WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL, (20.5 * sprite_sheet.TILE_SIZE + scale(40) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + sprite_sheet.TILE_SIZE // 3.5))
     for x in range(5):
-        if x < level:
+        if x < small_level and x < big_level:
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_TILTED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+        elif x < small_level:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+        elif x < big_level:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED_ALT, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
         else:
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_EMPTY, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+
 
 
 def draw_transparent_rect():
@@ -578,7 +585,7 @@ def game_loop(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet, volume)
     selected_preset = None
     player_health = 20
-    player_money = 60
+    player_money = 6000
     won = False
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string, score
@@ -824,7 +831,7 @@ def game_loop(sprite_sheet, game_map):
             elif sprite_sheet.TILE_SIZE * 13 <= mouse_y <= sprite_sheet.TILE_SIZE * 13 + sprite_sheet.TILE_SIZE:
                 hovered_button = 2
             elif sprite_sheet.TILE_SIZE * 14.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
-                        hovered_button = 3
+                hovered_button = 3
         elif sprite_sheet.TILE_SIZE * 16 <= mouse_y <= sprite_sheet.TILE_SIZE * 16 + sprite_sheet.TILE_SIZE:
             if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
                 hovered_button = 4
