@@ -227,7 +227,10 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
     for tower in towers:
         if tower.sprite_count != 0:
-            tower.multiple_animations(tower.attack_speed / 100, enemies_on_screen)
+            if tower.name != "cpp_tower":
+                tower.multiple_animations(tower.attack_speed / 100, enemies_on_screen)
+            else:
+                tower.multiple_animations(10, enemies_on_screen)
 
     # sets list equal to remaining projectiles
     projectiles[:] = [projectile for projectile in projectiles if not projectile.remove]

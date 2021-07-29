@@ -77,7 +77,7 @@ class Projectile:
         self.rect.x = self.x
         self.rect.y = self.y
 
-        Projectile.animation_update(self, 8)
+        Projectile.animation_update(self, 16)
 
     def snake_shot(self, change_x, change_y):
         self.x = c_double(self.x)

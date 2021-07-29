@@ -18,11 +18,11 @@ def get_tower_presets():
     javascript - slow attack speed, slows enemies
     lisp - projectile doesn't break and follows set path
     '''
-    python_cost = 15
-    java_cost = 25
-    cpp_cost = 50
-    javascript_cost = 10
-    lisp_cost = 100
+    python_cost = 35
+    java_cost = 30
+    cpp_cost = 100
+    javascript_cost = 25
+    lisp_cost = 50
 
     tower_presets = {
         "python": ["python_tower", .1, 1, scale(250), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
@@ -40,7 +40,7 @@ def get_tower_presets():
                  font.render(f"cost ${java_cost}", True, (0, 0, 0), None).convert_alpha(),
                  font.render("Can be placed on water", True, (0, 0, 0), None).convert_alpha()],
 
-        "cpp": ["cpp_tower", 3, 1, scale(250),
+        "cpp": ["cpp_tower", 2, 1.5, scale(250),
                 [sprite_set.CPP_TOWER_SPRITE, sprite_set.CPP_LOADING_1_SPRITE, sprite_set.CPP_LOADING_2_SPRITE,
                  sprite_set.CPP_LOADING_3_SPRITE, sprite_set.CPP_LOADING_4_SPRITE, sprite_set.CPP_LOADING_5_SPRITE,
                  sprite_set.CPP_LOADING_6_SPRITE, sprite_set.CPP_LOADING_7_SPRITE, sprite_set.CPP_LOADING_8_SPRITE,
@@ -139,7 +139,11 @@ class Tower:
             if self.cur_sprite_num == self.sprite_count - 2:
                 pass
             else:
-                self.animation_update(update_num)
+                if self.flip_frames % 4 == 3:
+                    self.animation_update(update_num)
+                    self.flip_frames += 1
+                else:
+                    self.flip_frames += 1
         else:
             self.animation_update(update_num)
 
