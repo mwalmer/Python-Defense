@@ -20,7 +20,9 @@ class Sound:
             "lose_life_even_sound": pygame.mixer.Sound(
                 os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'lose_life_even.wav')),
             "lose_life_odd_sound": pygame.mixer.Sound(
-                os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'lose_life_odd.wav'))
+                os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'lose_life_odd.wav')),
+            "menu_sound": pygame.mixer.Sound(
+                os.path.join(os.path.dirname(__file__), 'assets', 'sounds', 'menu_sound.wav'))
         }
         for sounds in self.sounds:
             self.sounds[sounds].set_volume(volume)
