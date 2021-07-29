@@ -63,7 +63,7 @@ class Projectile:
         self.rect.x = self.x
         self.rect.y = self.y
 
-        Projectile.animation_update(self, 2)
+        Projectile.animation_update(self, 4)
 
     def arc_motion(self, change_x, change_y):
         self.x = c_double(self.x)
