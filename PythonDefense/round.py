@@ -44,35 +44,38 @@ class Rounds:
             enemies1 = self.weakEn(10, -24)
             enemies = enemies1
         elif self.round == 3:
+            enemies1 = self.weakEn(18, -32)
+            enemies = enemies1
+        elif self.round == 4:
             enemies1 = self.weakEn(6, -32)
             enemies2 = self.SoldierEn(2, -32)
             enemies = enemies1 + enemies2
-        elif self.round == 4:
-            enemies1 = self.weakEn(10, -32)
-            enemies2 = self.SoldierEn(4, -32)
-            enemies = enemies1 + enemies2
         elif self.round == 5:
-            enemies1 = self.tankEn(4, -32)
-            enemies = enemies1
+            enemies1 = self.weakEn(8, -32)
+            enemies2 = self.SoldierEn(4, -36)
+            enemies = enemies1 + enemies2
         elif self.round == 6:
             enemies1 = self.tankEn(2, -32)
-            enemies2 = self.SoldierEn(6, -22)
-            enemies = enemies1 + enemies2
-        elif self.round == 7:
-            enemies1 = self.scoutEn(5, -32)
             enemies = enemies1
+        elif self.round == 7:
+            enemies1 = self.tankEn(2, -32)
+            enemies2 = self.SoldierEn(6, -26)
+            enemies = enemies1 + enemies2
         elif self.round == 8:
-            enemies1 = self.weakEn(20, -32)
+            enemies1 = self.scoutEn(5, -38)
             enemies = enemies1
         elif self.round == 9:
-            enemies1 = self.SoldierEn(10, -32)
+            enemies1 = self.weakEn(20, -32)
+            enemies = enemies1
+        elif self.round == 10:
+            enemies1 = self.SoldierEn(8, -32)
             enemies2 = self.scoutEn(4, -32)
             enemies = enemies1 + enemies2
-        elif self.round == 10:
+        elif self.round == 11:
             enemies1 = self.tankEn(6, -32)
             enemies2 = self.scoutEn(6, -32)
             enemies = enemies1 + enemies2
-        elif self.round > 10:
+        elif self.round > 11:
             enemies3 = self.tankEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
             enemies4 = self.SoldierEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
             enemies2 = self.scoutEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
@@ -88,16 +91,16 @@ class Rounds:
 
     # slow and tanky
     def tankEn(self, num, sep):
-        return self.spawn(num, sep, 14, 1, self.enemy_size, self.enemy_sprite4, 4)
+        return self.spawn(num, sep, 16, 1, self.enemy_size, self.enemy_sprite4, 4)
 
     # fast and weak
     def scoutEn(self, num, sep):
-        return self.spawn(num, sep, 5, 6, self.enemy_size, self.enemy_sprite3, 3)
+        return self.spawn(num, sep, 2, 5, self.enemy_size, self.enemy_sprite3, 3)
 
     # generalist
     def SoldierEn(self, num, sep):
-        return self.spawn(num, sep, 4, 3, self.enemy_size, self.enemy_sprite, 2)
+        return self.spawn(num, sep, 3, 3, self.enemy_size, self.enemy_sprite, 2)
 
     # these guys suck
     def weakEn(self, num, sep):
-        return self.spawn(num, sep, 2, 2, self.enemy_size, self.enemy_sprite2, 1)
+        return self.spawn(num, sep, 1, 2, self.enemy_size, self.enemy_sprite2, 1)
