@@ -111,7 +111,7 @@ class SpriteSets:
         self.GLITCH_PROJECTILE_VIOLET_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'glitchball_violet.png')).convert()
         self.UPGRADE_SPRITE = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.jpg')).convert()
+            os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt-upgrade-red.png')).convert()
         self.UPGRADE_DAMAGE_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'bt_upgrade_damage.png')).convert_alpha()
         self.UPGRADE_RANGE_SPRITE = pygame.image.load(
