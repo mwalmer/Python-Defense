@@ -38,13 +38,13 @@ class Rounds:
     def level(self):
         enemies = []
         if self.round == 1:
-            enemies1 = self.weakEn(5, -32)
+            enemies1 = self.weakEn(8, -36)
             enemies = enemies1
         elif self.round == 2:
             enemies1 = self.weakEn(10, -24)
             enemies = enemies1
         elif self.round == 3:
-            enemies1 = self.weakEn(18, -32)
+            enemies1 = self.weakEn(20, -36)
             enemies = enemies1
         elif self.round == 4:
             enemies1 = self.weakEn(6, -32)
@@ -62,20 +62,40 @@ class Rounds:
             enemies2 = self.SoldierEn(6, -26)
             enemies = enemies1 + enemies2
         elif self.round == 8:
+            enemies1 = self.SoldierEn(6, -32)
+            enemies2 = self.weakEn(20, -28)
+            enemies = enemies1 + enemies2
+        elif self.round == 9:
             enemies1 = self.scoutEn(5, -38)
             enemies = enemies1
-        elif self.round == 9:
-            enemies1 = self.weakEn(20, -32)
-            enemies = enemies1
         elif self.round == 10:
+            enemies1 = self.weakEn(25, -24)
+            enemies = enemies1
+        elif self.round == 11:
             enemies1 = self.SoldierEn(8, -32)
             enemies2 = self.scoutEn(4, -32)
             enemies = enemies1 + enemies2
-        elif self.round == 11:
+        elif self.round == 12:
             enemies1 = self.tankEn(6, -32)
             enemies2 = self.scoutEn(6, -32)
             enemies = enemies1 + enemies2
-        elif self.round > 11:
+        elif self.round == 13:
+            enemies1 = self.weakEn(25, -18)
+            enemies2 = self.SoldierEn(6, -32)
+            enemies = enemies1 + enemies2
+        elif self.round == 14:
+            enemies1 = self.weakEn(5, -32)
+            enemies2 = self.SoldierEn(4, -32)
+            enemies3 = self.tankEn(3, -32)
+            enemies4 = self.scoutEn(2, -32)
+            enemies = enemies1 + enemies2 + enemies3 + enemies4
+        elif self.round == 15:
+            enemies1 = self.scoutEn(5, -32)
+            enemies2 = self.tankEn(4, -32)
+            enemies3 = self.SoldierEn(3, -32)
+            enemies4 = self.weakEn(10, -32)
+            enemies = enemies1 + enemies2 + enemies3 + enemies4
+        elif self.round > 25:
             enemies3 = self.tankEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
             enemies4 = self.SoldierEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
             enemies2 = self.scoutEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)

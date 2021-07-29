@@ -110,6 +110,14 @@ round_over_text = round_font.render("Round Over", True, (0, 0, 0), None).convert
 round_text = bold_font.render(f"{round_string} {round_number}", True, (0, 0, 0), None).convert_alpha()
 sound_text = small_font.render("Volume", True, (0, 0, 0), None).convert_alpha()
 
+num_to_tower_name = {
+        4: "python",
+        5: "java",
+        6: "cpp",
+        7: "javascript",
+        8: "lisp",
+    }
+
 
 def re_render_round_number():
     global round_string, round_number, round_text
@@ -299,7 +307,7 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
 
 
 def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                game_map, hovered_tower_info, sound_bar, start_round, fps, hovered_button=None):
+                game_map, hovered_tower_info, sound_bar, start_round, fps, hovered_button=None, money=None):
     # checks tile mouse cords are on and if its a shop tower, set it to be highlighted
     hovered_tile = get_tile(mouse_cords, game_map)
     tiles_to_hover = [4, 5, 6, 7, 8]
@@ -354,6 +362,10 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             # hover highlight on shop towers
             if cord == hovered_tile and show_hover_effect:
                 WIN.blit(sprite_sheet.HILITE_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+
+            if cord in tiles_to_hover and money is not None:
+                if money < tower_presets[num_to_tower_name[cord]][9]:
+                    WIN.blit(sprite_sheet.RED_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
 
     for enemy in enemies:
@@ -585,7 +597,7 @@ def game_loop(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet, volume)
     selected_preset = None
     player_health = 20
-    player_money = 6000
+    player_money = 60
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string, score
     score = 0
@@ -633,6 +645,7 @@ def game_loop(sprite_sheet, game_map):
                 #  TODO: reformat
                 player_money = main_player.get_money()
                 selected_tile = get_tile(mouse_cords, game_map)
+                tile_cord = game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)]
                 if (selected_tile == 0 or (selected_tile == 13 and selected_preset == "java")) and \
                         selected_preset is not None:
                     # moved selected preset to ^^ condition from vv condition to allow for deselection on grass
@@ -642,7 +655,6 @@ def game_loop(sprite_sheet, game_map):
                         tower_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.TOWER_SIZE, sprite_sheet.TOWER_SIZE)
                         projectile_rect = pygame.Rect(temp_x, temp_y, sprite_sheet.FIRE_PROJECTILE_SIZE,
                                                       sprite_sheet.FIRE_PROJECTILE_SIZE)
-
                         # places tower from preset
                         if not any_highlight:
                             sounds.play_sound("tower_placement_sound")
@@ -770,9 +782,8 @@ def game_loop(sprite_sheet, game_map):
                         play_animation[2] = True
 
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
-                elif 4 <= game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)] <= 8:
-                    num = game_map.Map[mouse_y // scale(32)][mouse_x // scale(32)]
-
+                elif 4 <= tile_cord <= 8 and player_money >= tower_presets[num_to_tower_name[tile_cord]][9]:
+                    num = tile_cord
                     if num == 4:
                         selected_preset = "python"
                         current_tower_info = [sprite_sheet.PYTHON_TOWER_SPRITE, tower_presets[selected_preset][3]]
@@ -876,7 +887,7 @@ def game_loop(sprite_sheet, game_map):
             projectiles[:] = []
         # refresh/redraw display
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
-                    game_map, hovered_tower, sound_bar, start_round, clock.get_fps(), hovered_button)
+                    game_map, hovered_tower, sound_bar, start_round, clock.get_fps(), hovered_button, main_player.get_money())
 
     if main_player.get_health() <= 0:
         play_animation = [False, 0, False]
