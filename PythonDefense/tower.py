@@ -212,13 +212,10 @@ class Tower:
         return False
 
     # basic upgrade function for towers
-    def basic_upgrade(self, damage, attack_speed, projectile_speed, range):
+    def basic_upgrade(self):
         self.damage *= 1.5
-        self.damage = round(self.damage, 3)
         self.attack_speed = 1000 / ((1000 / self.attack_speed) * 1.5)
-        self.projectile = Projectile(self.projectile.name, self.damage, self.projectile_speed, copy.copy(self.rect),
-                                     self.projectile.sprites, self.projectile_motion_function)
-        self.range += range
+        self.range = self.range * 1.05
         if self.level < 5:
             self.level = self.level + 1
         self.range_surf = None
@@ -229,7 +226,7 @@ class Tower:
             return True
         return False
 
-    def upgrade_damage(self, damage):
+    def upgrade_damage(self):
         damage_level = self.attr_levels_dict['damage']
         if damage_level < 5:
             self.damage *= 1.5
@@ -237,19 +234,17 @@ class Tower:
             self.attr_levels_dict['damage'] = damage_level + 1
             print('damage upgraded! New level: ', self.attr_levels_dict['damage'])
 
-    def upgrade_attack_speed(self, attack_speed):
+    def upgrade_attack_speed(self):
         attack_speed_level = self.attr_levels_dict['attack_speed']
-        print(self.attack_speed)
         if attack_speed_level < 5:
             self.attack_speed = 1000 / ((1000 / self.attack_speed) * 1.5)
-            print(self.attack_speed)
             self.attr_levels_dict['attack_speed'] = attack_speed_level + 1
             print('attack speed upgraded! New level: ', self.attr_levels_dict['attack_speed'])
 
-    def upgrade_range(self, range):
+    def upgrade_range(self):
         range_level = self.attr_levels_dict['range']
         if range_level < 5:
-            self.range += range
+            self.range = self.range * 1.05
             self.attr_levels_dict['range'] = range_level + 1
             self.range_surf = None
             print('range upgraded! New level: ', self.attr_levels_dict['range'])

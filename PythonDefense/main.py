@@ -662,8 +662,8 @@ def game_loop(sprite_sheet, game_map):
                     if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
                         if selected_tower is not None and has_placed is not False:
                             if selected_tower.level_up():
-                                if player_money >= 15:
-                                    selected_tower.basic_upgrade(5, 5, 1, 50)
+                                if player_money >= selected_tower.cost * 1.5:
+                                    selected_tower.basic_upgrade()
                                     main_player.money = player_money - 15
                                     sounds.play_sound("upgrade_button_sound")
                                     money_string = "Money: " + str(main_player.money)
@@ -681,27 +681,27 @@ def game_loop(sprite_sheet, game_map):
                 elif sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE and sprite_sheet.TILE_SIZE * 11.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
                     upgrade_complete = False
                     if selected_tower is not None and has_placed is not False:
-                        if player_money >= 5:
+                        if player_money >= selected_tower.cost * .5:
                             if sprite_sheet.TILE_SIZE * 11.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 11.5 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('damage'):
-                                    selected_tower.upgrade_damage(5)
+                                    selected_tower.upgrade_damage()
                                     sounds.play_sound("upgrade_button_sound")
                                     upgrade_complete = True
 
                             elif sprite_sheet.TILE_SIZE * 13 <= mouse_y <= sprite_sheet.TILE_SIZE * 13 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('attack_speed'):
-                                    selected_tower.upgrade_attack_speed(5)
+                                    selected_tower.upgrade_attack_speed()
                                     sounds.play_sound("upgrade_button_sound")
                                     upgrade_complete = True
 
                             elif sprite_sheet.TILE_SIZE * 14.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
                                 if selected_tower.check_attr_dict('range'):
-                                    selected_tower.upgrade_range(50)
+                                    selected_tower.upgrade_range()
                                     sounds.play_sound("upgrade_button_sound")
                                     upgrade_complete = True
 
                             if upgrade_complete:
-                                main_player.money = player_money - 5
+                                main_player.money = player_money - selected_tower.cost * .5
                                 sounds.play_sound("collision_sound")
                                 money_string = "Money: " + str(main_player.money)
 
