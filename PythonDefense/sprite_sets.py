@@ -226,11 +226,25 @@ class SpriteSets:
                 os.path.join(os.path.dirname(__file__), 'assets', 'buttons', f'Volume{i}.png')).convert())
             self.VOLUME[i] = pygame.transform.scale(self.VOLUME[i], (self.TILE_SIZE * 4, self.TILE_SIZE//2))
 
-        self.SMALL_HIGHLIGHT = pygame.Surface((self.TILE_SIZE + scale(6), self.TILE_SIZE + scale(6))).convert()
-
         self.YELLOW = pygame.Color(255, 255, 0)
+        self.BLACK = pygame.Color(0, 0, 0)
+        self.EMPTY_COLOR = pygame.Color(111, 207, 242)
+        self.FILLED_IN_COLOR = pygame.Color(0, 150, 135)
+
+        self.SMALL_HIGHLIGHT = pygame.Surface((self.TILE_SIZE + scale(6), self.TILE_SIZE + scale(6))).convert()
         self.SMALL_HIGHLIGHT.fill(self.YELLOW)
+
         self.LARGE_HIGHLIGHT = pygame.Surface((self.TILE_SIZE * 4 + scale(6), self.TILE_SIZE + scale(6))).convert()
         self.LARGE_HIGHLIGHT.fill(self.YELLOW)
+
         self.SOUND_BAR_HIGHLIGHT = pygame.Surface((self.TILE_SIZE * 4 + scale(6), self.TILE_SIZE // 2 + scale(6))).convert()
         self.SOUND_BAR_HIGHLIGHT.fill(self.YELLOW)
+
+        self.SMALL_UPGRADE_LEVEL = pygame.Surface((scale(15), scale(15))).convert()
+        self.SMALL_UPGRADE_LEVEL.fill(self.BLACK)
+
+        self.SMALL_UPGRADE_LEVEL_EMPTY = pygame.Surface((scale(10), scale(10))).convert()
+        self.SMALL_UPGRADE_LEVEL_EMPTY.fill(self.EMPTY_COLOR)
+
+        self.SMALL_UPGRADE_LEVEL_FILLED = pygame.Surface((scale(10), scale(10))).convert()
+        self.SMALL_UPGRADE_LEVEL_FILLED.fill(self.FILLED_IN_COLOR)

@@ -95,6 +95,7 @@ play_animation = [False, 0, False]
 font = pygame.font.SysFont('Arial', scale(12), bold=False)
 bold_font = pygame.font.SysFont('Arial', scale(12), bold=True)
 round_font = pygame.font.SysFont('Arial', scale(75), bold=True)
+small_font = pygame.font.SysFont('Arial', scale(8), bold=False)
 
 tower_sect_text = bold_font.render("Towers", True, (0, 0, 0), None).convert_alpha()
 tut = [font.render('- Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
@@ -107,7 +108,6 @@ lives_text = bold_font.render(lives_string, True, (0, 0, 0), None).convert_alpha
 money_text = bold_font.render(money_string, True, (0, 0, 0), None).convert_alpha()
 round_over_text = round_font.render("Round Over", True, (0, 0, 0), None).convert_alpha()
 round_text = bold_font.render(f"{round_string} {round_number}", True, (0, 0, 0), None).convert_alpha()
-small_font = pygame.font.SysFont('Arial', scale(8), bold=False)
 sound_text = small_font.render("Volume", True, (0, 0, 0), None).convert_alpha()
 
 
@@ -450,7 +450,25 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     fps_text = bold_font.render("FPS: " + str(fps)[:4], True, (0, 0, 0), None)
     WIN.blit(fps_text, (scale(10), scale(10)))
 
+    if selected_tower is not None:
+        draw_upgrade_bar(sprite_sheet, 11.5, selected_tower.attr_levels_dict['damage'])
+        draw_upgrade_bar(sprite_sheet, 13, selected_tower.attr_levels_dict['attack_speed'])
+        draw_upgrade_bar(sprite_sheet, 14.5, selected_tower.attr_levels_dict['range'])
+    else:
+        draw_upgrade_bar(sprite_sheet, 11.5, 0)
+        draw_upgrade_bar(sprite_sheet, 13, 0)
+        draw_upgrade_bar(sprite_sheet, 14.5, 0)
+
     pygame.display.update()
+
+def draw_upgrade_bar(sprite_sheet, y_offset, level):
+    for x in range(5):
+        WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL, (20.5 * sprite_sheet.TILE_SIZE + scale(40) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + sprite_sheet.TILE_SIZE // 3.5))
+    for x in range(5):
+        if x < level:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+        else:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_EMPTY, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
 
 
 def draw_transparent_rect():
