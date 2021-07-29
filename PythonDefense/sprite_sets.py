@@ -96,6 +96,8 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'fireball_big.png')).convert()
         self.ICE_PROJECTILE_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'iceball.png')).convert()
+        self.YELLOW_BALL_PROJECTILE_SPRITE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'yellowball.png')).convert()
         self.GLITCH_PROJECTILE_RED_SPRITE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'projectiles', 'glitchball_red.png')).convert()
         self.GLITCH_PROJECTILE_ORANGE_SPRITE = pygame.image.load(
@@ -184,6 +186,8 @@ class SpriteSets:
         self.FIRE_PROJECTILE_SPRITE_BIG = pygame.transform.scale(self.FIRE_PROJECTILE_SPRITE_BIG,
                                                              (scale(24), scale(24)))
         self.ICE_PROJECTILE_SPRITE = pygame.transform.scale(self.ICE_PROJECTILE_SPRITE,
+                                                            (self.ICE_PROJECTILE_SIZE, self.ICE_PROJECTILE_SIZE))
+        self.YELLOW_BALL_PROJECTILE_SPRITE = pygame.transform.scale(self.YELLOW_BALL_PROJECTILE_SPRITE,
                                                             (self.ICE_PROJECTILE_SIZE, self.ICE_PROJECTILE_SIZE))
         self.GLITCH_PROJECTILE_RED_SPRITE = pygame.transform.scale(self.GLITCH_PROJECTILE_RED_SPRITE,
                                                             (self.GLITCH_PROJECTILE_SIZE, self.GLITCH_PROJECTILE_SIZE))

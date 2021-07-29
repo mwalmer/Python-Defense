@@ -26,7 +26,7 @@ def get_tower_presets():
 
     tower_presets = {      # damage | att_speed | range
         "python": ["python_tower", 1, 1, scale(200), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
-                   "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
+                   "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE, sprite_set.YELLOW_BALL_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    python_cost,
                    font.render("python tower", True, (0, 0, 0), None).convert_alpha(),  # text name
                    font.render(f"cost ${python_cost}", True, (0, 0, 0), None).convert_alpha(),  # text cost

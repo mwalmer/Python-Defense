@@ -91,7 +91,7 @@ class Projectile:
         self.y = self.y.value
         self.rect.x = self.x
         self.rect.y = self.y
-        Projectile.animation_update(self, 8)
+        Projectile.animation_update(self, 10)
 
     def around_shot(self, change_x, change_y):
 
