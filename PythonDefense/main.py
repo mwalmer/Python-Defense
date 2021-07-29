@@ -160,11 +160,6 @@ def update(enemies, towers, rounds, projectiles, ticks, player, sprite_sheet, ga
         if tower.ticks >= tower.attack_speed:
             tower.ticks = 0
             tower.can_shoot = True
-        else:
-            if tower.name == "python_tower":
-                if tower.ticks >= tower.attack_speed / 4:
-                    tower.ticks = 0
-                    tower.can_shoot = True
 
         # only runs when tower can shoot, reduces number of calls to get_enemy and within_range
         # which is good for performance, can be optimized more if needed
