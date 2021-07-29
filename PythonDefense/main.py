@@ -348,7 +348,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             elif cord == 11:
                 tile = sprite_sheet.DIRT_TILE
             elif cord == 13:
-                tile = sprite_sheet.MENU_TILE
+                tile = sprite_sheet.WATER_TILE
 
             WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
@@ -361,7 +361,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 
     for tower in towers:
         if tower.on_water:
-            WIN.blit(sprite_sheet.MENU_TILE, tower.cords())
+            WIN.blit(sprite_sheet.WATER_TILE, tower.cords())
         else:
             WIN.blit(sprite_sheet.GRASS_TILE, tower.cords())
         WIN.blit(tower.sprite, tower.cords())

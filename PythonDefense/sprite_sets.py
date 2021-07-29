@@ -22,6 +22,8 @@ class SpriteSets:
             os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'dirt_tile.png')).convert()
         self.MENU_TILE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'menu_tile.png')).convert()
+        self.WATER_TILE = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'tiles', 'water_tile.png')).convert()
         self.HILITE_TILE = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'buttons', 'hilite.png')).convert_alpha()
         self.PYTHON_TOWER = pygame.image.load(
@@ -135,6 +137,7 @@ class SpriteSets:
         self.GRASS_TILE = pygame.transform.scale(self.GRASS_TILE, self.TILE_XY)
         self.DIRT_TILE = pygame.transform.scale(self.DIRT_TILE, self.TILE_XY)
         self.MENU_TILE = pygame.transform.scale(self.MENU_TILE, self.TILE_XY)
+        self.WATER_TILE = pygame.transform.scale(self.WATER_TILE, self.TILE_XY)
         self.HILITE_TILE = pygame.transform.scale(self.HILITE_TILE, self.TILE_XY)
 
         self.PYTHON_TOWER_SPRITE_FLIP = pygame.transform.scale(self.PYTHON_TOWER_FLIP, (self.TOWER_SIZE, self.TOWER_SIZE))
