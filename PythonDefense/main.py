@@ -683,7 +683,7 @@ def game_loop(sprite_sheet, game_map):
                                     any_highlight = True
 
                 # Checks if small upgrade buttons were clicked
-                elif sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE:
+                elif sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE and sprite_sheet.TILE_SIZE * 11.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 14.5 + sprite_sheet.TILE_SIZE:
                     upgrade_complete = False
                     if selected_tower is not None and has_placed is not False:
                         if player_money >= 5:
