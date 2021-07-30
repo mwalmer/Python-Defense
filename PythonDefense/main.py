@@ -656,7 +656,7 @@ def game_loop(sprite_sheet, game_map):
     global play_animation
     play_animation = [False, 0, False]
     start_round = False  # Changed to True when start button clicked
-    while run and main_player.get_health() > 0:
+    while run and int(main_player.get_health()) > 0:
         ticks = clock.tick(FPS)
         mouse_cords = pygame.mouse.get_pos()
         hovered_tower = None
@@ -931,15 +931,17 @@ def game_loop(sprite_sheet, game_map):
 
 
 def start_menu(sprite_sheet, game_map):
-    player_health = 10000
-    player_money = 100000
-    won = False
+    player_health = 20
+    player_money = 60
     # So these get properly updated instead of just on hit/change
-    global lives_string, money_string
+    global lives_string, money_string, score
+    score = 0
+    re_render_score()
     lives_string = "Lives: " + str(int(math.floor(player_health)))
     # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
     money_string = "Money: " + str(player_money)
     re_render_money_and_lives()
+
 
     if game_map.name == "default":
         game_map.set_default_map()
@@ -1113,18 +1115,7 @@ def level_screen(sprite_sheet, game_map):
 
 def information_screen(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet, volume)
-
-    # Upgrades - update these values after changing them in main_game_loop
-    player_health = 10000
-    player_money = 100000
-    won = False
-    # So these get properly updated instead of just on hit/change
-    global lives_string, money_string
-    lives_string = "Lives: " + str(int(math.floor(player_health)))
-    # TODO - figure out why we can't put money string in like this cause otherwise it's bugged
-    money_string = "Money: " + str(player_money)
-    re_render_money_and_lives()
-
+    
     run = True
     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar,
                             False, FPS)
