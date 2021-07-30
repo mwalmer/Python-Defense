@@ -30,7 +30,7 @@ def get_tower_presets():
                    python_cost,
                    font.render("python tower", True, (0, 0, 0), None).convert_alpha(),  # text name
                    font.render(f"cost ${python_cost}", True, (0, 0, 0), None).convert_alpha(),  # text cost
-                   font.render("Shoots a snaking pattern", True, (0, 0, 0), None).convert_alpha()],  # text description
+                   font.render("Shoots a snaking pattern.", True, (0, 0, 0), None).convert_alpha()],  # text description
 
         "java": ["java_tower", 1, 1.25, scale(200), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
@@ -38,7 +38,9 @@ def get_tower_presets():
                  java_cost,
                  font.render("java tower", True, (0, 0, 0), None).convert_alpha(),
                  font.render(f"cost ${java_cost}", True, (0, 0, 0), None).convert_alpha(),
-                 font.render("Can be placed on water", True, (0, 0, 0), None).convert_alpha()],
+                 font.render("Can be placed on water.", True, (0, 0, 0), None).convert_alpha(),
+                 font.render("Strong and reliable, but", True, (0, 0, 0), None).convert_alpha(),
+                 font.render("boring.", True, (0, 0, 0), None).convert_alpha()],
 
         "cpp": ["cpp_tower", 2, 1.5, scale(250),
                 [sprite_set.CPP_TOWER_SPRITE, sprite_set.CPP_LOADING_1_SPRITE, sprite_set.CPP_LOADING_2_SPRITE,
@@ -52,7 +54,9 @@ def get_tower_presets():
                 font.render("c++ tower", True, (0, 0, 0), None).convert_alpha(),
                 font.render(f"cost ${cpp_cost}", True, (0, 0, 0), None).convert_alpha(),
                 font.render("Charges up at the start of", True, (0, 0, 0), None).convert_alpha(),
-                font.render("the round", True, (0, 0, 0), None).convert_alpha()],
+                font.render("the round, strong and fast", True, (0, 0, 0), None).convert_alpha(),
+                font.render("but takes a while to", True, (0, 0, 0), None).convert_alpha(),
+                font.render("compile.", True, (0, 0, 0), None).convert_alpha()],
 
         "javascript": ["javascript_tower", .75, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE, sprite_set.JAVASCRIPT_TOWER_SPRITE_FLIP],
                        "javascript_projectile",
@@ -63,7 +67,9 @@ def get_tower_presets():
                        javascript_cost,
                        font.render("javascript tower", True, (0, 0, 0), None).convert_alpha(),
                        font.render(f"cost ${javascript_cost}", True, (0, 0, 0), None).convert_alpha(),
-                       font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()],
+                       font.render("Slower and weaker, but", True, (0, 0, 0), None).convert_alpha(),
+                       font.render("slows enemies and is", True, (0, 0, 0), None).convert_alpha(),
+                       font.render("cheap!", True, (0, 0, 0), None).convert_alpha()],
 
         "lisp": ["lisp_tower", 1.5, .75, scale(250), [sprite_set.LISP_TOWER_SPRITE, sprite_set.LISP_TOWER_SPRITE_FLIP],
                  "lisp_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.FIRE_PROJECTILE_SPRITE_2, sprite_set.FIRE_PROJECTILE_SPRITE_3], 10,
@@ -71,7 +77,8 @@ def get_tower_presets():
                  lisp_cost,
                  font.render("lisp tower", True, (0, 0, 0), None).convert_alpha(),
                  font.render(f"cost ${lisp_cost}", True, (0, 0, 0), None).convert_alpha(),
-                 font.render("a description for the tower", True, (0, 0, 0), None).convert_alpha()]
+                 font.render("Shoots in a circular pattern", True, (0, 0, 0), None).convert_alpha(),
+                 font.render("around itself.", True, (0, 0, 0), None).convert_alpha()]
     }
 
     return tower_presets
