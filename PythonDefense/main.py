@@ -357,6 +357,11 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             elif cord == 13:
                 tile = sprite_sheet.WATER_TILE
 
+            if cord in tiles_to_hover:
+                WIN.blit(sprite_sheet.BACKGROUND_TOWER_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
+                WIN.blit(sprite_sheet.BORDER_TILE, (y * sprite_sheet.TILE_SIZE + scale(1), x * sprite_sheet.TILE_SIZE + scale(1)))
+
+
             WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
             # hover highlight on shop towers
@@ -485,6 +490,7 @@ def draw_upgrade_bar(sprite_sheet, y_offset, small_level, big_level):
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_TILTED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * (x - 5), y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
         elif x < 5:
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+
 
 def draw_transparent_rect():
     # if surf is none it caches the surface. Avoids calling convert alpha every frame
