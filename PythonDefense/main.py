@@ -716,7 +716,7 @@ def game_loop(sprite_sheet, game_map):
                             if selected_tower.level_up():
                                 if player_money >= selected_tower.cost * 1.5:
                                     selected_tower.basic_upgrade()
-                                    main_player.money = player_money - 15
+                                    main_player.money = player_money - selected_tower.cost * 1.5
                                     sounds.play_sound("upgrade_button_sound")
                                     money_string = "Money: " + str(main_player.money)
 
