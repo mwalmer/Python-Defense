@@ -146,7 +146,7 @@ class Tower:
             if self.cur_sprite_num == self.sprite_count - 2:
                 pass
             else:
-                if self.flip_frames % 4 == 3:
+                if self.flip_frames % 2 == 1:
                     self.animation_update(update_num)
                     self.flip_frames += 1
                 else:
