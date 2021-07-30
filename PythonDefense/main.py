@@ -441,7 +441,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             WIN.blit(sprite_sheet.LARGE_GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
 
     # start sprite gray out
-    if start_round is True:
+    if Enemy.enemy_count != 0:
         WIN.blit(sprite_sheet.LARGE_GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 17.5 * sprite_sheet.TILE_SIZE))
 
     # draw text
@@ -808,11 +808,11 @@ def game_loop(sprite_sheet, game_map):
                 # Checks if start button was clicked
                 elif sprite_sheet.TILE_SIZE * 17.5 <= mouse_y <= sprite_sheet.TILE_SIZE * 17.5 + sprite_sheet.TILE_SIZE:
                     if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
-                        print("START BT CLICKED")
-                        sounds.play_sound("start_button_sound")
-                        start_round = True
-                        # used to not show round over on start
-                        play_animation[2] = True
+                        if Enemy.enemy_count == 0:
+                            sounds.play_sound("start_button_sound")
+                            start_round = True
+                            # used to not show round over on start
+                            play_animation[2] = True
 
                 # Checks if a menu tower selection was clicked, TODO -- where to go for highlighting
                 elif 4 <= tile_cord <= 8 and player_money >= tower_presets[num_to_tower_name[tile_cord]][9]:
