@@ -10,6 +10,7 @@ import numpy
 # 11 = down
 # 13 = water
 
+
 class Map:
     def __init__(self):
         self.Map = numpy.array([[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],

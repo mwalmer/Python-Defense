@@ -1,16 +1,12 @@
 import math
-import time
 from math import floor
 
 import pygame
-import os
-import asyncio
 
 from PythonDefense.enemy import Enemy
 from PythonDefense.player import Player
 from PythonDefense.round import Rounds
 from PythonDefense.sound import Sound
-from PythonDefense.projectile import Projectile
 from PythonDefense.helper_functions import scale, set_ratio, round_ratio
 from PythonDefense.sprite_sets import SpriteSets
 from PythonDefense.map import Map
