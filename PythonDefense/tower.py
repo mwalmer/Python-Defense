@@ -133,7 +133,7 @@ class Tower:
                                      projectile_motion_function)
         self.projectile_motion_function = projectile_motion_function
         self.ticks = ticks
-        self.level = 0
+        self.level = 1
         self.projectile_speed = projectile_speed
         self.target_mode = 0  # 0 - furthest, 1 - last enemy
         self.range_surf = None

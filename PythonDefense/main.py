@@ -361,7 +361,6 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
                 WIN.blit(sprite_sheet.BACKGROUND_TOWER_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
                 WIN.blit(sprite_sheet.BORDER_TILE, (y * sprite_sheet.TILE_SIZE + scale(1), x * sprite_sheet.TILE_SIZE + scale(1)))
 
-
             WIN.blit(tile, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
             # hover highlight on shop towers
@@ -424,6 +423,15 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sprite_sheet.START_SPRITE, (20.5 * sprite_sheet.TILE_SIZE, 17.5 * sprite_sheet.TILE_SIZE))
     WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 19 * sprite_sheet.TILE_SIZE))
 
+    # red tile on upgrade buttons
+    if selected_tower is not None:
+        if money < selected_tower.cost * 1.5:
+            WIN.blit(sprite_sheet.LARGE_RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
+        if money < selected_tower.cost * .5:
+            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
+            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
+            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
+
     # draw text
     WIN.blit(round_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE - scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
@@ -482,15 +490,16 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 def draw_upgrade_bar(sprite_sheet, y_offset, small_level, big_level):
     for x in range(5):
         WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL, (20.5 * sprite_sheet.TILE_SIZE + scale(40) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + sprite_sheet.TILE_SIZE // 3.5))
-
     for x in range(5):
-        WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_EMPTY, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-    for x in range(small_level + big_level):
-        if x >= 5:
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_TILTED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * (x - 5), y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-        elif x < 5:
+        if x < small_level and x < big_level:
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_TILTED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+        elif x < small_level:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+        elif x < big_level:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED_ALT, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+        else:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_EMPTY, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
 
 def draw_transparent_rect():
     # if surf is none it caches the surface. Avoids calling convert alpha every frame
