@@ -420,7 +420,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(sound_bar.my_sprite(), (20.5 * sprite_sheet.TILE_SIZE, 19 * sprite_sheet.TILE_SIZE))
 
     # red tile on upgrade buttons
-    if selected_tower is not None:
+    if selected_tower is not None and money is not None:
         if money < selected_tower.cost * 1.5:
             WIN.blit(sprite_sheet.LARGE_RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
         if money < selected_tower.cost * .5:
