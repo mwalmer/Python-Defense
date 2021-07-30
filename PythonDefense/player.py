@@ -1,3 +1,5 @@
+import math
+
 class Player:
     def __init__(self, health, money):
         self.health = health
@@ -10,7 +12,7 @@ class Player:
         return self.money
 
     def take_damage(self, D):
-        self.health = self.health - D
+        self.health = self.health - math.ceil(D)
 
     def get_health(self):
         return self.health
