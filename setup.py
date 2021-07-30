@@ -27,5 +27,8 @@ setup(
         'cx-Freeze~=6.7',
     ],
     include_package_data=True,
-    executables=[Executable("PythonDefense/main.py", base=base)]
+    executables=[Executable("PythonDefense/main.py",
+                            base=base,
+                            targetName="PythonDefense.exe",
+                            icon="PythonDefense/assets/shortcut_icon/python_defense_shortcut_icon.ico")]
 )
