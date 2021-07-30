@@ -8,7 +8,7 @@ import pygame
 
 def get_tower_presets():
     sprite_set = SpriteSets()
-    font = pygame.font.SysFont('Arial', scale(14))
+    #font = pygame.font.SysFont('Arial', scale(14))
 
     '''
     python - basic tower

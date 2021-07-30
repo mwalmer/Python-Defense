@@ -92,10 +92,10 @@ font = pygame.font.SysFont('Arial', scale(12), bold=False)
 bold_font = pygame.font.SysFont('Arial', scale(12), bold=True)
 round_font = pygame.font.SysFont('Arial', scale(75), bold=True)
 small_font = pygame.font.SysFont('Arial', scale(8), bold=False)
-
+tutorial_font = pygame.font.SysFont('Arial', scale(14))
 tower_sect_text = bold_font.render("Towers", True, (0, 0, 0), None).convert_alpha()
-tut = [font.render('- Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
-       font.render('- Right click to deselect', True, (0, 0, 0), None).convert_alpha()]
+tut = [tutorial_font.render('Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
+       tutorial_font.render('Right click to deselect', True, (0, 0, 0), None).convert_alpha()]
 
 cached_tower_stats_text = []
 score_text = bold_font.render("score: " + str(score), True, (0, 0, 0), None).convert_alpha()
@@ -561,7 +561,7 @@ def display_shop_tower_info(current_tower_info):
     #for i, text in enumerate(current_tower_info):
     #    WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
     for i, image in enumerate(current_tower_info):
-        WIN.blit(image, (21 * TILE_SIZE - scale(24), 9 * TILE_SIZE + i * scale(13)))
+        WIN.blit(image, (21 * TILE_SIZE - scale(24), 8.5 * TILE_SIZE + i * scale(13)))
 
 # pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :^)
 def display_tutorial():
@@ -932,6 +932,8 @@ def game_loop(sprite_sheet, game_map):
 
 
 def start_menu(sprite_sheet, game_map):
+    global round_string, round_text
+    round_text = bold_font.render(f"{round_string} 1", True, (0, 0, 0), None).convert_alpha()
     player_health = 20
     player_money = 60
     # So these get properly updated instead of just on hit/change
