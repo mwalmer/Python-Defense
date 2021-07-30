@@ -61,7 +61,7 @@ def get_tower_presets():
                 #font.render("but takes a while to", True, (0, 0, 0), None).convert_alpha(),
                 #font.render("compile.", True, (0, 0, 0), None).convert_alpha()],
 
-        "javascript": ["javascript_tower", .75, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE, sprite_set.JAVASCRIPT_TOWER_SPRITE_FLIP],
+        "javascript": ["javascript_tower", 1, .75, scale(125), [sprite_set.JAVASCRIPT_TOWER_SPRITE, sprite_set.JAVASCRIPT_TOWER_SPRITE_FLIP],
                        "javascript_projectile",
                        [sprite_set.GLITCH_PROJECTILE_RED_SPRITE, sprite_set.GLITCH_PROJECTILE_ORANGE_SPRITE, sprite_set.GLITCH_PROJECTILE_YELLOW_SPRITE,
                         sprite_set.GLITCH_PROJECTILE_GREEN_SPRITE, sprite_set.GLITCH_PROJECTILE_BLUE_SPRITE, sprite_set.GLITCH_PROJECTILE_INDIGO_SPRITE,
