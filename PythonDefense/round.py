@@ -125,12 +125,6 @@ class Rounds:
             enemies3 = self.weakEn(15, -24)
             enemies4 = self.SoldierEn(10, -32)
             enemies = enemies1 + enemies2 + enemies3 + enemies4
-        elif self.round == 20:
-            enemies1 = self.SoldierEn(25, -32)
-            enemies2 = self.tankEn(8, -38)
-            enemies3 = self.scoutEn(8, -32)
-            enemies4 = self.SoldierEn(15, -32)
-            enemies = enemies1 + enemies2 + enemies3 + enemies4
         elif self.round == 21:
             enemies1 = self.SoldierEn(25, -32)
             enemies2 = self.tankEn(12, -38)
@@ -173,16 +167,16 @@ class Rounds:
 
     # slow and tanky
     def tankEn(self, num, sep):
-        return self.spawn(num, sep, 16, 1, self.enemy_size, self.enemy_sprite4, 5)
+        return self.spawn(num, sep, 16, 1, self.enemy_size, self.enemy_sprite4, 4)
 
     # fast and weak
     def scoutEn(self, num, sep):
-        return self.spawn(num, sep, 2, 5, self.enemy_size, self.enemy_sprite3, 4)
+        return self.spawn(num, sep, 2, 5, self.enemy_size, self.enemy_sprite3, 3)
 
     # generalist
     def SoldierEn(self, num, sep):
-        return self.spawn(num, sep, 3, 3, self.enemy_size, self.enemy_sprite, 3)
+        return self.spawn(num, sep, 3, 3, self.enemy_size, self.enemy_sprite, 2)
 
     # these guys suck
     def weakEn(self, num, sep):
-        return self.spawn(num, sep, 1, 2, self.enemy_size, self.enemy_sprite2, 2)
+        return self.spawn(num, sep, 1, 2, self.enemy_size, self.enemy_sprite2, 1)
