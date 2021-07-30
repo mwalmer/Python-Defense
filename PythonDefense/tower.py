@@ -25,7 +25,7 @@ def get_tower_presets():
     lisp_cost = 50
 
     tower_presets = {      # damage | att_speed | range
-        "python": ["python_tower", 1, 1, scale(200), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
+        "python": ["python_tower", 1, 1, scale(225), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE, sprite_set.YELLOW_BALL_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    python_cost,
                    sprite_set.PYTHON_DESCRIPTION],
@@ -33,7 +33,7 @@ def get_tower_presets():
                    #font.render(f"cost ${python_cost}", True, (0, 0, 0), None).convert_alpha(),  # text cost
                    #font.render("Shoots a snaking pattern.", True, (0, 0, 0), None).convert_alpha()],  # text description
 
-        "java": ["java_tower", 1, 1.25, scale(200), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
+        "java": ["java_tower", 1, 1.25, scale(175), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
                  Projectile.arc_motion,
                  java_cost,
