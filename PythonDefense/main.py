@@ -427,6 +427,16 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     WIN.blit(tower_sect_text, (22 * sprite_sheet.TILE_SIZE, 2 * sprite_sheet.TILE_SIZE + scale(13)))
     WIN.blit(sound_text, (21 * sprite_sheet.TILE_SIZE + scale(35), 19 * sprite_sheet.TILE_SIZE + scale(3.5)))
 
+    # upgrade hover
+    if selected_tower is not None:
+        draw_upgrade_bar(sprite_sheet, 11.5, selected_tower.attr_levels_dict['damage'], selected_tower.level)
+        draw_upgrade_bar(sprite_sheet, 13, selected_tower.attr_levels_dict['attack_speed'], selected_tower.level)
+        draw_upgrade_bar(sprite_sheet, 14.5, selected_tower.attr_levels_dict['range'], selected_tower.level)
+    else:
+        draw_upgrade_bar(sprite_sheet, 11.5, 0, 0)
+        draw_upgrade_bar(sprite_sheet, 13, 0, 0)
+        draw_upgrade_bar(sprite_sheet, 14.5, 0, 0)
+
     # shop text box
     if selected_tower is not None:
         display_stats(selected_tower)
@@ -460,15 +470,6 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     # FPS Counter, doesn't need convert since it changes every frame anyways
     fps_text = bold_font.render("FPS: " + str(fps)[:4], True, (0, 0, 0), None)
     WIN.blit(fps_text, (scale(10), scale(10)))
-
-    if selected_tower is not None:
-        draw_upgrade_bar(sprite_sheet, 11.5, selected_tower.attr_levels_dict['damage'], selected_tower.level)
-        draw_upgrade_bar(sprite_sheet, 13, selected_tower.attr_levels_dict['attack_speed'], selected_tower.level)
-        draw_upgrade_bar(sprite_sheet, 14.5, selected_tower.attr_levels_dict['range'], selected_tower.level)
-    else:
-        draw_upgrade_bar(sprite_sheet, 11.5, 0, 0)
-        draw_upgrade_bar(sprite_sheet, 13, 0, 0)
-        draw_upgrade_bar(sprite_sheet, 14.5, 0, 0)
 
     pygame.display.update()
 
