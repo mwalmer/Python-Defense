@@ -438,6 +438,10 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         if selected_tower.level == 5:
             WIN.blit(sprite_sheet.LARGE_GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
 
+    # start sprite gray out
+    if start_round is True:
+        WIN.blit(sprite_sheet.LARGE_GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 17.5 * sprite_sheet.TILE_SIZE))
+
     # draw text
     WIN.blit(round_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE - scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))
