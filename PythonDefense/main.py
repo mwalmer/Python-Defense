@@ -832,7 +832,7 @@ def game_loop(sprite_sheet, game_map):
                         tower_range = tower_presets[selected_preset][3]
                         # TODO: cache the surf
                         surf = pygame.Surface((tower_range * 2, tower_range * 2), pygame.SRCALPHA).convert_alpha()
-                        radius_indicator_color = pygame.Color(0, 0, 0, 100)
+                        radius_indicator_color = pygame.Color(0, 0, 0, 70)
                         pygame.draw.circle(surf, radius_indicator_color, (tower_range, tower_range), tower_range)
                         current_tower_info.append(surf)
 
