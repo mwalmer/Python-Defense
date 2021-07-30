@@ -380,16 +380,16 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             WIN.blit(sprite_sheet.GRASS_TILE, tower.cords())
         WIN.blit(tower.sprite, tower.cords())
         # Check tower level and assign it a level tile
-        if tower.level == 1:
-            WIN.blit(sprite_sheet.LEVEL1_TILE, tower.cords())
-        elif tower.level == 2:
-            WIN.blit(sprite_sheet.LEVEL2_TILE, tower.cords())
-        elif tower.level == 3:
-            WIN.blit(sprite_sheet.LEVEL3_TILE, tower.cords())
-        elif tower.level == 4:
-            WIN.blit(sprite_sheet.LEVEL4_TILE, tower.cords())
-        elif tower.level == 5:
-            WIN.blit(sprite_sheet.LEVEL5_TILE, tower.cords())
+        #if tower.level == 1:
+        #    WIN.blit(sprite_sheet.LEVEL1_TILE, tower.cords())
+        #elif tower.level == 2:
+        #    WIN.blit(sprite_sheet.LEVEL2_TILE, tower.cords())
+        #elif tower.level == 3:
+        #    WIN.blit(sprite_sheet.LEVEL3_TILE, tower.cords())
+        #elif tower.level == 4:
+        #    WIN.blit(sprite_sheet.LEVEL4_TILE, tower.cords())
+        #elif tower.level == 5:
+        #    WIN.blit(sprite_sheet.LEVEL5_TILE, tower.cords())
 
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
