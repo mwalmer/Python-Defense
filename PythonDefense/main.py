@@ -367,7 +367,6 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
                 if money < tower_presets[num_to_tower_name[cord]][9]:
                     WIN.blit(sprite_sheet.RED_TILE, (y * sprite_sheet.TILE_SIZE, x * sprite_sheet.TILE_SIZE))
 
-
     for enemy in enemies:
         WIN.blit(enemy.sprite, enemy.cords())
 
@@ -477,18 +476,14 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 def draw_upgrade_bar(sprite_sheet, y_offset, small_level, big_level):
     for x in range(5):
         WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL, (20.5 * sprite_sheet.TILE_SIZE + scale(40) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + sprite_sheet.TILE_SIZE // 3.5))
+
     for x in range(5):
-        if x < small_level and x < big_level:
+        WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_EMPTY, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+    for x in range(small_level + big_level):
+        if x >= 5:
+            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_TILTED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * (x - 5), y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
+        elif x < 5:
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_TILTED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-        elif x < small_level:
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-        elif x < big_level:
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED_ALT, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-        else:
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_EMPTY, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-
-
 
 def draw_transparent_rect():
     # if surf is none it caches the surface. Avoids calling convert alpha every frame
@@ -597,7 +592,7 @@ def game_loop(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet, volume)
     selected_preset = None
     player_health = 20
-    player_money = 60
+    player_money = 6000
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string, score
     score = 0
