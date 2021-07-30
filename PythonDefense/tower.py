@@ -239,7 +239,7 @@ class Tower:
     def upgrade_damage(self):
         damage_level = self.attr_levels_dict['damage']
         if damage_level < 5:
-            self.damage *= 1.25
+            self.damage *= 1.3
             self.damage = round(self.damage, 3)
             self.projectile.damage = self.damage
             self.attr_levels_dict['damage'] = damage_level + 1
@@ -248,7 +248,7 @@ class Tower:
     def upgrade_attack_speed(self):
         attack_speed_level = self.attr_levels_dict['attack_speed']
         if attack_speed_level < 5:
-            self.attack_speed = 1000 / ((1000 / self.attack_speed) * 1.25)
+            self.attack_speed = 1000 / ((1000 / self.attack_speed) * 1.3)
             self.attr_levels_dict['attack_speed'] = attack_speed_level + 1
             print('attack speed upgraded! New level: ', self.attr_levels_dict['attack_speed'])
 
