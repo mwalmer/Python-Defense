@@ -953,7 +953,7 @@ def start_menu(sprite_sheet, game_map):
     global round_string, round_text
     round_text = bold_font.render(f"{round_string} 1", True, (0, 0, 0), None).convert_alpha()
     player_health = 20
-    player_money = 60
+    player_money = 65
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string, score
     score = 0
@@ -974,6 +974,7 @@ def start_menu(sprite_sheet, game_map):
 
 
     color = (0, 0, 0)
+    neon_yellow_color = (224, 231, 34)
     font = pygame.font.SysFont('Arial', scale(32))
     title_text = font.render('Python Defense', True, color)
     start_text = font.render('Click Here To Start!', True, color)
@@ -985,10 +986,14 @@ def start_menu(sprite_sheet, game_map):
         WIN.blit(title_text, (width / 6, height / 3))
         WIN.blit(start_text, (width / 6, height / 2.5))
         for event in pygame.event.get():
+            mouse = pygame.mouse.get_pos()
+            if button_rect.collidepoint(mouse):
+                start_text = font.render('Click Here To Start!', True, neon_yellow_color)
+            else:
+                start_text = font.render('Click Here To Start!', True, color)
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
                     sounds.play_sound("menu_sound")
                     sounds.play_sound("tower_placement_sound")
@@ -1002,6 +1007,7 @@ def end_menu(value):
     draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8],
                             value[9], value[10], value[11])
     color = (0, 0, 0)
+    neon_yellow_color = (224, 231, 34)
     font = pygame.font.SysFont('Arial', scale(32))
     end_text = font.render('Game Over', True, color)
     reset_text = font.render('Click this text to reset the game', True, color)
@@ -1013,6 +1019,11 @@ def end_menu(value):
         WIN.blit(reset_text, (width / 6, height / 2.5))
         WIN.blit(end_text, (width / 6, height / 3.5))
         for event in pygame.event.get():
+            mouse = pygame.mouse.get_pos()
+            if button_rect.collidepoint(mouse):
+                reset_text = font.render('Click this text to reset the game', True, neon_yellow_color)
+            else:
+                reset_text = font.render('Click this text to reset the game', True, color)
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -1029,6 +1040,7 @@ def win_screen(value):
     draw_window_transparent(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8],
                             value[9], value[10], value[11])
     color = (255, 255, 255)
+    neon_yellow_color = (224, 231, 34)
     font = pygame.font.SysFont('Arial', scale(32))
     win_text = font.render('You win! Well played', True, color)
     reset_text = font.render('Click this text to start a new game', True, color)
@@ -1045,10 +1057,19 @@ def win_screen(value):
         WIN.blit(continue_text, (width / 6, height / 2.5))
         WIN.blit(reset_text, (width / 6, height / 2.5 + (height / 2.5 - height / 3.5)))
         for event in pygame.event.get():
+            mouse = pygame.mouse.get_pos()
+            if button_rect.collidepoint(mouse):
+                reset_text = font.render('Click this text to start a new game', True, neon_yellow_color)
+            else:
+                reset_text = font.render('Click this text to start a new game', True, color)
+            if continue_button_rect.collidepoint(mouse):
+                continue_text = font.render('Click this text to continue the game', True, neon_yellow_color)
+            else:
+                continue_text = font.render('Click this text to continue the game', True, color)
+
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                mouse = pygame.mouse.get_pos()
                 if button_rect.collidepoint(mouse):
                     sounds.play_sound("menu_sound")
                     return 2
@@ -1066,16 +1087,17 @@ def level_screen(sprite_sheet, game_map):
     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map, None, sound_bar,
                             False, FPS)
     color = (255, 255, 255)
+    neon_yellow_color = (224, 231, 34)
     font = pygame.font.SysFont('Arial', scale(32))
-    level_1_text = font.render('Click for level 1 Map', True, color)
+    level_1_text = font.render('Click here for level 1 Map', True, color)
     button_1_rect = level_1_text.get_rect()
     button_1_rect[0] = width / 6
     button_1_rect[1] = height / 3.5
-    level_2_text = font.render('Click for level 2 Map', True, color)
+    level_2_text = font.render('Click here for level 2 Map', True, color)
     button_2_rect = level_2_text.get_rect()
     button_2_rect[0] = width / 6
     button_2_rect[1] = height / 2.5
-    level_3_text = font.render('Click for level 3 Map', True, color)
+    level_3_text = font.render('Click here for level 3 Map', True, color)
     button_3_rect = level_3_text.get_rect()
     button_3_rect[0] = width / 6
     button_3_rect[1] = height / 2.5 + (height / 2.5 - height / 3.5)
@@ -1092,27 +1114,31 @@ def level_screen(sprite_sheet, game_map):
                     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map,
                                             None,
                                             sound_bar, False, FPS)
-                    level_1_text = font.render('Click for level 1 Map', True, color)
-                    level_2_text = font.render('Click for level 2 Map', True, color)
-                    level_3_text = font.render('Click for level 3 Map', True, color)
-            if button_2_rect.collidepoint(mouse):
+                level_1_text = font.render('Click here for level 1 Map', True, neon_yellow_color)
+                level_2_text = font.render('Click here for level 2 Map', True, color)
+                level_3_text = font.render('Click here for level 3 Map', True, color)
+            elif button_2_rect.collidepoint(mouse):
                 if game_map.name != "level_2":
                     game_map.set_level_2_map()
                     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map,
                                             None,
                                             sound_bar, False, FPS)
-                    level_1_text = font.render('Click for level 1 Map', True, color)
-                    level_2_text = font.render('Click for level 2 Map', True, color)
-                    level_3_text = font.render('Click for level 3 Map', True, color)
-            if button_3_rect.collidepoint(mouse):
+                level_1_text = font.render('Click here for level 1 Map', True, color)
+                level_2_text = font.render('Click here for level 2 Map', True, neon_yellow_color)
+                level_3_text = font.render('Click here for level 3 Map', True, color)
+            elif button_3_rect.collidepoint(mouse):
                 if game_map.name != "level_3":
                     game_map.set_level_3_map()
                     draw_window_transparent([], [], [], None, pygame.mouse.get_pos(), None, sprite_sheet, game_map,
                                             None,
                                             sound_bar, False, FPS)
-                    level_1_text = font.render('Click for level 1 Map', True, color)
-                    level_2_text = font.render('Click for level 2 Map', True, color)
-                    level_3_text = font.render('Click for level 3 Map', True, color)
+                level_1_text = font.render('Click here for level 1 Map', True, color)
+                level_2_text = font.render('Click here for level 2 Map', True, color)
+                level_3_text = font.render('Click here for level 3 Map', True, neon_yellow_color)
+            else:
+                level_1_text = font.render('Click here for level 1 Map', True, color)
+                level_2_text = font.render('Click here for level 2 Map', True, color)
+                level_3_text = font.render('Click here for level 3 Map', True, color)
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
