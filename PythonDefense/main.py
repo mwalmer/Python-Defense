@@ -935,7 +935,7 @@ def game_loop(sprite_sheet, game_map):
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
                     game_map, hovered_tower, sound_bar, start_round, clock.get_fps(), hovered_button, main_player.get_money())
 
-    if main_player.get_health() <= 0:
+    if int(main_player.get_health()) <= 0:
         play_animation = [False, 0, False]
         Enemy.enemy_count = 0  # Resets static var in enemy.py
         return [1, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
