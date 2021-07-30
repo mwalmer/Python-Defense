@@ -623,7 +623,7 @@ def game_loop(sprite_sheet, game_map):
     sound_bar = SoundBar(sprite_sheet, volume)
     selected_preset = None
     player_health = 20
-    player_money = 60
+    player_money = 65
     # So these get properly updated instead of just on hit/change
     global lives_string, money_string, score
     score = 0
