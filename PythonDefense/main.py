@@ -390,11 +390,6 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         elif tower.level == 5:
             WIN.blit(sprite_sheet.LEVEL5_TILE, tower.cords())
 
-    # highlight and show range for selected tower
-    if selected_tower is not None:
-        WIN.blit(sprite_sheet.HILITE_TILE, selected_tower.cords())
-        draw_range_indicator(selected_tower.range, selected_tower.cords(), selected_tower)
-
     for projectile in projectiles:
         WIN.blit(projectile.sprite, projectile.cords())
 
@@ -476,6 +471,11 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             cached_tower_stats_text[:] = []
         else:
             display_shop_tower_info(hovered_tower_info)
+
+    # highlight and show range for selected tower
+    if selected_tower is not None:
+        WIN.blit(sprite_sheet.HILITE_TILE, selected_tower.cords())
+        draw_range_indicator(selected_tower.range, selected_tower.cords(), selected_tower)
 
     # draws current tower/selected shop tower on mouse with range indicator
     if current_tower_info is not None:
