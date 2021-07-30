@@ -281,3 +281,18 @@ class SpriteSets:
 
         self.LARGE_RED_TILE = pygame.Surface((self.TILE_SIZE * 4, self.TILE_SIZE), pygame.SRCALPHA).convert_alpha()
         self.LARGE_RED_TILE.fill((255, 0, 0, 80))
+
+        self.CPP_DESCRIPTION = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'descriptions', 'C++_Description.bmp')).convert()
+
+        self.JAVA_DESCRIPTION = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'descriptions', 'Java_Description.bmp')).convert()
+
+        self.JAVASCRIPT_DESCRIPTION = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'descriptions', 'Javascript_Description.bmp')).convert()
+
+        self.LISP_DESCRIPTION = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'descriptions', 'Lisp_Description.bmp')).convert()
+
+        self.PYTHON_DESCRIPTION = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'descriptions', 'Python_Description.bmp')).convert()

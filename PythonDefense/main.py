@@ -558,9 +558,10 @@ def draw_range_indicator(tower_range, cords, tower=None, temp_surf=None):
 
 # pygame doesn't have word wrap and can't use newline characters, so each line in put in manually :)
 def display_shop_tower_info(current_tower_info):
-    for i, text in enumerate(current_tower_info):
-        WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
-
+    #for i, text in enumerate(current_tower_info):
+    #    WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
+    for i, image in enumerate(current_tower_info):
+        WIN.blit(image, (21 * TILE_SIZE - scale(24), 9 * TILE_SIZE + i * scale(13)))
 
 # pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :^)
 def display_tutorial():
