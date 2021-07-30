@@ -1,2 +1,3 @@
 include README
 recursive-include PythonDefense/assets *
+exclude PythonDefense/c_src
