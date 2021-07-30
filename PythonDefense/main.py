@@ -550,9 +550,13 @@ def display_stats(selected_tower):
         att_speed = font.render('Attack speed: ' + str(1000 / selected_tower.attack_speed)[:4], False,
                                 (0, 0, 0)).convert()
         att_range = font.render('Attack range: ' + str(selected_tower.range)[:5], False, (0, 0, 0)).convert()
+        minor_upgrade = font.render('Minor upgrade: ' + str(selected_tower.cost * .5)[:4], False, (0, 0, 0)).convert()
+        major_upgrade = font.render('Major upgrade: ' + str(selected_tower.cost * 1.5)[:4], False, (0, 0, 0)).convert()
         cached_tower_stats_text.append(att_damage)
         cached_tower_stats_text.append(att_speed)
         cached_tower_stats_text.append(att_range)
+        cached_tower_stats_text.append(minor_upgrade)
+        cached_tower_stats_text.append(major_upgrade)
 
     for i, text in enumerate(cached_tower_stats_text):
         WIN.blit(text, (21 * TILE_SIZE - scale(12), 9 * TILE_SIZE + i * scale(13)))
