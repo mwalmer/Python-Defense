@@ -93,11 +93,12 @@ font = pygame.font.SysFont('Arial', scale(12), bold=False)
 bold_font = pygame.font.SysFont('Arial', scale(12), bold=True)
 round_font = pygame.font.SysFont('Arial', scale(75), bold=True)
 small_font = pygame.font.SysFont('Arial', scale(8), bold=False)
-tutorial_font = pygame.font.SysFont('Arial', scale(14))
+tutorial_font = pygame.font.SysFont('Arial', scale(16))
 tower_sect_text = bold_font.render("Towers", True, (0, 0, 0), None).convert_alpha()
 
-tut = [tutorial_font.render('Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
-       tutorial_font.render('Right click to deselect', True, (0, 0, 0), None).convert_alpha()]
+tut = [tutorial_font.render('Hover a tower for', True, (0, 0, 0), None).convert_alpha(),
+       tutorial_font.render('more info. Right', True, (0, 0, 0), None).convert_alpha(),
+       tutorial_font.render('click to deselect', True, (0, 0, 0), None).convert_alpha()]
 
 cached_tower_stats_text = []
 score_text = bold_font.render("score: " + str(score), True, (0, 0, 0), None).convert_alpha()
