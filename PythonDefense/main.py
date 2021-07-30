@@ -546,10 +546,10 @@ def display_tutorial():
 # TODO: add upgrade level
 def display_stats(selected_tower):
     if not cached_tower_stats_text:
-        att_damage = font.render('Attack damage: ' + str(selected_tower.damage), False, (0, 0, 0)).convert()
+        att_damage = font.render('Attack damage: ' + str(selected_tower.damage)[:4], False, (0, 0, 0)).convert()
         att_speed = font.render('Attack speed: ' + str(1000 / selected_tower.attack_speed)[:4], False,
                                 (0, 0, 0)).convert()
-        att_range = font.render('Attack range: ' + str(selected_tower.range), False, (0, 0, 0)).convert()
+        att_range = font.render('Attack range: ' + str(selected_tower.range)[:5], False, (0, 0, 0)).convert()
         cached_tower_stats_text.append(att_damage)
         cached_tower_stats_text.append(att_speed)
         cached_tower_stats_text.append(att_range)
