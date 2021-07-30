@@ -44,7 +44,7 @@ class Rounds:
             enemies1 = self.weakEn(10, -24)
             enemies = enemies1
         elif self.round == 3:
-            enemies1 = self.weakEn(20, -36)
+            enemies1 = self.weakEn(20, -38)
             enemies = enemies1
         elif self.round == 4:
             enemies1 = self.weakEn(6, -32)
@@ -95,6 +95,30 @@ class Rounds:
             enemies3 = self.SoldierEn(3, -32)
             enemies4 = self.weakEn(10, -32)
             enemies = enemies1 + enemies2 + enemies3 + enemies4
+        elif self.round == 16:
+            enemies1 = self.tankEn(4, -52)
+            enemies2 = self.SoldierEn(4, -32)
+            enemies3 = self.tankEn(4, -32)
+            enemies4 = self.SoldierEn(4, -32)
+            enemies = enemies1 + enemies2 + enemies3 + enemies4
+        elif self.round == 17:
+            enemies1 = self.tankEn(5, -52)
+            enemies2 = self.scoutEn(4, -32)
+            enemies3 = self.tankEn(5, -32)
+            enemies4 = self.scoutEn(4, -32)
+            enemies = enemies1 + enemies2 + enemies3 + enemies4
+        elif self.round == 18:
+            enemies1 = self.tankEn(10, -26)
+            enemies2 = self.scoutEn(4, -32)
+            enemies3 = self.weakEn(20, -48)
+            enemies4 = self.scoutEn(6, -32)
+            enemies = enemies1 + enemies2 + enemies3 + enemies4
+        elif self.round == 19:
+            enemies1 = self.tankEn(10, -26)
+            enemies2 = self.scoutEn(4, -32)
+            enemies3 = self.weakEn(20, -48)
+            enemies4 = self.SoldierEn(10, -32)
+            enemies = enemies1 + enemies2 + enemies3 + enemies4
         elif self.round > 25:
             enemies3 = self.tankEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
             enemies4 = self.SoldierEn(int(self.round / 2 * random()), -1 * int(18 * random()) - 20)
@@ -107,7 +131,7 @@ class Rounds:
         self.round += 1
 
     def last_round(self):
-        return self.round == 1
+        return self.round == 25
 
     # slow and tanky
     def tankEn(self, num, sep):
