@@ -656,7 +656,7 @@ def game_loop(sprite_sheet, game_map):
     global play_animation
     play_animation = [False, 0, False]
     start_round = False  # Changed to True when start button clicked
-    while run and main_player.get_health() > 0:
+    while run and int(main_player.get_health()) > 0:
         ticks = clock.tick(FPS)
         mouse_cords = pygame.mouse.get_pos()
         hovered_tower = None
