@@ -296,3 +296,6 @@ class SpriteSets:
 
         self.PYTHON_DESCRIPTION = pygame.image.load(
             os.path.join(os.path.dirname(__file__), 'assets', 'descriptions', 'Python_Description.bmp')).convert()
+
+        self.TUTORIAL_DESCRIPTION = pygame.image.load(
+            os.path.join(os.path.dirname(__file__), 'assets', 'descriptions', 'Tutorial_Description.bmp')).convert()
