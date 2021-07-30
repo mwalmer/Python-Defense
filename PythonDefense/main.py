@@ -428,6 +428,16 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
             WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
             WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
 
+    if selected_tower is not None:
+        if selected_tower.attr_levels_dict["damage"] == 5:
+            WIN.blit(sprite_sheet.GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
+        if selected_tower.attr_levels_dict["attack_speed"] == 5:
+            WIN.blit(sprite_sheet.GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
+        if selected_tower.attr_levels_dict["range"] == 5:
+            WIN.blit(sprite_sheet.GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
+        if selected_tower.level == 5:
+            WIN.blit(sprite_sheet.LARGE_GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
+
     # draw text
     WIN.blit(round_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE - scale(13)))
     WIN.blit(lives_text, (21 * sprite_sheet.TILE_SIZE, 1 * sprite_sheet.TILE_SIZE))

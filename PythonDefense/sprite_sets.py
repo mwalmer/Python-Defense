@@ -268,6 +268,12 @@ class SpriteSets:
         self.RED_TILE = pygame.Surface((self.TILE_SIZE, self.TOWER_SIZE), pygame.SRCALPHA).convert_alpha()
         self.RED_TILE.fill((255, 0, 0, 60))
 
+        self.GRAY_TILE = pygame.Surface((self.TILE_SIZE, self.TOWER_SIZE), pygame.SRCALPHA).convert_alpha()
+        self.GRAY_TILE.fill((0, 0, 0, 60))
+
+        self.LARGE_GRAY_TILE = pygame.Surface((self.TILE_SIZE * 4, self.TILE_SIZE), pygame.SRCALPHA).convert_alpha()
+        self.LARGE_GRAY_TILE.fill((0, 0, 0, 80))
+
         self.BACKGROUND_TOWER_TILE = pygame.Surface((self.TILE_SIZE, self.TOWER_SIZE), pygame.SRCALPHA).convert_alpha()
         self.BACKGROUND_TOWER_TILE.fill(pygame.Color(0, 0, 0, 70))
         self.BORDER_TILE = pygame.Surface((self.TILE_SIZE - scale(2), self.TOWER_SIZE - scale(2))).convert()
