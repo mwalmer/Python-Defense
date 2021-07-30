@@ -86,6 +86,7 @@ sounds = Sound()
 
 lives = 25
 play_animation = [False, 0, False]
+has_played = False
 
 # text, is up here so it doesn't have to be render/converted every frame
 font = pygame.font.SysFont('Arial', scale(12), bold=False)
@@ -487,6 +488,8 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         WIN.blit(round_over_text, (scale(100), scale(250)))
         if play_animation[1] > 255:
             play_animation = [False, 0, False]
+            global has_played
+            has_played = True
         else:
             play_animation[1] += 3
 
@@ -654,7 +657,7 @@ def game_loop(sprite_sheet, game_map):
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
-    global play_animation
+    global play_animation, has_played
     play_animation = [False, 0, False]
     start_round = False  # Changed to True when start button clicked
     while run and int(main_player.get_health()) > 0:
@@ -881,6 +884,11 @@ def game_loop(sprite_sheet, game_map):
         # TODO: might want to move to update
         # handles level ending and spawning new wave
 
+        if has_played is False:
+            if Enemy.enemy_count == 0 and start_round is False:
+                if play_animation[2] is True:
+                    play_animation[0] = True
+
         if Enemy.enemy_count == 0 and not start_round:
             clear(enemies, projectiles)
         if Enemy.enemy_count != 0:
@@ -902,6 +910,7 @@ def game_loop(sprite_sheet, game_map):
                 return False
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
+            has_played = False
             if skip_round:
                 rounds.round -= 1
                 skip_round = False
