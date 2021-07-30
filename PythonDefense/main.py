@@ -92,10 +92,11 @@ font = pygame.font.SysFont('Arial', scale(12), bold=False)
 bold_font = pygame.font.SysFont('Arial', scale(12), bold=True)
 round_font = pygame.font.SysFont('Arial', scale(75), bold=True)
 small_font = pygame.font.SysFont('Arial', scale(8), bold=False)
-tutorial_font = pygame.font.SysFont('Arial', scale(14))
+#tutorial_font = pygame.font.SysFont('Arial', scale(14))
 tower_sect_text = bold_font.render("Towers", True, (0, 0, 0), None).convert_alpha()
-tut = [tutorial_font.render('Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
-       tutorial_font.render('Right click to deselect', True, (0, 0, 0), None).convert_alpha()]
+
+#tut = [tutorial_font.render('Hover a tower for more info', True, (0, 0, 0), None).convert_alpha(),
+       #tutorial_font.render('Right click to deselect', True, (0, 0, 0), None).convert_alpha()]
 
 cached_tower_stats_text = []
 score_text = bold_font.render("score: " + str(score), True, (0, 0, 0), None).convert_alpha()
@@ -465,7 +466,7 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
         display_stats(selected_tower)
     else:
         if hovered_tower_info is None:
-            display_tutorial()
+            display_tutorial([sprite_sheet.TUTORIAL_DESCRIPTION])
             cached_tower_stats_text[:] = []
         else:
             display_shop_tower_info(hovered_tower_info)
@@ -564,9 +565,11 @@ def display_shop_tower_info(current_tower_info):
         WIN.blit(image, (21 * TILE_SIZE - scale(24), 8.5 * TILE_SIZE + i * scale(13)))
 
 # pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :^)
-def display_tutorial():
-    for i, text in enumerate(tut):
-        WIN.blit(text, (21 * TILE_SIZE - scale(20), 9 * TILE_SIZE + i * scale(13)))
+def display_tutorial(tut):
+    #for i, text in enumerate(tut):
+    #    WIN.blit(text, (21 * TILE_SIZE - scale(20), 9 * TILE_SIZE + i * scale(13)))
+    for i, image in enumerate(tut):
+        WIN.blit(image, (21 * TILE_SIZE - scale(20), 8.5 * TILE_SIZE + i * scale(13)))
 
 
 # pygame doesn't have word wrap and can't use newline characters, so each line must be put in manually :^C

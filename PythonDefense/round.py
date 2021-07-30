@@ -175,7 +175,7 @@ class Rounds:
 
     # generalist
     def SoldierEn(self, num, sep):
-        return self.spawn(num, sep, 3, 3, self.enemy_size, self.enemy_sprite, 2)
+        return self.spawn(num, sep, 3, 3.1, self.enemy_size, self.enemy_sprite, 2) #3.1 fixes a bug, don't change to 3
 
     # these guys suck
     def weakEn(self, num, sep):
