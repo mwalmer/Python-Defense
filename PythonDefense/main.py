@@ -619,6 +619,7 @@ def game_loop(sprite_sheet, game_map):
     has_placed = True
     selected_tower = None  # temporary placeholder for a clicked tower (USED FOR UPGRADES)
     any_highlight = False
+    skip_round = False
     clock = pygame.time.Clock()
     run = True
     tower_count = 0
@@ -865,11 +866,14 @@ def game_loop(sprite_sheet, game_map):
                 return 3
             if _continue == 1:
                 rounds.next_round()
-                print("hello")
+                skip_round = True
             if not _continue:
                 return False
         if Enemy.enemy_count == 0 and start_round:
             rounds.next_round()
+            if skip_round:
+                rounds.round -= 1
+                skip_round = False
             reset_cpp(towers)
 
             # updates the round number
