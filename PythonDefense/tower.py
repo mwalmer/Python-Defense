@@ -225,12 +225,9 @@ class Tower:
 
     # basic upgrade function for towers
     def basic_upgrade(self):
-        self.damage *= 1.5
-        self.projectile.damage = self.damage
-        self.attack_speed = 1000 / ((1000 / self.attack_speed) * 1.5)
-        self.range = self.range * 1.05
-        if self.level < 5:
-            self.level = self.level + 1
+        self.upgrade_damage()
+        self.upgrade_attack_speed()
+        self.upgrade_range()
         self.range_surf = None
 
     # Checks if you can level up tower (MAX LEVEL 5)

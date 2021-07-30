@@ -423,22 +423,27 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 
     # red tile on upgrade buttons
     if selected_tower is not None and money is not None:
-        if money < selected_tower.cost * 1.5:
+        if selected_tower.attr_levels_dict["damage"] == 5 \
+                and selected_tower.attr_levels_dict["attack_speed"] == 5 \
+                and selected_tower.attr_levels_dict["range"] == 5:
+            WIN.blit(sprite_sheet.LARGE_GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
+        elif money < selected_tower.cost * 1.3:
             WIN.blit(sprite_sheet.LARGE_RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
-        if money < selected_tower.cost * .5:
-            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
-            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
-            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
 
-    if selected_tower is not None:
         if selected_tower.attr_levels_dict["damage"] == 5:
             WIN.blit(sprite_sheet.GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
+        elif money < selected_tower.cost * .5:
+            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 11.5 * sprite_sheet.TILE_SIZE))
+
         if selected_tower.attr_levels_dict["attack_speed"] == 5:
             WIN.blit(sprite_sheet.GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
+        elif money < selected_tower.cost * .5:
+            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 13 * sprite_sheet.TILE_SIZE))
+
         if selected_tower.attr_levels_dict["range"] == 5:
             WIN.blit(sprite_sheet.GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
-        if selected_tower.level == 5:
-            WIN.blit(sprite_sheet.LARGE_GRAY_TILE, (20.5 * sprite_sheet.TILE_SIZE, 16 * sprite_sheet.TILE_SIZE))
+        elif money < selected_tower.cost * .5:
+            WIN.blit(sprite_sheet.RED_TILE, (20.5 * sprite_sheet.TILE_SIZE, 14.5 * sprite_sheet.TILE_SIZE))
 
     # start sprite gray out
     if Enemy.enemy_count != 0:
@@ -454,13 +459,13 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
 
     # upgrade hover
     if selected_tower is not None:
-        draw_upgrade_bar(sprite_sheet, 11.5, selected_tower.attr_levels_dict['damage'], selected_tower.level)
-        draw_upgrade_bar(sprite_sheet, 13, selected_tower.attr_levels_dict['attack_speed'], selected_tower.level)
-        draw_upgrade_bar(sprite_sheet, 14.5, selected_tower.attr_levels_dict['range'], selected_tower.level)
+        draw_upgrade_bar(sprite_sheet, 11.5, selected_tower.attr_levels_dict['damage'])
+        draw_upgrade_bar(sprite_sheet, 13, selected_tower.attr_levels_dict['attack_speed'])
+        draw_upgrade_bar(sprite_sheet, 14.5, selected_tower.attr_levels_dict['range'])
     else:
-        draw_upgrade_bar(sprite_sheet, 11.5, 0, 0)
-        draw_upgrade_bar(sprite_sheet, 13, 0, 0)
-        draw_upgrade_bar(sprite_sheet, 14.5, 0, 0)
+        draw_upgrade_bar(sprite_sheet, 11.5, 0)
+        draw_upgrade_bar(sprite_sheet, 13, 0)
+        draw_upgrade_bar(sprite_sheet, 14.5, 0)
 
     # shop text box
     if selected_tower is not None:
@@ -501,17 +506,12 @@ def draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, curre
     pygame.display.update()
 
 
-def draw_upgrade_bar(sprite_sheet, y_offset, small_level, big_level):
+def draw_upgrade_bar(sprite_sheet, y_offset, level):
     for x in range(5):
         WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL, (20.5 * sprite_sheet.TILE_SIZE + scale(40) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + sprite_sheet.TILE_SIZE // 3.5))
     for x in range(5):
-        if x < small_level and x < big_level:
+        if x < level:
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_TILTED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-        elif x < small_level:
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
-        elif x < big_level:
-            WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_FILLED_ALT, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
         else:
             WIN.blit(sprite_sheet.SMALL_UPGRADE_LEVEL_EMPTY, (20.5 * sprite_sheet.TILE_SIZE + scale(42.5) + scale(18) * x, y_offset * sprite_sheet.TILE_SIZE + scale(2.5) + sprite_sheet.TILE_SIZE // 3.5))
 
@@ -584,7 +584,7 @@ def display_stats(selected_tower):
                                 (0, 0, 0)).convert()
         att_range = font.render('Attack range: ' + str(selected_tower.range)[:5], False, (0, 0, 0)).convert()
         minor_upgrade = font.render('Minor upgrade: ' + str(selected_tower.cost * .5)[:4], False, (0, 0, 0)).convert()
-        major_upgrade = font.render('Major upgrade: ' + str(selected_tower.cost * 1.5)[:4], False, (0, 0, 0)).convert()
+        major_upgrade = font.render('Major upgrade: ' + str(selected_tower.cost * 1.3)[:4], False, (0, 0, 0)).convert()
         cached_tower_stats_text.append(att_damage)
         cached_tower_stats_text.append(att_speed)
         cached_tower_stats_text.append(att_range)
@@ -752,9 +752,13 @@ def game_loop(sprite_sheet, game_map):
                     if sprite_sheet.TILE_SIZE * 20.5 <= mouse_x <= sprite_sheet.TILE_SIZE * 20.5 + sprite_sheet.TILE_SIZE * 4:
                         if selected_tower is not None and has_placed is not False:
                             if selected_tower.level_up():
-                                if player_money >= selected_tower.cost * 1.5:
+                                if player_money >= selected_tower.cost * 1.3 and (
+                                    selected_tower.attr_levels_dict['damage'] != 5
+                                    or selected_tower.attr_levels_dict['attack_speed'] != 5
+                                    or selected_tower.attr_levels_dict['range'] != 5
+                                ):
                                     selected_tower.basic_upgrade()
-                                    main_player.money = player_money - selected_tower.cost * 1.5
+                                    main_player.money = player_money - selected_tower.cost * 1.3
                                     sounds.play_sound("upgrade_button_sound")
                                     money_string = "Money: " + str(main_player.money)
 
@@ -931,7 +935,7 @@ def game_loop(sprite_sheet, game_map):
         draw_window(enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
                     game_map, hovered_tower, sound_bar, start_round, clock.get_fps(), hovered_button, main_player.get_money())
 
-    if main_player.get_health() <= 0:
+    if int(main_player.get_health()) <= 0:
         play_animation = [False, 0, False]
         Enemy.enemy_count = 0  # Resets static var in enemy.py
         return [1, [enemies, towers, projectiles, selected_tower, mouse_cords, current_tower_info, sprite_sheet,
