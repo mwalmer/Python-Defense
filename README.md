@@ -5,7 +5,7 @@ Python Defense is a 2D tower defense game written in Python using pygame. The go
 Click on a turret in the menu to select it, then click the desired tile to place. Both turrets and turret upgrades cost money which can be acquired by defeating enemies. Once a round is over, the next round won't begin until you click start
 
 ## Installation
-1. With PythonDefense-1.0.5.tar.gz downloaded in the desired directory, cd into that directory
+1. With PythonDefense-2.1.0.tar.gz downloaded in the desired directory, cd into that directory
 2. run: `pip install PythonDefense-1.0.5.tar.gz`
 3. To run use `play_PythonDefense`
 

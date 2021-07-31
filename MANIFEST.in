@@ -1,3 +1,4 @@
 include README
 recursive-include PythonDefense/assets *
-exclude PythonDefense/c_src
+exclude PythonDefense/c_src/*
+include PythonDefense/c_src.dll
