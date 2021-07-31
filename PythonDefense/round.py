@@ -132,10 +132,10 @@ class Rounds:
             enemies4 = self.SoldierEn(15, -36)
             enemies = enemies1 + enemies2 + enemies3 + enemies4
         elif self.round == 22:
-            enemies1 = self.SoldierEn(10, -50)
-            enemies2 = self.SoldierEn(10, -40)
-            enemies3 = self.SoldierEn(10, -30)
-            enemies4 = self.SoldierEn(10, -22)
+            enemies1 = self.SoldierEn(11, -50)
+            enemies2 = self.SoldierEn(11, -40)
+            enemies3 = self.SoldierEn(11, -30)
+            enemies4 = self.SoldierEn(11, -22)
             enemies = enemies1 + enemies2 + enemies3 + enemies4
         elif self.round == 23:
             enemies1 = self.tankEn(10, -42)
