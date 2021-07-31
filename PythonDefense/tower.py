@@ -25,7 +25,7 @@ def get_tower_presets():
     lisp_cost = 50
 
     tower_presets = {      # damage | att_speed | range
-        "python": ["python_tower", 1, 1, scale(225), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
+        "python": ["python_tower", 1.0, 1.1, scale(225), [sprite_set.PYTHON_TOWER_SPRITE, sprite_set.PYTHON_TOWER_SPRITE_FLIP],  # tower
                    "python_projectile", [sprite_set.ICE_PROJECTILE_SPRITE, sprite_set.YELLOW_BALL_PROJECTILE_SPRITE], 10, Projectile.snake_shot,  # projectile
                    python_cost,
                    #sprite_set.PYTHON_DESCRIPTION],
@@ -34,7 +34,7 @@ def get_tower_presets():
                    font.render("Shoots a ", True, (0, 0, 0), None).convert_alpha(),
                    font.render("snaking pattern.", True, (0, 0, 0), None).convert_alpha()],  # text description
 
-        "java": ["java_tower", 1, 1.25, scale(175), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
+        "java": ["java_tower", 1.0, 1.35, scale(175), [sprite_set.JAVA_TOWER_SPRITE, sprite_set.JAVA_TOWER_SPRITE_FLIP],
                  "java_projectile", [sprite_set.FIRE_PROJECTILE_SPRITE, sprite_set.ICE_PROJECTILE_SPRITE], 10,
                  Projectile.arc_motion,
                  java_cost,
@@ -45,7 +45,7 @@ def get_tower_presets():
                  font.render("water. Strong and ", True, (0, 0, 0), None).convert_alpha(),
                  font.render("reliable, but boring.", True, (0, 0, 0), None).convert_alpha()],
 
-        "cpp": ["cpp_tower", 2, 1.5, scale(250),
+        "cpp": ["cpp_tower", 2, 2, scale(250),
                 [sprite_set.CPP_TOWER_SPRITE, sprite_set.CPP_LOADING_1_SPRITE, sprite_set.CPP_LOADING_2_SPRITE,
                  sprite_set.CPP_LOADING_3_SPRITE, sprite_set.CPP_LOADING_4_SPRITE, sprite_set.CPP_LOADING_5_SPRITE,
                  sprite_set.CPP_LOADING_6_SPRITE, sprite_set.CPP_LOADING_7_SPRITE, sprite_set.CPP_LOADING_8_SPRITE,
